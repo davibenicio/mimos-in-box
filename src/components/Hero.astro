@@ -254,7 +254,9 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     }
     t0 = t; requestAnimationFrame(tick);
   };
-  const liga = () => { pronto = true; setTimeout(() => carrega(slides[0]), 300); };
+  // o vídeo só começa a baixar depois que a página terminou de carregar (não atrasa a primeira tela)
+  const depois = (fn: () => void) => { const vai = () => ((window as any).requestIdleCallback || setTimeout)(fn, { timeout: 1500 }); if (document.readyState === 'complete') vai(); else addEventListener('load', vai, { once: true }); };
+  const liga = () => { pronto = true; depois(() => carrega(slides[0])); };
   if (document.documentElement.classList.contains('abriu')) liga(); else addEventListener('mimos:abriu', liga, { once: true });
   requestAnimationFrame(tick);
 </script>
