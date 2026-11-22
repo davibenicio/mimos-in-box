@@ -10,11 +10,14 @@ import numpy as np, cv2
 from PIL import Image
 
 nn, src, alf = sys.argv[1], sys.argv[2], sys.argv[3]
+# recorte extra (ex.: 'Heavy' + 'Matting'): fica o maior alfa dos dois (miolo sólido e borda fina do celofane)
+ALF2 = os.environ.get('RECORTE2')
 LIM = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] != '-' else 10**9   # último quadro usado (corta o fim se o vídeo entorta)
 # recorte do modelo 'Matting' (celofane semitransparente): sem a chave por diferença e sem tapar buracos
 FINO = os.environ.get('RECORTE', 'fino') == 'fino'
 # SUPORTE=placa: o suporte tem a cor do fundo (caixa clara, ex. 29); SUPORTE=cor (padrão): branco/cinza neutro
 PELA_PLACA = os.environ.get('SUPORTE', 'cor') == 'placa'
+SAT = float(os.environ.get('SAT', '0.12'))   # até que saturação o suporte conta como branco (sobe se ele reflete a bandeja)
 S = 1920
 tmp = tempfile.mkdtemp(prefix='giro' + nn + '-')
 
@@ -57,7 +60,7 @@ def limpa(rgb, a):
     mx, mn = r.max(2), r.min(2)
     sat = (mx - mn) / np.maximum(mx, 1e-3)
     if PELA_PLACA: suporte = np.abs(r * 255 - PLACA_M).max(2) < 14   # igual ao fundo creme = suporte branco
-    else: suporte = (sat < 0.12) & (mx > 0.30)    # branco/cinza neutro do suporte (bandeja rosa ou caixa preta)
+    else: suporte = (sat < SAT) & (mx > 0.30)    # branco/cinza neutro do suporte (bandeja rosa ou caixa preta)
     tem = ((al > 128) & ~suporte).astype(np.uint8)
     tem = cv2.morphologyEx(tem, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
     fundo = np.full(h, -1.0)
@@ -90,9 +93,15 @@ def limpa(rgb, a):
 
 # 1ª passada: recorte limpo de cada quadro (guardado em disco) e a caixa que contém a cesta em todos
 N = 0; caixa = [S, S, 0, 0]
-for i, (c, a) in enumerate(zip(fluxo(src, [], 'rgb24', 3), fluxo(alf, ['-c:v', 'libvpx-vp9'], 'rgba', 4))):
+def alfas():
+    f1 = fluxo(alf, ['-c:v', 'libvpx-vp9'], 'rgba', 4)
+    if not ALF2:
+        for a in f1: yield a[..., 3]
+    else:
+        for a, b in zip(f1, fluxo(ALF2, ['-c:v', 'libvpx-vp9'], 'rgba', 4)): yield np.maximum(a[..., 3], b[..., 3])
+for i, (c, a) in enumerate(zip(fluxo(src, [], 'rgb24', 3), alfas())):
     if i > LIM: break
-    al = limpa(c, a[..., 3])
+    al = limpa(c, a)
     cv2.imwrite(f'{tmp}/a{i:04d}.png', al, [cv2.IMWRITE_PNG_COMPRESSION, 1])
     ys, xs = np.where(al > 30)
     if len(xs): caixa = [min(caixa[0], xs.min()), min(caixa[1], ys.min()), max(caixa[2], xs.max() + 1), max(caixa[3], ys.max() + 1)]
@@ -145,7 +154,7 @@ for k, (w, h) in dims.items():
     with open(lista, 'w') as f:
         for i in seq: f.write(f"file '{tmp}/{k}/q{i:04d}.jpg'\nduration {1/60:.6f}\n")
     base = ['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lista, '-r', '60', '-an', '-pix_fmt', 'yuv420p', '-movflags', '+faststart']
-    crf264, crfav1 = (22, 34) if k == 'g' else (24, 36)
+    crf264, crfav1 = (24, 36) if k == 'g' else (25, 37)
     subprocess.run(base + ['-c:v', 'libx264', '-preset', 'slow', '-crf', str(crf264), '-profile:v', 'high', '-x264-params', 'keyint=120', f'public/video/{nn}-{k}.mp4'], check=True)
     subprocess.run(base + ['-c:v', 'libsvtav1', '-preset', '6', '-crf', str(crfav1), '-g', '120', f'public/video/{nn}-{k}-av1.mp4'], check=True)
     for suf in ('', '-av1'):

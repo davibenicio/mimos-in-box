@@ -204,3 +204,10 @@ html.js .grad:not(.ve-se), html.js .grad:not(.ve-se) *, html.js .grad:not(.ve-se
 .selo--gira { animation: selo-gira 26s linear infinite; }
 @keyframes selo-gira { to { rotate: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .selo--gira { animation: none; } }
+
+/* celular: as fitas entram mais na tela e ficam mais grossas (pedido do Davi: estavam escondidas) */
+@media (max-width: 700px) {
+  .fx-svg[style*="left:-"] { translate: 44px 0; }
+  .fx-svg[style*="right:-"] { translate: -44px 0; }
+  .fx-svg path:not(.fx-luz) { stroke-width: 58; }
+}
