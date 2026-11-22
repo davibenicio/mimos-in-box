@@ -1,2 +1,19 @@
+# Prévia: buscadores ficam de fora até o lançamento (Checklist de lançamento).
+# Os robôs de prévia de link (WhatsApp, Facebook, Instagram, Telegram, X) podem ler a página para montar o cartão.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
 User-agent: *
 Disallow: /
