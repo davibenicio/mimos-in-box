@@ -9,7 +9,11 @@ import med from '../data/medidas-v3.json';
 const M = med as Record<string, number[]>;
 const ESTRELA = 'M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z';
 const GIG = 'PRESENTES';
-const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro' + p.nn]; return { p, fw: g[0], fh: g[1], w0: g[2], h0: g[3], n: g[4], cols: g[5], vg: g[6] ? `${g[6]}x${g[7]}` : '', vp: g[8] ? `${g[8]}x${g[9]}` : '' }; });
+const dim = (g?: number[], a = 6) => (g && g[a] ? `${g[a]}x${g[a + 1]}` : '');
+const slides = SLIDES.map((s) => {
+  const p = porNN(s.produto); const g = M['giro' + p.nn]; const e = M['giro' + p.nn + 'e'];   // e = versão do tema escuro (fundo vinho)
+  return { p, fw: g[0], fh: g[1], w0: g[2], h0: g[3], n: g[4], cols: g[5], vg: dim(g), vp: dim(g, 8), ge: dim(e), pe: dim(e, 8), are: e ? `${e[0]}/${e[1]}` : '' };
+});
 ---
 <section class="hr grad" data-hero data-gruda aria-roledescription="carrossel" aria-label="Cestas em destaque">
   <Fita v={1} class="hr-f1" />
@@ -24,13 +28,13 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   <div class="hr-palco" data-palco>
     <span class="hr-luz" aria-hidden="true"></span>
     <span class="hr-ped" aria-hidden="true"></span>
-    {slides.map(({ p, fw, fh, w0, h0, n, cols, vg, vp }, i) => (
+    {slides.map(({ p, fw, fh, w0, h0, n, cols, vg, vp, ge, pe, are }, i) => (
       <figure class:list={['hr-c', i === 0 && 'on']} data-slide data-nn={p.nn} data-n={n} data-cols={cols} aria-hidden={i === 0 ? 'false' : 'true'} style={`--ar:${fw}/${fh};--cols:${cols};--rows:${Math.ceil(n / cols)}`}>
         <span class="hr-cx">
         <img src={`/img/giro/${p.nn}-0.webp`} srcset={`/img/giro/${p.nn}-0p.webp 420w, /img/giro/${p.nn}-0.webp ${w0}w`} sizes="(max-width: 900px) 64vw, 520px"
           width={w0} height={h0} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" data-abre={p.nn} data-cur="ver" />
         <span class="hr-gira" data-gira={`/img/giro/${p.nn}.webp`} aria-hidden="true"></span><span class="hr-gira hr-gira-b" aria-hidden="true"></span>
-        {vg && <canvas class="hr-vid" data-vid={p.nn} data-g={vg} data-p={vp} aria-hidden="true"></canvas>}
+        {vg && <canvas class="hr-vid" data-vid={p.nn} data-g={vg} data-p={vp} data-ge={ge} data-pe={pe} data-ar={`${fw}/${fh}`} data-are={are} aria-hidden="true"></canvas>}
         </span>
       </figure>
     ))}
@@ -146,7 +150,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   let atual = 0, parado = calmo, segura = false, fora = false, gasto = 0, t0 = performance.now(), pronto = false;
 
   // ---- vídeo da cesta: MP4 com a cor em cima e a transparência embaixo; o WebGL junta as duas metades ----
-  type Vid = { v: HTMLVideoElement; gl: WebGLRenderingContext; tx: WebGLTexture; ue: WebGLUniformLocation | null; ok: boolean };
+  type Vid = { v: HTMLVideoElement; gl: WebGLRenderingContext; tx: WebGLTexture; ue: WebGLUniformLocation | null; ok: boolean; esc: boolean; morto?: boolean };
   const raiz = document.documentElement;
   const vids = new Map<HTMLElement, Vid>();
   const celular = matchMedia('(max-width: 900px)').matches;
@@ -175,26 +179,29 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     if (v.readyState < 2) return;
     gl.bindTexture(gl.TEXTURE_2D, tx);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v);
-    gl.uniform1f(d.ue, raiz.classList.contains('ve') ? 1 : 0);
+    gl.uniform1f(d.ue, !d.esc && raiz.classList.contains('ve') ? 1 : 0);
     gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     if (!d.ok) { d.ok = true; f.classList.add('vid-ok'); }
   };
   const laco = (f: HTMLElement, d: Vid) => {
     const vf = (d.v as any).requestVideoFrameCallback?.bind(d.v);
-    if (vf) { const cb = () => { pinta(f, d); vf(cb); }; vf(cb); }
-    else { const cb = () => { if (!d.v.paused) pinta(f, d); requestAnimationFrame(cb); }; requestAnimationFrame(cb); }
+    if (vf) { const cb = () => { if (d.morto) return; pinta(f, d); vf(cb); }; vf(cb); }
+    else { const cb = () => { if (d.morto) return; if (!d.v.paused) pinta(f, d); requestAnimationFrame(cb); }; requestAnimationFrame(cb); }
   };
   const video = (f: HTMLElement) => {
     const cv = f.querySelector<HTMLCanvasElement>('.hr-vid');
     if (vids.has(f)) return true;   // já tem vídeo: não carrega os quadros por cima (era a cesta duplicada)
     if (!cv || calmo || economia) return false;
-    const tam = (celular ? cv.dataset.p : cv.dataset.g)!.split('x').map(Number);
+    // tema escuro: vídeo gerado em fundo vinho (celofane certo no escuro), com o enquadramento dele
+    const esc = raiz.dataset.theme === 'dark' && !!cv.dataset.ge;
+    const tam = (esc ? (celular ? cv.dataset.pe : cv.dataset.ge) : (celular ? cv.dataset.p : cv.dataset.g))!.split('x').map(Number);
     cv.width = tam[0]; cv.height = tam[1];
+    f.style.setProperty('--ar', (esc ? cv.dataset.are : cv.dataset.ar)!);
     const g = montaGL(cv); if (!g) return false;
     const v = document.createElement('video');
     v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
-    v.src = `/video/${cv.dataset.vid}-${celular ? 'p' : 'g'}${av1 ? '-av1' : ''}.mp4`;
-    const d: Vid = { v, gl: g.gl, tx: g.tx, ue: g.ue, ok: false };
+    v.src = `/video/${cv.dataset.vid}-${celular ? 'p' : 'g'}${esc ? '-esc' : ''}${av1 ? '-av1' : ''}.mp4`;
+    const d: Vid = { v, gl: g.gl, tx: g.tx, ue: g.ue, ok: false, esc };
     vids.set(f, d);
     v.addEventListener('error', () => { f.classList.remove('vid-ok'); vids.delete(f); carregaQuadros(f); }, { once: true });
     laco(f, d); toca();
@@ -207,6 +214,13 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     else if (!deve && !d.v.paused) d.v.pause();
   });
   document.addEventListener('visibilitychange', toca);
+  // trocou o tema: troca o vídeo pela versão do outro tema
+  addEventListener('mimos:tema', () => vids.forEach((d, f) => {
+    const cv = f.querySelector<HTMLCanvasElement>('.hr-vid')!;
+    if (d.esc === (raiz.dataset.theme === 'dark' && !!cv.dataset.ge)) return;
+    d.morto = true; d.v.pause(); d.v.removeAttribute('src'); d.v.load(); vids.delete(f); f.classList.remove('vid-ok');
+    if (f === slides[atual]) video(f);
+  }));
 
   // ---- reserva: os quadros da cesta virando num sprite (sem WebGL, economia de dados ou vídeo bloqueado) ----
   const carrega = (f: HTMLElement) => { if (!video(f)) carregaQuadros(f); };

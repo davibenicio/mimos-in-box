@@ -17,6 +17,10 @@ LIM = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] != '-' else 10**9   
 FINO = os.environ.get('RECORTE', 'fino') == 'fino'
 # SUPORTE=placa: o suporte tem a cor do fundo (caixa clara, ex. 29); SUPORTE=cor (padrão): branco/cinza neutro
 PELA_PLACA = os.environ.get('SUPORTE', 'cor') == 'placa'
+SEM_SUPORTE = os.environ.get('SUPORTE') == 'nenhum'   # vídeo sem suporte (cesta no ar): não corta nada embaixo
+# versão do tema escuro (vídeo gerado em fundo vinho): arquivos <nn>-g-esc.mp4 etc. e medidas em 'giro<nn>e'
+VAR = os.environ.get('VARIANTE', '')
+SUF = f'-{VAR}' if VAR else ''
 SAT = float(os.environ.get('SAT', '0.12'))   # até que saturação o suporte conta como branco (sobe se ele reflete a bandeja)
 S = 1920
 tmp = tempfile.mkdtemp(prefix='giro' + nn + '-')
@@ -76,7 +80,7 @@ def limpa(rgb, a):
     linha = cv2.resize(fundo.reshape(1, -1).astype(np.float32) * 2, (S, 1), interpolation=cv2.INTER_LINEAR)[0]
     yy = np.arange(S, dtype=np.float32)[:, None]
     corte = np.clip((linha[None, :] + 12 - yy) / 12.0, 0, 1)
-    a = a.astype(np.float32) * corte
+    a = a.astype(np.float32) * (1 if SEM_SUPORTE else corte)
     # buracos fechados dentro da cesta (celofane que o recorte achou que era fundo) são preenchidos
     from scipy.ndimage import binary_fill_holes
     if not FINO:
@@ -146,7 +150,7 @@ for i, c in enumerate(fluxo(src, [], 'rgb24', 3)):
         cv2.imwrite(f'{tmp}/{k}/q{i:04d}.jpg', cv2.cvtColor(prepara(cc, aa, w, h), cv2.COLOR_RGB2BGR), [cv2.IMWRITE_JPEG_QUALITY, 97])
 
 # vai e volta com freio suave nas pontas (60 qps): meio ciclo = N * 1.15 quadros
-meio = round(N * 1.15)
+meio = round(N * float(os.environ.get('LENTO', '1.15')))   # LENTO: quanto mais alto, mais devagar o vai e volta
 seq = [round((N - 1) * (0.5 - 0.5 * math.cos(k / meio * math.pi))) for k in range(2 * meio)]
 os.makedirs('public/video', exist_ok=True)
 for k, (w, h) in dims.items():
@@ -155,23 +159,24 @@ for k, (w, h) in dims.items():
         for i in seq: f.write(f"file '{tmp}/{k}/q{i:04d}.jpg'\nduration {1/60:.6f}\n")
     base = ['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lista, '-r', '60', '-an', '-pix_fmt', 'yuv420p', '-movflags', '+faststart']
     crf264, crfav1 = (24, 36) if k == 'g' else (25, 37)
-    subprocess.run(base + ['-c:v', 'libx264', '-preset', 'slow', '-crf', str(crf264), '-profile:v', 'high', '-x264-params', 'keyint=120', f'public/video/{nn}-{k}.mp4'], check=True)
-    subprocess.run(base + ['-c:v', 'libsvtav1', '-preset', '6', '-crf', str(crfav1), '-g', '120', f'public/video/{nn}-{k}-av1.mp4'], check=True)
+    subprocess.run(base + ['-c:v', 'libx264', '-preset', 'slow', '-crf', str(crf264), '-profile:v', 'high', '-x264-params', 'keyint=120', f'public/video/{nn}-{k}{SUF}.mp4'], check=True)
+    subprocess.run(base + ['-c:v', 'libsvtav1', '-preset', '6', '-crf', str(crfav1), '-g', '120', f'public/video/{nn}-{k}{SUF}-av1.mp4'], check=True)
     for suf in ('', '-av1'):
-        arq = f'public/video/{nn}-{k}{suf}.mp4'; print(arq, w, h, os.path.getsize(arq) // 1024, 'KB', flush=True)
+        arq = f'public/video/{nn}-{k}{SUF}{suf}.mp4'; print(arq, w, h, os.path.getsize(arq) // 1024, 'KB', flush=True)
 
 # 1º quadro (imagem do topo, LCP) e sprite de reserva (32 quadros), com o mesmo enquadramento
 P = 'public/img/giro/'
-f0 = Image.fromarray(np.dstack(primeiro)); f0.thumbnail((900, 960), Image.LANCZOS); f0.save(P + f'{nn}-0.webp', 'WEBP', quality=84, method=6)
-p0 = f0.copy(); p0.thumbnail((480, 520), Image.LANCZOS); p0.save(P + f'{nn}-0p.webp', 'WEBP', quality=78, method=6)
+f0 = Image.fromarray(np.dstack(primeiro)); f0.thumbnail((900, 960), Image.LANCZOS); f0.save(P + f'{nn}{SUF}-0.webp', 'WEBP', quality=84, method=6)
+p0 = f0.copy(); p0.thumbnail((480, 520), Image.LANCZOS); p0.save(P + f'{nn}{SUF}-0p.webp', 'WEBP', quality=78, method=6)
 FW = 420; FH = round(ch * FW / cw); COLS = 8; NS = 32
 guardados = sorted(int(f[1:5]) for f in os.listdir(tmp) if f.endswith('.npy'))
 sp = Image.new('RGBA', (FW * COLS, FH * (NS // COLS)), (0, 0, 0, 0))
 for j in range(NS):
     alvo = j * (N - 1) / (NS - 1); i = min(guardados, key=lambda g: abs(g - alvo))
     sp.paste(Image.fromarray(np.load(f'{tmp}/f{i:04d}.npy')).resize((FW, FH), Image.LANCZOS), ((j % COLS) * FW, (j // COLS) * FH))
-sp.save(P + f'{nn}.webp', 'WEBP', quality=50, method=6, alpha_quality=65)
+sp.save(P + f'{nn}{SUF}.webp', 'WEBP', quality=50, method=6, alpha_quality=65)
 M = 'src/data/medidas-v3.json'; med = json.load(open(M))
-med['giro' + nn] = [int(v) for v in (FW, FH, f0.size[0], f0.size[1], NS, COLS, *dims['g'], *dims['p'])]
+CH = 'giro' + nn + ('e' if VAR else '')
+med[CH] = [int(v) for v in (FW, FH, f0.size[0], f0.size[1], NS, COLS, *dims['g'], *dims['p'])]
 json.dump(med, open(M, 'w'))
-print('ok', nn, med['giro' + nn], flush=True)
+print('ok', nn + SUF, med[CH], flush=True)

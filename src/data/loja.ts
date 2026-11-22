@@ -39,8 +39,8 @@ export const ANTECEDENCIA: Record<string, number> = { '08-cesta-cafe-da-manha-in
  *  Os quadros da cesta girando ficam em public/img/giro/<produto>.webp (gerar com tools/giro.py). */
 export const SLIDES = [
   { produto: '35' },
-  { produto: '19' },
-  { produto: '29' },
+  { produto: '03' },
+  { produto: '04' },
 ] as const;
 
 // ---- Monte a sua cesta (preços estimados, a loja confirma; edite à vontade) ----
