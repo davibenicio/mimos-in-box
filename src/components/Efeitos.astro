@@ -1,41 +1,13 @@
 ---
-// Efeitos gerais: entradas ao rolar, títulos palavra a palavra, leitura que acende, marca do rodapé, cursor contextual.
+// Efeitos gerais (v3.1, pedido do Davi: nada aparece só com a rolagem; o movimento é constante): cursor contextual,
+// seções que grudam e a faixa invertida (rolando até as seções marcadas, a página escurece no tema claro e clareia no escuro).
 ---
 <script>
   const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cada = (nome: string, fn: () => void) => { try { fn(); } catch (e) { console.warn('efeito', nome, e); } };
 
-  cada('titulos', () => {
-    document.querySelectorAll<HTMLElement>('.tit[data-pal]').forEach((t) => {
-      let i = 0;
-      const quebra = (no: Node) => {
-        [...no.childNodes].forEach((f) => {
-          if (f.nodeType === 3) {
-            const frag = document.createDocumentFragment();
-            (f.textContent ?? '').split(/(\s+)/).forEach((p) => { if (!p.trim()) { frag.append(p); return; } const s = document.createElement('span'); s.className = 'pl'; s.style.setProperty('--i', String(i++)); s.textContent = p; frag.append(s); });
-            f.replaceWith(frag);
-          } else if ((f as HTMLElement).tagName === 'EM') quebra(f);
-        });
-      };
-      quebra(t);
-    });
-  });
 
-  cada('entradas', () => {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visto'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
-    const liga = () => document.querySelectorAll('[data-rev], .tit[data-pal], [data-letras], .sb-v li').forEach((el) => io.observe(el));
-    if (document.documentElement.classList.contains('abriu')) liga(); else addEventListener('mimos:abriu', liga, { once: true });
-  });
 
-  cada('leitura', () => {
-    const p = document.querySelector<HTMLElement>('[data-ler]'); if (!p) return;
-    p.innerHTML = (p.textContent ?? '').split(/\s+/).map((w) => `<span class="lw${calmo ? ' ac' : ''}">${w}</span>`).join(' ');
-    if (calmo) return;
-    const ws = [...p.querySelectorAll('.lw')]; let tic = false, perto = false;
-    const at = () => { const r = p.getBoundingClientRect(), pr = Math.min(1, Math.max(0, (innerHeight * 0.86 - r.top) / (innerHeight * 0.5 + r.height))); const n = Math.round(pr * ws.length); ws.forEach((w, i) => w.classList.toggle('ac', i < n)); tic = false; };
-    new IntersectionObserver(([e]) => { perto = e.isIntersecting; if (perto) at(); }, { rootMargin: '100px' }).observe(p);
-    addEventListener('scroll', () => { if (perto && !tic) { tic = true; requestAnimationFrame(at); } }, { passive: true });
-  });
 
   cada('cursor', () => {
     if (calmo || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -51,25 +23,6 @@
 
   // camadas no scroll (parallax): [data-par="k"] recebe --py e [data-parx="k"] recebe --px, proporcionais à distância
   // do centro da tela. Cada peça decide como usar a variável. Só calcula o que está visível; um rAF por rolagem.
-  cada('camadas', () => {
-    if (calmo) return;
-    const els = [...document.querySelectorAll<HTMLElement>('[data-par], [data-parx]')];
-    const vis = new Set<HTMLElement>();
-    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? vis.add(e.target as HTMLElement) : vis.delete(e.target as HTMLElement))), { rootMargin: '25% 0px' });
-    els.forEach((e) => io.observe(e));
-    let raf = 0;
-    const pinta = () => {
-      raf = 0; const vh = innerHeight;
-      vis.forEach((el) => {
-        const host = el.closest<HTMLElement>('section') || el, r = host.getBoundingClientRect();
-        const d = (r.top + r.height / 2 - vh / 2) / vh;
-        if (el.dataset.par) el.style.setProperty('--py', `${(d * Number(el.dataset.par) * 100).toFixed(1)}px`);
-        if (el.dataset.parx) el.style.setProperty('--px', `${(d * Number(el.dataset.parx) * 100).toFixed(1)}px`);
-      });
-    };
-    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
-    addEventListener('resize', pinta); pinta();
-  });
 
   // seções que grudam (RP-42, no máximo três): a de trás fica parada quando o fim dela chega ao fim da tela,
   // a seguinte desliza por cima e a de trás escurece de leve (--cobre de 0 a 1)
@@ -86,5 +39,22 @@
     addEventListener('resize', () => { mede(); pinta(); });
     addEventListener('load', mede);
     if (!calmo) addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
+  });
+
+  // faixa invertida: quando o meio da tela está numa seção [data-inverte], troca as cores (claro vira escuro e vice-versa)
+  cada('inverte', () => {
+    const h = document.documentElement;
+    const ss = [...document.querySelectorAll<HTMLElement>('[data-inverte]')];
+    if (!ss.length) return;
+    let raf = 0, agora = false;
+    const pinta = () => {
+      raf = 0; const m = innerHeight * 0.5;
+      const dentro = ss.some((s) => { const r = s.getBoundingClientRect(); return r.top < m && r.bottom > m; });
+      if (dentro === agora) return; agora = dentro;
+      if (!calmo) { h.classList.add('trocando'); clearTimeout((pinta as any).t); (pinta as any).t = setTimeout(() => h.classList.remove('trocando'), 800); }
+      h.classList.toggle('invertido', dentro); (window as any).__ve?.();
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
+    addEventListener('mimos:tema', pinta); pinta();
   });
 </script>

@@ -53,6 +53,9 @@ const ld = {
         // tema: claro por padrão; o escuro vale quando o visitante escolheu
         var t = null; try { t = localStorage.getItem('mimos-tema'); } catch (e) {}
         h.dataset.theme = t === 'dark' ? 'dark' : 'light';
+        // ve = o que se vê está escuro (tema escuro, ou faixa invertida no tema claro)
+        window.__ve = function () { h.classList.toggle('ve', (h.dataset.theme === 'dark') !== h.classList.contains('invertido')); };
+        window.__ve();
         if (t === 'dark') { var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = '#1e1114'; }
         var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
         var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}

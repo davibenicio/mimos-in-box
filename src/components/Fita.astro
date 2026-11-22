@@ -1,5 +1,5 @@
 ---
-// Fita chapada do mock (faixa rosa larga em laço) para o fundo das seções. Anda com a rolagem (data-par).
+// Fita chapada do mock (faixa rosa larga em laço) para o fundo das seções. Balança sem parar e um brilho corre por ela.
 // v: desenho (1 a 4). Posição e tamanho vêm pela classe ou pelo style de quem usa.
 interface Props { v?: 1 | 2 | 3 | 4; class?: string; style?: string; par?: number }
 const { v = 1, class: cls = '', style = '', par = 0.4 } = Astro.props;
@@ -11,4 +11,4 @@ const D = {
 } as const;
 const [vb, d] = D[v];
 ---
-<svg class:list={['fx-svg', cls]} viewBox={vb} style={style} aria-hidden="true" data-par={par}><path d={d} /></svg>
+<svg class:list={['fx-svg', cls]} viewBox={vb} style={`--fd:${7 + v}s;${style}`} aria-hidden="true"><path d={d} /><path class="fx-luz" d={d} pathLength="1000" /></svg>

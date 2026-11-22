@@ -114,7 +114,7 @@ const LINKS = [['#topo', 'Início'], ['#monte', 'Monte a sua'], ['#cestas', 'Ces
   barra.querySelector('[data-tema]')!.addEventListener('click', () => {
     const novo = d.dataset.theme === 'dark' ? 'light' : 'dark';
     const troca = () => {
-      d.dataset.theme = novo; try { localStorage.setItem('mimos-tema', novo); } catch (e) {}
+      d.dataset.theme = novo; try { localStorage.setItem('mimos-tema', novo); } catch (e) {} (window as any).__ve?.();
       document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', novo === 'dark' ? '#170810' : '#fbf6f0');
       window.dispatchEvent(new Event('mimos:tema'));
     };

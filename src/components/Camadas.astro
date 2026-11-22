@@ -6,19 +6,19 @@ import { porNN } from '../data/catalogo';
 import { LOJA } from '../data/loja';
 const C = ['08', '31', '24'].map(porNN);
 ---
-<section class="cm" aria-labelledby="cm-t">
+<section class="cm" aria-labelledby="cm-t" data-inverte>
   <div class="cm-pal" aria-hidden="true">
-    <p class="gig cm-r1" data-parx="-2.2">Café da manhã · Kits presente · Bebê · Café da manhã · Kits presente ·</p>
-    <p class="gig cm-r2" data-parx="2.2">Feito com carinho · Feito com carinho · Feito com carinho ·</p>
+    <p class="gig gig-anda cm-r1">Café da manhã · Kits presente · Bebê · Café da manhã · Kits presente ·</p>
+    <p class="gig gig-anda cm-r2">Feito com carinho · Feito com carinho · Feito com carinho ·</p>
   </div>
-  <Fita v={1} class="cm-f1" par={-1.2} />
-  <Fita v={2} class="cm-f2" par={1} />
+  <Fita v={1} class="cm-f1" />
+  <Fita v={2} class="cm-f2" />
   <span class="brilho" style="--t:34px;left:22%;top:20%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <span class="brilho" style="--t:26px;right:24%;bottom:22%;--d:6.5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
-  <img class="cm-c cm-c1" src={C[0].corte} width={C[0].cw} height={C[0].ch} alt="" loading="lazy" data-par="-0.9" />
-  <img class="cm-c cm-c2" src={C[1].corte} width={C[1].cw} height={C[1].ch} alt="" loading="lazy" data-par="0.7" />
-  <img class="cm-c cm-c3" src={C[2].corte} width={C[2].cw} height={C[2].ch} alt="" loading="lazy" data-par="-0.5" />
-  <div class="cm-tx cx" data-par="0.2">
+  <img class="cm-c cm-c1 flutua" src={C[0].corte} width={C[0].cw} height={C[0].ch} alt="" loading="lazy" style="--fd2:5.8s" />
+  <img class="cm-c cm-c2 flutua" src={C[1].corte} width={C[1].cw} height={C[1].ch} alt="" loading="lazy" style="--fd2:5.4s" />
+  <img class="cm-c cm-c3 flutua" src={C[2].corte} width={C[2].cw} height={C[2].ch} alt="" loading="lazy" style="--fd2:5.0s" />
+  <div class="cm-tx cx">
     <h2 id="cm-t" class="tit">Do seu jeito, <em>em cada detalhe.</em></h2>
     <p class="sub">Cor do laço e do balão, cartão com a sua mensagem, retirada no {LOJA.bairro} ou entrega pela 99.</p>
     <a class="bt" href="#monte">Monte a sua cesta <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>

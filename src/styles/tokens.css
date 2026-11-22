@@ -56,7 +56,7 @@
   --escama-clara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23fffaf4' stroke-opacity='.07'%3E%3Cpath d='M0 22a22 22 0 0 1 44 0M-22 44a22 22 0 0 1 44 0M22 44a22 22 0 0 1 44 0M-22 0a22 22 0 0 1 44 0M22 0a22 22 0 0 1 44 0'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-:root[data-theme='dark'] {
+:root[data-theme='dark'], :root.invertido:not([data-theme='dark']) {
   --papel: #1e1114;
   --creme: #2b181c;
   --campo: #24141a;
@@ -89,8 +89,42 @@
   --pedestal-2: #2c181d;
   color-scheme: dark;
 }
+/* faixa invertida: no tema escuro, as seções marcadas ficam claras */
+:root[data-theme='dark'].invertido {
+  --papel: #fef4e5;          /* fundo da página: o off-white do mock do Davi (nunca branco puro) */
+  --creme: #fffaf1;          /* cartões, texto sobre rosa */
+  --campo: #fffbf3;          /* campos de formulário */
+  --clarinho: #fdeedd;       /* seção alternada (a faixa de baixo do mock) */
+  --fundo: #fbe7d6;          /* seção alternada, um tom acima */
+  --gigante: #f9afb4;        /* as letras gigantes e as fitas ("PRESENTES" do mock) */
+  --fita-1: #f7a7ae;
+  --fita-2: #fcc6c8;
+  --faixa: #f8b3b8;          /* a faixa rosa (cápsulas) */
+  --faixa-2: #fcd0d0;
+  --pastel: #fde0dc;         /* realce suave */
+  --rosa-cl: #f4a5ae;
+  --chiclete: #ee6d7e;       /* o rosa do botão do mock (só em detalhe: sem contraste para texto) */
+  --rosa: #c9405a;           /* botão de ação: o rosa do mock escurecido até o contraste AA com o creme */
+  --framboesa: #b8364f;      /* preço e destaque em texto */
+  --cereja: #8e2c48;         /* bordas fortes, ícones, aba ativa */
+  --cereja-esc: #6c1f36;
+  --tit: #4b2a22;            /* títulos em serifa: marrom do mock */
+  --tinta: #4a3029;          /* texto corrido */
+  --tinta-suave: #86675d;
+  --linha: rgba(75, 42, 34, 0.13);
+  --linha-2: rgba(75, 42, 34, 0.24);
+  --ouro: #b0884b;
+  --ouro-cl: #dcc08f;
+  --vidro: rgba(255, 250, 244, 0.58);
+  --vidro-borda: rgba(255, 255, 255, 0.75);
+  --sombra: 0 24px 50px -30px rgba(120, 50, 60, 0.45);
+  --sombra-2: 0 40px 80px -40px rgba(120, 50, 60, 0.5);
+  --pedestal-1: #fbebdb;     /* pedestal redondo da cesta */
+  --pedestal-2: #efd6c3;
+  color-scheme: light;
+}
 /* no escuro o texto dos botões rosa fica escuro (o rosa clareou) */
-:root[data-theme='dark'] .bt, :root[data-theme='dark'] .bt--rosa { --fg: #2a1519; }
+:root[data-theme='dark']:not(.invertido) .bt, :root.invertido:not([data-theme='dark']) .bt { --fg: #2a1519; }
 
 /* ---- materiais de fundo ---- */
 .pt-coracoes { background-image: radial-gradient(120% 75% at 15% 0%, rgba(255, 250, 244, 0.12), transparent 60%), radial-gradient(90% 80% at 100% 100%, rgba(20, 0, 8, 0.25), transparent 62%), var(--escama-clara); }
@@ -115,14 +149,22 @@
 
 /* fita de cetim decorativa (camada que anda com a rolagem) */
 .fita { position: absolute; pointer-events: none; height: auto; filter: drop-shadow(0 18px 18px rgba(150, 60, 80, 0.18)); translate: var(--px, 0px) var(--py, 0px); }
-[data-theme='dark'] .fita { opacity: 0.55; filter: none; }
+
 
 /* palavra gigante de fundo, o motivo do site */
 .gig { font-family: var(--f-gigante); font-weight: 400; line-height: 0.82; letter-spacing: -0.005em; text-transform: uppercase; color: var(--gigante); white-space: nowrap; user-select: none; pointer-events: none; }
 
 /* palcos rosa no escuro: o texto de dentro clareia */
-[data-theme='dark'] .pd-res, [data-theme='dark'] .pd-res ul, [data-theme='dark'] .mt-cont, [data-theme='dark'] .mt-cont b { color: #f8e7dc; }
+html.ve .pd-res, html.ve .pd-res ul, html.ve .mt-cont, html.ve .mt-cont b { color: #f8e7dc; }
 
 /* fitas chapadas do mock: faixa larga rosa em laço, pelas bordas das seções */
-.fx-svg { position: absolute; z-index: 0; overflow: visible; pointer-events: none; height: auto; translate: var(--px, 0px) var(--py, 0px); }
+.fx-svg { position: absolute; z-index: 0; overflow: visible; pointer-events: none; height: auto; transform-origin: 50% 30%; animation: fx-balanca var(--fd, 8s) ease-in-out infinite alternate; }
 .fx-svg path { fill: none; stroke-width: 46; stroke-linecap: butt; stroke: url(#fita-grad); }
+.fx-svg .fx-luz { stroke: #fff; stroke-opacity: 0.45; stroke-width: 9; stroke-dasharray: 90 910; animation: fx-corre calc(var(--fd, 8s) * 0.8) linear infinite; }
+@keyframes fx-balanca { from { rotate: -3deg; translate: 0 -8px; } to { rotate: 3deg; translate: 0 10px; } }
+@keyframes fx-corre { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+/* palavras gigantes das seções andam devagar, sem parar */
+.gig-anda { animation: gig-anda 18s ease-in-out infinite alternate; }
+@keyframes gig-anda { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
+.flutua { animation: flutua var(--fd2, 5s) ease-in-out infinite alternate; }
+@keyframes flutua { from { translate: 0 -8px; rotate: -1.5deg; } to { translate: 0 10px; rotate: 1.5deg; } }

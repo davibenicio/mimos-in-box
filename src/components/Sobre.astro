@@ -14,7 +14,7 @@ const VANTAGENS = [
 ];
 ---
 <section class="sec sb" id="loja">
-  <Fita v={1} style="left:-70px;top:4%;width:clamp(180px,18vw,300px)" par={-0.5} />
+  <Fita v={1} style="left:-70px;top:4%;width:clamp(180px,18vw,300px)" />
   <div class="cx sb-g">
     <div class="sb-txt">
       <h2 class="tit" data-pal>Feito com carinho, <em>do seu jeito.</em></h2>
@@ -30,33 +30,33 @@ const VANTAGENS = [
       <a class="bt" href="#cestas" data-rev="sobe" style="--i:4">Ver as cestas <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
     </div>
     <div class="sb-col">
-      <figure class="sb-n sb-n1" data-rev="sobe" data-par="-0.35">
+      <figure class="sb-n sb-n1 flutua" data-rev="sobe" style="--fd2:4.7s">
         <i class="sb-arco"></i>
         <img src={N1.corte} alt={N1.nome} width={N1.cw} height={N1.ch} loading="lazy" data-abre={N1.nn} data-cur="ver" />
       </figure>
-      <figure class="sb-n sb-n2" data-rev="sobe" style="--i:3" data-par="0.45">
+      <figure class="sb-n sb-n2 flutua" data-rev="sobe" style="--i:3">
         <i class="sb-arco"></i>
         <img src={N2.corte} alt={N2.nome} width={N2.cw} height={N2.ch} loading="lazy" data-abre={N2.nn} data-cur="ver" />
       </figure>
-      <Fita v={4} class="sb-fita" par={-0.8} />
+      <Fita v={4} class="sb-fita" />
       <span class="brilho sb-b" style="--t:30px" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
     </div>
   </div>
-  <p class="gig sb-gig" aria-hidden="true" data-parx="0.8">Mimos in Box</p>
+  <p class="gig gig-anda sb-gig" aria-hidden="true">Mimos in Box</p>
 </section>
 
 <style is:global>
   .sb { background: var(--papel); overflow: clip; padding-bottom: 0; }
   .sb-g { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); gap: clamp(28px, 6vw, 90px); align-items: center; }
+  .sb-txt { text-align: center; display: grid; justify-items: center; }
   .sb-ler { margin-top: 22px; font-size: clamp(18px, 1.8vw, 23px); line-height: 1.45; font-weight: 500; color: var(--tit); max-width: 34ch; }
   .sb-ler .lw { opacity: 0.22; transition: opacity 0.35s; }
   .sb-ler .lw.ac { opacity: 1; }
   .sb-v { margin: 30px 0 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; }
+  .sb-v { text-align: left; }
   .sb-v li { display: flex; align-items: center; gap: 12px; font-weight: 700; line-height: 1.2; color: var(--tit); }
   .sb-ic { flex: none; width: 50px; height: 50px; border-radius: 50%; background: var(--pastel); color: var(--rosa); display: grid; place-items: center; transition: background-color 0.3s, color 0.3s; }
   .sb-v li:hover .sb-ic { background: var(--rosa); color: var(--creme); }
-  html.js .sb-ic path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.3s 0.3s var(--sai); }
-  html.js .visto .sb-ic path { stroke-dashoffset: 0; }
   .sb-col { position: relative; aspect-ratio: 1 / 1.05; max-width: 520px; width: 100%; justify-self: center; }
   .sb-n { position: absolute; margin: 0; translate: 0 var(--py, 0px); }
   .sb-arco { position: absolute; inset: 0; border-radius: 999px 999px 26px 26px; }

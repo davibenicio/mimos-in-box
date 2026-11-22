@@ -7,8 +7,9 @@ const ABAS = [...CATEGORIAS.map((c) => ({ id: c.id, nome: c.nome })), { id: 'pro
 const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 ---
 <section class="sec cd" id="cestas" data-cardapio data-aba={ABAS[0].id}>
-  <p class="gig cd-fantasma" aria-hidden="true" data-parx="-0.7">Cestas</p>
-  <Fita v={4} style="left:-90px;bottom:6%;width:clamp(180px,18vw,280px)" par={0.6} />
+  <Fita v={2} style="right:-60px;top:2%;width:clamp(200px,22vw,360px)" />
+  <p class="gig gig-anda cd-fantasma" aria-hidden="true">Cestas</p>
+  <Fita v={4} style="left:-90px;bottom:6%;width:clamp(180px,18vw,280px)" />
   <span class="brilho" style="--t:28px;left:42%;top:10%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <div class="cx">
     <header class="cd-topo">
@@ -51,7 +52,8 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 <style is:global>
   .cd { background: radial-gradient(50% 40% at 100% 0%, color-mix(in srgb, var(--faixa) 24%, transparent), transparent 70%), var(--clarinho); overflow: clip; }
   .cd-fantasma { position: absolute; right: -1vw; top: 0; font-size: clamp(110px, 20vw, 320px); translate: var(--px, 0px) 0; opacity: 0.6; }
-  .cd-topo { position: relative; display: grid; gap: 14px; margin-bottom: clamp(26px, 4vw, 46px); }
+  .cd-topo { position: relative; display: grid; gap: 14px; justify-items: center; text-align: center; margin-bottom: clamp(26px, 4vw, 46px); }
+  .cd-topo .sub { margin-inline: auto; }
   .cd-g { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(20px, 4vw, 60px); align-items: start; }
   .cd-abas { position: relative; display: flex; flex-wrap: wrap; gap: 6px; padding: 5px; border: 1px solid var(--linha-2); border-radius: 999px; background: var(--creme); width: max-content; max-width: 100%; }
   .cd-abas button { position: relative; z-index: 1; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: none; font-weight: 700; font-size: 15.5px; color: var(--tit); white-space: nowrap; transition: color 0.25s; }

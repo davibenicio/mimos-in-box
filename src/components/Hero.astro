@@ -1,106 +1,90 @@
 ---
 // Topo (mock do Davi): "PRESENTES" gigante e rosa atrás, a cesta girando num pedestal (quadros do vídeo gerado
 // a partir da foto real da cesta), título em serifa marrom, fitas de cetim nas bordas e brilhos de quatro pontas.
-// Carrossel de três cestas: troca sozinho com barra de tempo, pausa visível, toque/arraste e teclado.
-import { SLIDES, LOJA } from '../data/loja';
+// Composição centrada (pedido do Davi, 21/11 23h30): palavra no alto, cesta girando sem parar no meio, título e
+// botões embaixo. Carrossel de três cestas: troca sozinho com barra de tempo, pausa visível, toque/arraste e teclado.
+import { SLIDES } from '../data/loja';
+import Fita from './Fita.astro';
 import { porNN, reais } from '../data/catalogo';
 import med from '../data/medidas-v3.json';
 const M = med as Record<string, number[]>;
 const ESTRELA = 'M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z';
 const GIG = 'PRESENTES';
 const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro' + p.nn]; return { p, fw: g[0], fh: g[1], w0: g[2], h0: g[3] }; });
-const FEITOS = [
-  ['Feito à mão com carinho', 'M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z'],
-  ['Presentes personalizados', 'M4 9.5h16v3H4zM5.5 12.5h13V20h-13zM12 9.5V20M12 9.5c-2.6 0-4.4-1-4.1-2.6.4-1.9 3-1.2 4.1 2.6zm0 0c2.6 0 4.4-1 4.1-2.6-.4-1.9-3-1.2-4.1 2.6z'],
-  ['Cada detalhe importa', 'M12 3.5l2.5 5.3 5.8.7-4.3 4 1.1 5.7L12 16.4l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z'],
-];
 ---
 <section class="hr" data-hero data-gruda aria-roledescription="carrossel" aria-label="Cestas em destaque">
-  <svg class="hr-fita hr-f1" viewBox="0 0 420 620" aria-hidden="true" data-par="-0.4"><defs><linearGradient id="hr-fg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--fita-1)" /><stop offset=".5" style="stop-color:var(--fita-2)" /><stop offset="1" style="stop-color:var(--fita-1)" /></linearGradient></defs><path d="M150 -30C118 60 58 122 70 206c12 92 128 116 146 44 18-72-92-104-152-52C4 250-6 340-70 440" /></svg>
-  <svg class="hr-fita hr-f2" viewBox="0 0 520 640" aria-hidden="true" data-par="0.5"><defs><linearGradient id="hr-fg2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--fita-1)" /><stop offset=".5" style="stop-color:var(--fita-2)" /><stop offset="1" style="stop-color:var(--fita-1)" /></linearGradient></defs><path d="M600 10C480 50 372 130 356 246c-16 120 116 178 160 98 44-80-70-140-140-80C300 330 318 480 600 640" /></svg>
+  <Fita v={1} class="hr-f1" />
+  <Fita v={2} class="hr-f2" />
   <span class="brilho hr-b1" style="--t:38px;--d:5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ESTRELA} /></svg></span>
   <span class="brilho hr-b2" style="--t:30px;--d:6.5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ESTRELA} /></svg></span>
   <span class="brilho hr-b3" style="--t:26px;--d:4.5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ESTRELA} /></svg></span>
+  <span class="brilho hr-b4" style="--t:22px;--d:5.5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ESTRELA} /></svg></span>
 
-  <p class="gig hr-gig" aria-hidden="true" data-parx="-0.25">{[...GIG].map((l, i) => <span class="lt" style={`--i:${i}`}><b>{l}</b></span>)}</p>
+  <p class="gig hr-gig" aria-hidden="true">{[...GIG].map((l, i) => <span class="lt" style={`--i:${i}`}><b>{l}</b></span>)}</p>
 
-  <div class="hr-g cx">
-    <div class="hr-txt">
-      <h1 class="hr-t"><span>Pequenos gestos.</span> <span>Memórias enormes.</span></h1>
-      <p class="hr-p">Presentes preparados com carinho<br />para surpreender em cada ocasião.</p>
-      <div class="hr-b">
-        <a class="bt" href="#cestas">Encontre seu mimo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
-        <a class="lk" href="#promocoes">Conheça nossos kits <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-
-    <div class="hr-palco" data-palco>
-      <span class="hr-luz" aria-hidden="true"></span>
-      <span class="hr-ped" aria-hidden="true"></span>
-      {slides.map(({ p, fw, fh, w0, h0 }, i) => (
-        <figure class:list={['hr-c', i === 0 && 'on']} data-slide data-nn={p.nn} aria-hidden={i === 0 ? 'false' : 'true'} style={`--ar:${fw}/${fh}`}>
-          <span class="hr-cx">
-          <img src={`/img/giro/${p.nn}-0.webp`} srcset={`/img/giro/${p.nn}-0p.webp 420w, /img/giro/${p.nn}-0.webp ${w0}w`} sizes="(max-width: 900px) 64vw, 520px"
-            width={w0} height={h0} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" data-abre={p.nn} data-cur="ver" />
-          <span class="hr-gira" data-gira={`/img/giro/${p.nn}.webp`} aria-hidden="true"></span>
-          </span>
-        </figure>
-      ))}
-      <div class="hr-ctl">
-        <div class="hr-pts">{slides.map(({ p }, i) => <button type="button" class:list={[i === 0 && 'on']} data-ir={i} aria-label={`Mostrar ${p.nome}`}><i></i></button>)}</div>
-        <button class="hr-pausa" type="button" data-pausa aria-pressed="false" aria-label="Pausar a troca automática"><svg viewBox="0 0 24 24" width="14" height="14"><path class="p1" d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path class="p2" d="M8 5l11 7-11 7z" fill="currentColor" /></svg></button>
-      </div>
+  <div class="hr-palco" data-palco>
+    <span class="hr-luz" aria-hidden="true"></span>
+    <span class="hr-ped" aria-hidden="true"></span>
+    {slides.map(({ p, fw, fh, w0, h0 }, i) => (
+      <figure class:list={['hr-c', i === 0 && 'on']} data-slide data-nn={p.nn} aria-hidden={i === 0 ? 'false' : 'true'} style={`--ar:${fw}/${fh}`}>
+        <span class="hr-cx">
+        <img src={`/img/giro/${p.nn}-0.webp`} srcset={`/img/giro/${p.nn}-0p.webp 420w, /img/giro/${p.nn}-0.webp ${w0}w`} sizes="(max-width: 900px) 64vw, 520px"
+          width={w0} height={h0} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" data-abre={p.nn} data-cur="ver" />
+        <span class="hr-gira" data-gira={`/img/giro/${p.nn}.webp`} aria-hidden="true"></span>
+        </span>
+      </figure>
+    ))}
+    <div class="hr-ctl">
+      <div class="hr-pts">{slides.map(({ p }, i) => <button type="button" class:list={[i === 0 && 'on']} data-ir={i} aria-label={`Mostrar ${p.nome}`}><i></i></button>)}</div>
+      <button class="hr-pausa" type="button" data-pausa aria-pressed="false" aria-label="Pausar a troca automática"><svg viewBox="0 0 24 24" width="14" height="14"><path class="p1" d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path class="p2" d="M8 5l11 7-11 7z" fill="currentColor" /></svg></button>
     </div>
   </div>
 
-  <ul class="hr-feitos cx">
-    {FEITOS.map(([t, d]) => <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} /></svg>{t}</li>)}
-  </ul>
+  <div class="hr-txt cx">
+    <h1 class="hr-t"><span>Pequenos gestos.</span> <span>Memórias enormes.</span></h1>
+    <p class="hr-p">Presentes preparados com carinho para surpreender em cada ocasião.</p>
+  </div>
+
+  <div class="hr-b cx">
+    <a class="bt" href="#cestas">Encontre seu mimo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+    <a class="bt bt--linha" href="#promocoes">Conheça nossos kits <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+  </div>
 </section>
 
 <style is:global>
-  .hr { position: relative; z-index: 0; min-height: max(100svh, 700px); display: flex; flex-direction: column; padding-top: calc(var(--barra) + 18px); background: var(--papel); overflow: clip; }
-  .hr::after { content: ''; position: absolute; inset: 0; z-index: 9; background: var(--fixo-escuro); opacity: calc(var(--cobre, 0) * 0.32); pointer-events: none; }
-  .hr-fita { position: absolute; z-index: 0; overflow: visible; pointer-events: none; translate: 0 var(--py, 0px); }
-  .hr-fita path { fill: none; stroke-width: 46; stroke-linecap: butt; }
-  .hr-f1 { left: -46px; top: -10px; width: clamp(220px, 25vw, 420px); } .hr-f1 path { stroke: url(#hr-fg1); }
-  .hr-f2 { right: -40px; bottom: 30px; width: clamp(260px, 31vw, 520px); } .hr-f2 path { stroke: url(#hr-fg2); }
-  .hr-b1 { right: 7%; top: 23%; } .hr-b2 { left: 5%; top: 50%; } .hr-b3 { right: 6%; bottom: 10%; }
+  /* altura da palavra: cabe na largura e na altura da tela */
+  .hr { --F: min(18.5vw, 29vh); position: relative; z-index: 0; min-height: max(100svh, 640px); display: flex; flex-direction: column; align-items: center; padding: calc(var(--barra) + 10px) 0 clamp(18px, 3.4vh, 36px); background: var(--papel); overflow: clip; }
+  .hr-f1 { left: -46px; top: -10px; width: clamp(200px, 24vw, 400px); }
+  .hr-f2 { right: -40px; bottom: 6%; width: clamp(240px, 30vw, 500px); }
+  .hr-b1 { right: 7%; top: 24%; } .hr-b2 { left: 6%; top: 54%; } .hr-b3 { right: 9%; bottom: 14%; } .hr-b4 { left: 16%; bottom: 18%; }
 
-  /* a palavra gigante (Anton esticada na vertical, como no mock): letras sobem de dentro da linha */
-  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 46px); z-index: 1; translate: calc(-50% + var(--px, 0px)) 0; scale: 1 1.42; transform-origin: 50% 0; font-size: min(19.2vw, 330px); }
-  .hr-gig .lt { display: inline-block; overflow: hidden; padding-top: 0.06em; margin-top: -0.06em; }
-  .hr-gig b { display: inline-block; font-weight: 400; }
-  html.js:not(.intro-viu) .hr-gig b { transform: translateY(105%); }
-  html.abriu:not(.intro-viu) .hr-gig b { animation: hr-letra 1.1s var(--sai) both; animation-delay: calc(0.05s + var(--i) * 55ms); }
+  /* a palavra gigante (Anton esticada, como no mock): letras sobem na chegada e depois ondulam sem parar */
+  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 4px); z-index: 1; translate: -50% 0; scale: 1 1.42; transform-origin: 50% 0; font-size: var(--F); }
+  .hr-gig .lt { display: inline-block; overflow: hidden; padding: 0.06em 0 0.05em; margin: -0.06em 0 -0.05em; }
+  .hr-gig b { display: inline-block; font-weight: 400; animation: hr-onda 4.8s calc(var(--i) * -0.42s) ease-in-out infinite alternate; }
+  html.js:not(.intro-viu):not(.abriu) .hr-gig b { transform: translateY(105%); }
+  html.abriu:not(.intro-viu) .hr-gig b { animation: hr-letra 1.1s var(--sai) both, hr-onda 4.8s calc(1.2s + var(--i) * -0.42s) ease-in-out infinite alternate; animation-delay: calc(0.05s + var(--i) * 55ms), calc(1.2s + var(--i) * -0.42s); }
   @keyframes hr-letra { from { transform: translateY(105%); } to { transform: none; } }
+  @keyframes hr-onda { from { transform: translateY(-2.5%); } to { transform: translateY(2.5%); } }
 
-  .hr-g { position: static; flex: 1; display: flex; align-items: flex-end; translate: 0 calc(var(--cobre, 0) * -50px); }
-  .hr-txt { position: relative; z-index: 3; width: min(46%, 600px); padding-bottom: clamp(40px, 7vh, 72px); }
-  .hr-t { font-family: var(--f-serif); font-weight: 600; font-size: clamp(40px, 3.7vw, 64px); line-height: 1.04; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
-  .hr-t span { display: block; }
-  .hr-p { margin-top: 16px; font-size: clamp(17px, 1.45vw, 24px); line-height: 1.4; max-width: 32ch; color: var(--tinta); }
-  .hr-b { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
-  html.js:not(.intro-viu) .hr-txt > * { opacity: 0; transform: translateY(26px); }
-  html.abriu:not(.intro-viu) .hr-txt > * { animation: hr-sobe 0.9s 0.35s var(--sai) both; }
-  html.abriu:not(.intro-viu) .hr-txt > :nth-child(2) { animation-delay: 0.47s; } html.abriu:not(.intro-viu) .hr-txt > :nth-child(3) { animation-delay: 0.57s; }
-  @keyframes hr-sobe { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-
-  /* palco à direita (mock): luz, pedestal redondo e a cesta saindo de trás da palavra */
-  .hr-palco { position: absolute; z-index: 2; left: 44%; right: 8%; top: max(23%, 170px); bottom: 86px; }
-  .hr-luz { position: absolute; left: 6%; right: 6%; top: 6%; bottom: 12%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 80%, transparent), transparent); }
-  .hr-ped { position: absolute; left: 50%; bottom: -2%; width: min(104%, 760px); height: 15%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
-  .hr-ped::before { content: ''; position: absolute; left: 0; right: 0; top: -38%; height: 76%; border-radius: 50%; background: radial-gradient(60% 70% at 50% 40%, var(--creme), var(--pedestal-1)); box-shadow: inset 0 -2px 6px rgba(120, 50, 60, 0.06); }
-  .hr-cx { position: absolute; left: 50%; bottom: 9%; height: 96%; max-width: 106%; aspect-ratio: var(--ar); translate: -50% 0; }
+  /* palco centrado: luz, pedestal redondo e a cesta saindo de trás da palavra */
+  .hr-palco { position: relative; z-index: 2; width: min(92vw, 860px); height: clamp(230px, 45vh, 540px); margin-top: calc(var(--F) * 0.6); flex: none; }
+  .hr-luz { position: absolute; left: 14%; right: 14%; top: 4%; bottom: 10%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 85%, transparent), transparent); animation: hr-respira 6s ease-in-out infinite alternate; }
+  @keyframes hr-respira { to { scale: 1.08; opacity: 0.7; } }
+  .hr-ped { position: absolute; left: 50%; bottom: -1%; width: min(84%, 660px); height: 13%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
+  .hr-ped::before { content: ''; position: absolute; left: 0; right: 0; top: -38%; height: 76%; border-radius: 50%; background: radial-gradient(60% 70% at 50% 40%, var(--creme), var(--pedestal-1)); }
+  .hr-cx { position: absolute; left: 50%; bottom: 8%; height: 98%; max-width: 92%; aspect-ratio: var(--ar); translate: -50% 0; }
   .hr-c { position: absolute; inset: 0; margin: 0; pointer-events: none; opacity: 0; visibility: hidden; transform: translateX(10%) scale(0.94); transition: opacity 0.5s, transform 0.8s var(--sai), visibility 0s 0.8s; }
   .hr-c.on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.6s 0.15s, transform 0.9s 0.1s var(--sai), visibility 0s; }
   .hr-c.sai { transform: translateX(-10%) scale(0.94); }
   .hr-c.on img { pointer-events: auto; }
+  .hr-c img, .hr-gira { animation: hr-paira 4.5s ease-in-out infinite alternate; }
+  @keyframes hr-paira { from { translate: 0 0; } to { translate: 0 -10px; } }
   .hr-c img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 24px 18px rgba(110, 45, 55, 0.28)); cursor: pointer; }
   .hr-gira { position: absolute; inset: 0; background-repeat: no-repeat; background-size: 400% 400%; background-position: 0 0; filter: drop-shadow(0 24px 18px rgba(110, 45, 55, 0.28)); opacity: 0; pointer-events: none; }
   .hr-c.gira-ok .hr-gira { opacity: 1; }
   .hr-c.gira-ok img { opacity: 0; }
-  .hr-ctl { position: absolute; left: 50%; bottom: -46px; translate: -50% 0; z-index: 3; display: flex; align-items: center; gap: 2px; }
+  .hr-ctl { position: absolute; right: 0; bottom: 2%; z-index: 3; display: flex; align-items: center; gap: 2px; }
   .hr-pts { display: flex; }
   .hr-pts button { width: 34px; height: 40px; border: 0; background: none; padding: 0; display: grid; place-items: center; }
   .hr-pts i { position: relative; display: block; width: 7px; height: 7px; border-radius: 9px; background: var(--rosa-cl); overflow: hidden; transition: width 0.4s var(--sai); }
@@ -111,30 +95,31 @@ const FEITOS = [
   .hr-pausa .p2, .hr-pausa[aria-pressed='true'] .p1 { display: none; }
   .hr-pausa[aria-pressed='true'] .p2 { display: block; }
 
-  /* faixa de baixo (mock): três ideias com ícone e divisória */
-  .hr-feitos { position: relative; z-index: 3; display: flex; justify-content: center; border-top: 1px solid var(--linha); margin-top: 0; padding-block: 22px 24px; }
-  .hr-feitos li { display: flex; align-items: center; gap: 14px; padding-inline: clamp(18px, 4vw, 54px); font-size: 17px; font-weight: 500; color: var(--tit); }
-  .hr-feitos li + li { border-left: 1px solid var(--rosa-cl); }
-  .hr-feitos svg { width: 30px; height: 30px; fill: none; stroke: var(--rosa); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+  /* texto centrado embaixo da cesta */
+  .hr-txt { position: relative; z-index: 3; margin-top: clamp(10px, 2vh, 22px); text-align: center; }
+  .hr-t { font-family: var(--f-serif); font-weight: 600; font-size: clamp(30px, min(3.8vw, 6.4vh), 62px); line-height: 1.05; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
+  .hr-t span { display: inline; }
+  .hr-p { margin: 10px auto 0; font-size: clamp(16px, min(1.4vw, 2.5vh), 22px); line-height: 1.4; max-width: 62ch; color: var(--tinta); }
+  /* os botões ficam onde estava a faixa de baixo (pedido do Davi) */
+  .hr-b { position: relative; z-index: 3; margin-top: clamp(16px, 3vh, 30px); display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .hr-b .bt { min-width: 240px; }
+  html.js:not(.intro-viu) .hr-txt, html.js:not(.intro-viu) .hr-b { opacity: 0; }
+  html.abriu:not(.intro-viu) .hr-txt, html.abriu:not(.intro-viu) .hr-b { animation: hr-sobe 0.9s 0.4s var(--sai) both; }
+  html.abriu:not(.intro-viu) .hr-b { animation-delay: 0.55s; }
+  @keyframes hr-sobe { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 
   @media (max-width: 900px) {
-    .hr { min-height: auto; padding-top: calc(var(--barra) + 6px); }
-    .hr-gig { font-size: 21.6vw; top: calc(var(--barra) + 10px); scale: 1 1.36; }
-    .hr-g { flex-direction: column; align-items: stretch; }
-    .hr-palco { order: -1; position: relative; left: auto; right: auto; top: auto; bottom: auto; height: min(70vw, 320px); margin-top: 22vw; }
-    .hr-cx { height: 94%; }
-    .hr-ctl { bottom: -40px; }
-    .hr-txt { width: auto; padding: 34px 0 26px; text-align: center; }
-    .hr-t { font-size: clamp(32px, 9vw, 42px); }
-    .hr-p { margin: 8px auto 0; font-size: 15px; }
-    .hr-b { justify-content: center; margin-top: 18px; gap: 12px 22px; }
-    .hr-b .bt { width: 100%; min-height: 56px; }
+    .hr { --F: 21.4vw; min-height: auto; padding-bottom: 26px; }
+    .hr-gig { top: calc(var(--barra) + 8px); scale: 1 1.36; }
+    .hr-palco { width: 100%; height: min(68vw, 320px); margin-top: 22vw; }
+    .hr-ctl { right: 10px; bottom: -4px; }
+    .hr-t { font-size: clamp(30px, 8.6vw, 40px); }
+    .hr-t span { display: block; }
+    .hr-p { font-size: 15px; max-width: 30ch; }
+    .hr-b { flex-direction: column; align-items: stretch; width: 100%; padding-inline: 20px; }
+    .hr-b .bt { width: 100%; min-height: 54px; }
     .hr-f1 { left: -60px; top: 30px; width: 170px; } .hr-f2 { right: -70px; bottom: auto; top: 46%; width: 210px; }
-    .hr-b1 { right: 4%; top: 36%; } .hr-b2 { display: none; }
-    .hr-feitos { flex-direction: column; align-items: center; gap: 10px; padding-block: 18px 22px; }
-    .hr-feitos li + li { border-left: 0; }
-    .hr-feitos li { font-size: 15.5px; padding: 0; }
-    .hr-feitos svg { width: 24px; height: 24px; }
+    .hr-b1 { right: 4%; top: 36%; } .hr-b2, .hr-b4 { display: none; }
   }
 </style>
 
@@ -162,9 +147,8 @@ const FEITOS = [
   // vai e volta devagar, como numa vitrine que gira; o mouse assume quando passa por cima
   let mouse = -1, mouseAte = 0;
   const vitrine = (t: number) => {
-    const ciclo = 6200, f = (t % ciclo) / ciclo;
-    const e = (x: number) => 0.5 - Math.cos(Math.PI * x) / 2;
-    return 15 * (f < 0.3 ? e(f / 0.3) : f < 0.5 ? 1 : f < 0.8 ? 1 - e((f - 0.5) / 0.3) : 0);
+    // vai e volta sem parar (pedido do Davi: animação das cestas constante)
+    return 7.5 - 7.5 * Math.cos((t / 4200) * Math.PI);
   };
 
   const ir = (n: number) => {
@@ -186,10 +170,6 @@ const FEITOS = [
   hero.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
   hero.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) { ir(atual + (dx < 0 ? 1 : -1)); segurar(); } }, { passive: true });
   const palco = hero.querySelector<HTMLElement>('[data-palco]')!;
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    palco.addEventListener('pointermove', (e) => { const r = palco.getBoundingClientRect(); mouse = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * 15; mouseAte = performance.now() + 1800; segura = true; });
-    palco.addEventListener('pointerleave', () => { segura = false; });
-  }
   hero.addEventListener('focusin', () => (segura = true)); hero.addEventListener('focusout', () => (segura = false));
   new IntersectionObserver(([e]) => { fora = !e.isIntersecting; document.documentElement.classList.toggle('no-hero', e.isIntersecting); }, { threshold: 0.2 }).observe(hero);
 
@@ -197,7 +177,7 @@ const FEITOS = [
   const tick = (t: number) => {
     if (!fora) {
       const f = slides[atual];
-      if (f.classList.contains('gira-ok')) { const alvo = t < mouseAte && mouse >= 0 ? mouse : vitrine(t); k += (alvo - k) * 0.12; quadro(f, k); }
+      if (f.classList.contains('gira-ok')) { k = vitrine(t); quadro(f, k); }
       if (pronto && !parado && !segura) { gasto += t - t0; if (gasto >= DUR) ir(atual + 1); }
       pts[atual].style.setProperty('--t', String(Math.min(1, gasto / DUR)));
     }

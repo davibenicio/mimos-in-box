@@ -51,25 +51,17 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 900px) { [data-gruda] { position: relative; top: 0; } }
 .camada { position: relative; z-index: 2; border-radius: clamp(26px, 4vw, 48px) clamp(26px, 4vw, 48px) 0 0; box-shadow: 0 -34px 60px -34px rgba(43, 12, 21, 0.45); }
 
-/* ---- entradas (só com JS; sem JS tudo aparece) ---- */
-html.js [data-rev] { opacity: 0; transition: opacity 0.7s var(--sai), transform 0.9s var(--sai); transition-delay: calc(var(--i, 0) * 70ms); }
-html.js [data-rev='sobe'] { transform: translateY(34px); }
-html.js [data-rev='esq'] { transform: translateX(-40px); }
-html.js [data-rev='dir'] { transform: translateX(40px); }
-html.js [data-rev='pop'] { transform: scale(0.9); }
-html.js [data-rev].visto { opacity: 1; transform: none; }
-html.js .tit[data-pal] .pl { display: inline-block; opacity: 0; transform: translateY(0.45em); filter: blur(6px); transition: opacity 0.6s var(--sai), transform 0.8s var(--sai), filter 0.6s; transition-delay: calc(var(--i) * 80ms); }
-html.js .tit[data-pal].visto .pl { opacity: 1; transform: none; filter: none; }
+/* ---- nada fica escondido esperando a rolagem (v3.1): o movimento do site é constante ---- */
 
 /* ---- troca de tema: só cor, sem pulo ---- */
-html.trocando *, html.trocando *::before, html.trocando *::after { transition: background-color 0.45s, color 0.45s, border-color 0.45s, box-shadow 0.45s, fill 0.45s, stroke 0.45s !important; }
+html.trocando *, html.trocando *::before, html.trocando *::after { transition: background-color 0.7s, color 0.7s, border-color 0.7s, box-shadow 0.7s, fill 0.7s, stroke 0.7s, -webkit-text-stroke-color 0.7s !important; }
+body { transition: background-color 0.7s; }
 
 /* ---- pausa geral e movimento reduzido ---- */
 html.pausado *, html.pausado *::before, html.pausado *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
-  html.js [data-rev], html.js .tit[data-pal] .pl { opacity: 1; transform: none; filter: none; }
 }
 
 /* ---- diálogos ---- */

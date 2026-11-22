@@ -6,6 +6,12 @@ Atualizado em 21/11/2026, 22h (v2 publicada como prévia: mais sóbria, sem bran
 Site de vendas da Mimos in Box (cestas e presentes personalizados, Pontal, Ilhéus-BA). O cliente vê o catálogo, monta uma cesta e fecha o pedido no site. WhatsApp fica para dúvidas e para a loja receber o pedido pronto.
 Cliente fechado. Ação nº 1: pedir uma cesta (pronta ou montada).
 
+## v3.1 (21/11, 23h30)
+- Topo centrado: palavra no alto, cesta no meio girando sem parar, título e texto embaixo, e os dois botões no lugar da faixa de três ideias (pedido do Davi). Tamanhos presos à altura da tela (antes a palavra cobria o título em telas baixas, como 1366x657).
+- Movimento constante no lugar das entradas pela rolagem: letras do "PRESENTES" ondulam, fitas balançam com um brilho correndo, palavras gigantes andam, cestas flutuam, a fita do "Do clique ao laço" se desenha em ciclo. Nada fica escondido esperando rolar. O botão "Pausar animações" no rodapé pausa tudo.
+- Faixa invertida: rolando até "Do seu jeito" e "Do clique ao laço" (data-inverte), o site escurece no tema claro e clareia no escuro, com transição de cor.
+- Títulos das seções centrados. Mais fitas.
+
 ## v3 (21/11, noite): mock do Davi
 - Topo: cópia do mock dele ("PRESENTES" gigante rosa em Anton esticada, título Fraunces marrom, botão rosa, link sublinhado, fitas chapadas, brilhos, faixa de três ideias). Só o cabeçalho é diferente (logo real, menu, tema, Instagram).
 - Cesta no pedestal girando: quadros de vídeo (Kling 2.5 no Magnific, a partir da foto real) sem fundo, num sprite 4x4 (`tools/giro.py`). Três cestas de uma cor só: 35, 19, 29.
