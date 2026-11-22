@@ -99,7 +99,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   /* vídeo da cesta (cor em cima, transparência embaixo, juntadas num canvas WebGL): quando roda, cobre a foto e os quadros */
   .hr-vid { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.45s; pointer-events: none; }
   .hr-c.vid-ok .hr-vid { opacity: 1; }
-  .hr-c.vid-ok img, .hr-c.vid-ok .hr-gira { opacity: 0; transition: opacity 0.45s; }
+  .hr-c.vid-ok img, .hr-c.vid-ok .hr-gira, .hr-c.vid-ok.gira-ok .hr-gira:not(.hr-gira-b) { opacity: 0; transition: opacity 0.45s; }
   .hr-c.gira-ok img { opacity: 0; }
   .hr-ctl { position: absolute; right: 0; bottom: 2%; z-index: 3; display: flex; align-items: center; gap: 2px; }
   .hr-pts { display: flex; }
@@ -179,7 +179,8 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   };
   const video = (f: HTMLElement) => {
     const cv = f.querySelector<HTMLCanvasElement>('.hr-vid');
-    if (!cv || vids.has(f) || calmo || economia) return false;
+    if (vids.has(f)) return true;   // já tem vídeo: não carrega os quadros por cima (era a cesta duplicada)
+    if (!cv || calmo || economia) return false;
     const tam = (celular ? cv.dataset.p : cv.dataset.g)!.split('x').map(Number);
     cv.width = tam[0]; cv.height = tam[1];
     const g = montaGL(cv); if (!g) return false;
