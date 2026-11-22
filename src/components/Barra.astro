@@ -1,6 +1,6 @@
 ---
 import { LOJA } from '../data/loja';
-const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cardapio', 'Cardápio'], ['#cestas', 'Cestas'], ['#contato', 'Contato']];
+const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cestas', 'Cestas'], ['#como-pedir', 'Como pedir'], ['#contato', 'Contato']];
 ---
 <header class="br" data-barra>
   <div class="br-in">
@@ -34,11 +34,11 @@ const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cardapio', 'Cardáp
 <style is:global>
   .br { position: fixed; inset: 0 0 auto; z-index: 60; height: var(--barra); transition: transform 0.45s var(--sai), background-color 0.3s, box-shadow 0.3s; }
   .br.some { transform: translateY(-130%); }
-  .br.solida { background: var(--creme); box-shadow: 0 2px 0 var(--pastel), 0 10px 30px -18px rgba(122, 18, 48, 0.5); }
+  .br.solida { background: var(--creme); box-shadow: 0 1px 0 var(--pastel), 0 14px 30px -22px rgba(71, 9, 27, 0.5); }
   .br-in { width: var(--larg); height: 100%; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-  .br-logo { position: relative; flex: none; width: 88px; height: 88px; margin-top: 30px; border-radius: 50%; background: var(--creme); box-shadow: 0 0 0 3px var(--creme), 0 0 0 5px var(--cereja), 0 10px 22px -10px rgba(74, 19, 34, 0.7); transition: transform 0.5s var(--mola), width 0.3s, height 0.3s, margin 0.3s; }
-  .br-logo img { width: 100%; height: 100%; border-radius: 50%; }
-  .br-logo:hover { transform: rotate(-8deg) scale(1.06); }
+  .br-logo { position: relative; flex: none; width: 88px; height: 88px; margin-top: 30px; border-radius: 50%; background: var(--creme); box-shadow: 0 0 0 3px var(--creme), 0 0 0 4px var(--cereja), 0 12px 22px -12px rgba(71, 9, 27, 0.7); transition: transform 0.5s var(--mola), width 0.3s, height 0.3s, margin 0.3s; }
+  .br-logo img { width: 100%; height: 100%; border-radius: 50%; mix-blend-mode: multiply; }
+  .br-logo:hover { transform: scale(1.05); }
   .br.solida .br-logo { width: 62px; height: 62px; margin-top: 14px; }
   .br-nav { display: flex; gap: clamp(14px, 2.2vw, 30px); }
   .br-l { position: relative; display: block; overflow: hidden; height: 1.5em; font-weight: 800; font-size: 16px; color: var(--cereja); text-decoration: none; }
@@ -47,9 +47,9 @@ const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cardapio', 'Cardáp
   .br-l:hover span { transform: translateY(-50%); }
   .br-dir { display: flex; align-items: center; gap: 12px; }
   .br-ig { width: 44px; height: 44px; display: grid; place-items: center; color: var(--cereja); border-radius: 50%; transition: transform 0.4s var(--mola), background-color 0.2s; }
-  .br-ig:hover { transform: rotate(12deg) scale(1.1); background: var(--pastel); }
+  .br-ig:hover { transform: scale(1.08); background: var(--pastel); }
   .br-cta { min-height: 44px; padding: 0 20px; font-size: 15px; box-shadow: 0 4px 0 var(--bd); }
-  .br-ham { display: none; position: relative; width: 48px; height: 48px; border: 2px solid var(--cereja); border-radius: 50%; background: var(--creme); box-shadow: 0 3px 0 var(--cereja); z-index: 80; }
+  .br-ham { display: none; position: relative; width: 48px; height: 48px; border: 1.5px solid var(--cereja); border-radius: 50%; background: var(--creme); z-index: 80; }
   .br-ham i { position: absolute; left: 12px; right: 12px; height: 2.5px; border-radius: 2px; background: var(--cereja); transition: transform 0.4s var(--mola), opacity 0.2s, top 0.3s; }
   .br-ham i:nth-child(1) { top: 15px; } .br-ham i:nth-child(2) { top: 21px; } .br-ham i:nth-child(3) { top: 27px; }
   .br-ham[aria-expanded='true'] i:nth-child(1) { top: 21px; transform: rotate(45deg); }
@@ -60,7 +60,7 @@ const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cardapio', 'Cardáp
   .mn { position: fixed; inset: 0; z-index: 55; background-color: var(--cereja); color: var(--creme); display: flex; flex-direction: column; justify-content: space-between; padding: 110px 28px 34px; visibility: hidden; clip-path: circle(0 at calc(100% - 44px) 34px); transition: clip-path 0.6s var(--sai), visibility 0s 0.6s; max-height: 100dvh; overflow-y: auto; }
   .mn.on { visibility: visible; clip-path: circle(150% at calc(100% - 44px) 34px); transition: clip-path 0.7s var(--sai), visibility 0s; }
   .mn nav { display: grid; gap: 4px; }
-  .mn nav a { font-family: var(--f-script); font-size: clamp(38px, 11vw, 54px); line-height: 1.15; text-decoration: none; opacity: 0; transform: translateY(26px) rotate(3deg); transition: opacity 0.4s, transform 0.6s var(--mola); }
+  .mn nav a { font-family: var(--f-script); font-size: clamp(38px, 11vw, 54px); line-height: 1.15; text-decoration: none; opacity: 0; transform: translateY(26px); transition: opacity 0.4s, transform 0.7s var(--sai); }
   .mn nav a em { font-style: normal; color: var(--pastel); }
   .mn.on nav a { opacity: 1; transform: none; transition-delay: calc(0.18s + var(--i) * 60ms); }
   .mn-pe { display: grid; gap: 14px; justify-items: start; }

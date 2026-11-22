@@ -1,22 +1,26 @@
-/* Mimos in Box — direção "Cereja" (escolhida pelo Davi em 21/11/2026). Site sempre claro, sem tema escuro. */
+/* Mimos in Box — direção "Cereja", versão 2 (21/11/2026).
+   Mais sóbria: bordô profundo, rosé nude, off-white quente no lugar do branco, ouro fosco só em fio.
+   Fundos sem estampa de festa: papel (lavagem de cor + grão), veludo (bordô com luz e renda tom sobre tom) e anéis finos. */
 :root {
-  --cereja: #7a1230;
-  --cereja-esc: #560b20;
-  --tinta: #4a1322;          /* texto corrido */
-  --tinta-suave: #8a5665;
-  --framboesa: #bf0449;
-  --rosa: #e2457e;
-  --rosa-cl: #f47aa3;
-  --chiclete: #ec739f;
-  --pastel: #f6c1d6;
-  --fundo: #fce1ea;
-  --clarinho: #fff4f7;
-  --creme: #fffbf5;
-  --ouro: #c79a3b;
-  --wa: #128c4b;
+  --cereja: #6a1029;         /* bordô-cereja: títulos e blocos */
+  --cereja-esc: #47091b;
+  --tinta: #3a1520;          /* texto corrido */
+  --tinta-suave: #7d5560;
+  --framboesa: #a8123e;      /* destaque e preço */
+  --rosa: #be3a62;           /* botão de ação e fitas */
+  --rosa-cl: #e3909f;
+  --chiclete: #d9728c;
+  --pastel: #efc9cf;
+  --fundo: #f5e4e1;          /* rosé nude */
+  --clarinho: #faf0ec;
+  --creme: #fbf6f0;          /* off-white da casa: substitui o branco */
+  --campo: #fdf9f4;          /* campos e molduras: o tom mais claro do site */
+  --ouro: #a47c3c;           /* fio fino, só em detalhe (o dourado do logo) */
+  --ouro-cl: #d8bd8c;        /* o mesmo fio sobre bordô */
+  --wa: #0e7a40;
 
   --f-script: 'Oleo Script', 'Brush Script MT', cursive;
-  --f-gorda: 'Caprasimo', Georgia, serif;
+  --f-gorda: 'Fraunces Variable', 'Fraunces', Georgia, serif;
   --f-texto: 'Nunito Variable', 'Nunito', system-ui, sans-serif;
 
   --larg: min(1200px, 100% - 40px);
@@ -24,12 +28,25 @@
   --mola: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
   --sai: cubic-bezier(0.2, 0.8, 0.2, 1);
   --barra: 68px;
+
+  /* renda (o papel rendado das cestas), tom sobre tom */
+  --escama-clara: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23fbf6f0' stroke-opacity='.06'%3E%3Cpath d='M0 22a22 22 0 0 1 44 0M-22 44a22 22 0 0 1 44 0M22 44a22 22 0 0 1 44 0M-22 0a22 22 0 0 1 44 0M22 0a22 22 0 0 1 44 0'/%3E%3C/g%3E%3C/svg%3E");
+  --escama-escura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%236a1029' stroke-opacity='.07'%3E%3Cpath d='M0 22a22 22 0 0 1 44 0M-22 44a22 22 0 0 1 44 0M22 44a22 22 0 0 1 44 0M-22 0a22 22 0 0 1 44 0M22 0a22 22 0 0 1 44 0'/%3E%3C/g%3E%3C/svg%3E");
+  /* anéis finos que somem para fora: halo atrás do produto e canto de seção */
+  --aneis: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none' stroke='%236a1029' stroke-width='.45'%3E%3Ccircle cx='200' cy='200' r='34' stroke-opacity='0.340'/%3E%3Ccircle cx='200' cy='200' r='49' stroke-opacity='0.308'/%3E%3Ccircle cx='200' cy='200' r='64' stroke-opacity='0.276'/%3E%3Ccircle cx='200' cy='200' r='79' stroke-opacity='0.244'/%3E%3Ccircle cx='200' cy='200' r='94' stroke-opacity='0.213'/%3E%3Ccircle cx='200' cy='200' r='109' stroke-opacity='0.183'/%3E%3Ccircle cx='200' cy='200' r='124' stroke-opacity='0.153'/%3E%3Ccircle cx='200' cy='200' r='139' stroke-opacity='0.124'/%3E%3Ccircle cx='200' cy='200' r='154' stroke-opacity='0.096'/%3E%3Ccircle cx='200' cy='200' r='169' stroke-opacity='0.069'/%3E%3Ccircle cx='200' cy='200' r='184' stroke-opacity='0.043'/%3E%3Ccircle cx='200' cy='200' r='199' stroke-opacity='0.020'/%3E%3C/svg%3E");
+  --aneis-claros: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' fill='none' stroke='%23fbf6f0' stroke-width='.45'%3E%3Ccircle cx='200' cy='200' r='34' stroke-opacity='0.300'/%3E%3Ccircle cx='200' cy='200' r='49' stroke-opacity='0.271'/%3E%3Ccircle cx='200' cy='200' r='64' stroke-opacity='0.243'/%3E%3Ccircle cx='200' cy='200' r='79' stroke-opacity='0.215'/%3E%3Ccircle cx='200' cy='200' r='94' stroke-opacity='0.188'/%3E%3Ccircle cx='200' cy='200' r='109' stroke-opacity='0.161'/%3E%3Ccircle cx='200' cy='200' r='124' stroke-opacity='0.135'/%3E%3Ccircle cx='200' cy='200' r='139' stroke-opacity='0.110'/%3E%3Ccircle cx='200' cy='200' r='154' stroke-opacity='0.085'/%3E%3Ccircle cx='200' cy='200' r='169' stroke-opacity='0.061'/%3E%3Ccircle cx='200' cy='200' r='184' stroke-opacity='0.038'/%3E%3Ccircle cx='200' cy='200' r='199' stroke-opacity='0.017'/%3E%3C/svg%3E");
 }
 
-/* ---- padrões de fundo (uma cor de tinta por vez, em --pt) ---- */
-.pt-coracoes { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M14 20c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10zM42 48c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10z' fill='%23fff' fill-opacity='.07'/%3E%3C/svg%3E"); }
-.pt-coracoes-esc { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M14 20c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10zM42 48c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10z' fill='%237a1230' fill-opacity='.07'/%3E%3C/svg%3E"); }
-.pt-bolinhas { background-image: radial-gradient(circle, var(--pt, rgba(122, 18, 48, 0.1)) 22%, transparent 24%); background-size: 22px 22px; }
-.pt-listras { background-image: repeating-linear-gradient(-45deg, var(--pt, rgba(255, 255, 255, 0.1)) 0 14px, transparent 14px 28px); }
-.pt-vichy { background-image: linear-gradient(90deg, var(--pt, rgba(226, 69, 126, 0.13)) 50%, transparent 0), linear-gradient(var(--pt, rgba(226, 69, 126, 0.13)) 50%, transparent 0); background-size: 36px 36px; }
-.pt-xadrez { background-image: conic-gradient(var(--pt, var(--pastel)) 25%, transparent 0 50%, var(--pt, var(--pastel)) 0 75%, transparent 0); background-size: 34px 34px; }
+/* ---- fundos (os nomes antigos ficaram; o desenho é novo) ---- */
+/* veludo: sobre bordô. Luz suave em cima, sombra embaixo e renda tom sobre tom. */
+.pt-coracoes { background-image: radial-gradient(120% 75% at 15% 0%, rgba(251, 246, 240, 0.1), transparent 60%), radial-gradient(90% 80% at 100% 100%, rgba(20, 0, 8, 0.3), transparent 62%), var(--escama-clara); }
+.pt-coracoes-esc { background-image: var(--escama-escura); }
+/* papel pontilhado: micropontos finos sobre tons claros */
+.pt-bolinhas { background-image: radial-gradient(60% 40% at 100% 0%, rgba(239, 201, 207, 0.5), transparent 70%), radial-gradient(50% 36% at 0% 100%, rgba(239, 201, 207, 0.4), transparent 70%), radial-gradient(circle, var(--pt, rgba(106, 16, 41, 0.085)) 1px, transparent 1.5px); background-size: auto, auto, 18px 18px; }
+/* risca de giz: fio fino na diagonal */
+.pt-listras { background-image: repeating-linear-gradient(-45deg, var(--pt, rgba(251, 246, 240, 0.08)) 0 1px, transparent 1px 11px); }
+/* losango: trama fina cruzada, como papel de presente */
+.pt-vichy { background-image: radial-gradient(70% 50% at 50% 0%, rgba(251, 246, 240, 0.7), transparent 75%), repeating-linear-gradient(45deg, var(--pt, rgba(106, 16, 41, 0.05)) 0 1px, transparent 1px 28px), repeating-linear-gradient(-45deg, var(--pt, rgba(106, 16, 41, 0.05)) 0 1px, transparent 1px 28px); }
+/* anéis: pôr num elemento absoluto e quadrado */
+.aneis { position: absolute; aspect-ratio: 1; background: var(--aneis) center / contain no-repeat; pointer-events: none; }
+.aneis--claros { background-image: var(--aneis-claros); }

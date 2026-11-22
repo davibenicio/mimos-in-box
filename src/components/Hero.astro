@@ -1,22 +1,21 @@
 ---
-import { SLIDES } from '../data/loja';
+import { SLIDES, LOJA } from '../data/loja';
 import { porNN, reais } from '../data/catalogo';
 import medidas from '../data/medidas.json';
 import { CORACAO, SELO_TXT } from '../data/arte';
 const M = medidas as Record<string, number[]>;
 const FLUT = [
-  [6, 22, 26, 'var(--rosa-cl)', 7], [44, 12, 16, 'var(--framboesa)', 9], [52, 74, 22, 'var(--chiclete)', 8],
-  [93, 30, 30, 'var(--rosa)', 10], [88, 82, 18, 'var(--framboesa)', 7], [30, 88, 14, 'var(--rosa-cl)', 11],
+  [7, 24, 20, 'var(--rosa-cl)', 9], [46, 13, 13, 'var(--chiclete)', 11], [53, 78, 16, 'var(--rosa-cl)', 10], [94, 34, 18, 'var(--pastel)', 12],
 ];
 ---
 <section class="hr" data-hero aria-roledescription="carrossel" aria-label="Cestas em destaque">
-  <div class="hr-raios" aria-hidden="true"></div>
+  <div class="hr-halo aneis" aria-hidden="true"></div>
   <div class="hr-flut" aria-hidden="true">
     {FLUT.map(([x, y, s, c, d], i) => (
       <svg viewBox="0 0 24 24" style={`left:${x}%;top:${y}%;width:${s}px;color:${c};--d:${d}s;--a:${i % 2 ? -1 : 1}`}><path d={CORACAO} fill="currentColor" /></svg>
     ))}
-    <svg class="hr-est" viewBox="0 0 24 24" style="left:38%;top:30%;width:22px;--d:6s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--cereja)" /></svg>
-    <svg class="hr-est" viewBox="0 0 24 24" style="left:70%;top:8%;width:16px;--d:8s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--framboesa)" /></svg>
+    <svg class="hr-est" viewBox="0 0 24 24" style="left:39%;top:31%;width:16px;--d:7s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--ouro)" /></svg>
+    <svg class="hr-est" viewBox="0 0 24 24" style="left:71%;top:9%;width:12px;--d:9s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--ouro)" /></svg>
   </div>
 
   <div class="hr-pilha cx">
@@ -27,6 +26,7 @@ const FLUT = [
       return (
         <article class:list={['hr-s', i === 0 && 'on']} data-slide aria-hidden={i === 0 ? 'false' : 'true'} aria-label={`${i + 1} de ${SLIDES.length}`}>
           <div class="hr-txt">
+            <p class="hr-sobre"><i></i><span>Cestas e presentes<b> personalizados</b> · {LOJA.cidade}, {LOJA.uf}</span></p>
             <T class="hr-t">{s.titulo.map((w, j) => <><span class="w" style={`--i:${j}`}>{w}</span>{' '}</>)}</T>
             <p class="hr-p">{s.texto}</p>
             <div class="hr-b">
@@ -35,11 +35,11 @@ const FLUT = [
             </div>
           </div>
           <div class="hr-palco">
-            <div class:list={['hr-arco', `pt-${s.fundo}`, `hr-arco--${i}`]}></div>
+            <div class:list={['hr-arco', `hr-arco--${i}`]}></div>
             <img class="hr-img" src={`/img/c/${p.nn}-g.webp`} srcset={`/img/c/${p.nn}.webp 560w, /img/c/${p.nn}-g.webp 800w`} sizes="(max-width: 900px) 70vw, 520px"
-              width={gw} height={gh} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" />
+              width={gw} height={gh} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" data-abre={p.nn} data-cur="ver" />
             <button class="hr-adesivo" type="button" data-abre={p.nn} aria-label={`${p.nome}, ${reais(p.preco)}. Abrir`}>
-              {p.de ? <s>de {reais(p.de)}</s> : <small>por apenas</small>}
+              {p.de ? <s>de {reais(p.de)}</s> : <small>por</small>}
               <b>{reais(p.preco).replace(',00', '')}</b>
               <span>{p.de ? 'promoção' : 'ver cesta'}</span>
             </button>
@@ -50,78 +50,87 @@ const FLUT = [
   </div>
 
   <div class="hr-selo" aria-hidden="true">
-    <svg viewBox="0 0 200 200"><defs><path id="hr-c" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" /></defs>
-      <circle cx="100" cy="100" r="98" fill="var(--creme)" /><circle cx="100" cy="100" r="92" fill="none" stroke="var(--cereja)" stroke-width="2" stroke-dasharray="3 6" />
+    <svg viewBox="0 0 200 200"><defs><path id="hr-c" d="M100 100m-76 0a76 76 0 1 1 152 0a76 76 0 1 1-152 0" /></defs>
+      <circle cx="100" cy="100" r="98" fill="var(--creme)" /><circle cx="100" cy="100" r="97" fill="none" stroke="var(--cereja)" stroke-width="1" /><circle cx="100" cy="100" r="58" fill="none" stroke="var(--ouro)" stroke-width="1" />
       <text><textPath href="#hr-c">{SELO_TXT}</textPath></text>
-      <path d={CORACAO} fill="var(--framboesa)" transform="translate(70 72) scale(2.5)" />
+      <path d={CORACAO} fill="var(--framboesa)" transform="translate(76 78) scale(2)" />
     </svg>
   </div>
 
   <div class="hr-ctl cx">
-    <button class="hr-seta" type="button" data-ant aria-label="Destaque anterior"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+    <button class="hr-seta" type="button" data-ant aria-label="Destaque anterior"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
     <div class="hr-pts">{SLIDES.map((_, i) => <button type="button" class:list={[i === 0 && 'on']} data-ir={i} aria-label={`Ir para o destaque ${i + 1}`}><i></i></button>)}</div>
-    <button class="hr-seta" type="button" data-prox aria-label="Próximo destaque"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
-    <button class="hr-pausa" type="button" data-pausa aria-pressed="false" aria-label="Pausar a troca automática"><svg viewBox="0 0 24 24" width="18" height="18"><path class="p1" d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path class="p2" d="M8 5l11 7-11 7z" fill="currentColor" /></svg></button>
+    <button class="hr-seta" type="button" data-prox aria-label="Próximo destaque"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+    <button class="hr-pausa" type="button" data-pausa aria-pressed="false" aria-label="Pausar a troca automática"><svg viewBox="0 0 24 24" width="16" height="16"><path class="p1" d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path class="p2" d="M8 5l11 7-11 7z" fill="currentColor" /></svg></button>
   </div>
 </section>
 
 <style is:global>
-  .hr { position: relative; background: var(--fundo); padding-top: calc(var(--barra) + 26px); min-height: min(100svh, 860px); display: flex; flex-direction: column; overflow: clip; }
-  .hr-raios { position: absolute; right: -12%; top: 50%; width: min(1100px, 150vw); aspect-ratio: 1; translate: 0 -46%; border-radius: 50%; background: repeating-conic-gradient(rgba(226, 69, 126, 0.13) 0 7deg, transparent 7deg 14deg); -webkit-mask: radial-gradient(closest-side, #000 30%, #0000 100%); mask: radial-gradient(closest-side, #000 30%, #0000 100%); animation: hr-gira 120s linear infinite; }
-  @keyframes hr-gira { to { rotate: 360deg; } }
-  .hr-flut { position: absolute; inset: 0; translate: calc(var(--mx, 0) * -26px) calc(var(--my, 0) * -18px); transition: translate 0.6s var(--sai); }
-  .hr-pilha { translate: calc(var(--mx, 0) * 8px) 0; transition: translate 0.8s var(--sai); }
+  /* papel rosé: uma luz clara atrás do produto e um halo de anéis finos. Nada de estampa. */
+  .hr { position: relative; background: radial-gradient(48% 62% at 74% 54%, var(--campo), transparent 72%), radial-gradient(40% 50% at 0% 100%, rgba(239, 201, 207, 0.6), transparent 70%), var(--fundo); padding-top: calc(var(--barra) + 26px); min-height: min(100svh, 860px); display: flex; flex-direction: column; overflow: clip; }
+  .hr-halo { right: max(-180px, 50% - 780px); top: 50%; width: min(980px, 130vw); translate: 0 -48%; animation: hr-respira 14s ease-in-out infinite alternate; }
+  @keyframes hr-respira { to { scale: 1.05; opacity: 0.75; } }
+  .hr-flut { position: absolute; inset: 0; translate: calc(var(--mx, 0) * -22px) calc(var(--my, 0) * -14px); transition: translate 0.6s var(--sai); opacity: 0.85; }
+  .hr-pilha { translate: calc(var(--mx, 0) * 6px) 0; transition: translate 0.8s var(--sai); }
   .hr-flut svg { position: absolute; animation: hr-boia var(--d) ease-in-out infinite alternate; }
   .hr-flut .hr-est { animation: hr-pisca var(--d) ease-in-out infinite; }
-  @keyframes hr-boia { from { transform: translateY(-10px) rotate(calc(var(--a, 1) * -10deg)); } to { transform: translateY(12px) rotate(calc(var(--a, 1) * 12deg)); } }
-  @keyframes hr-pisca { 0%, 100% { transform: scale(0.5) rotate(0); opacity: 0.4; } 50% { transform: scale(1.1) rotate(90deg); opacity: 1; } }
+  @keyframes hr-boia { from { transform: translateY(-8px) rotate(calc(var(--a, 1) * -8deg)); } to { transform: translateY(10px) rotate(calc(var(--a, 1) * 9deg)); } }
+  @keyframes hr-pisca { 0%, 100% { transform: scale(0.5) rotate(0); opacity: 0.35; } 50% { transform: scale(1.05) rotate(90deg); opacity: 1; } }
 
   .hr-pilha { position: relative; flex: 1; display: grid; z-index: 2; }
   .hr-s { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: center; gap: 24px; visibility: hidden; opacity: 0; transition: opacity 0.35s, visibility 0s 0.35s; }
   .hr-s.on { visibility: visible; opacity: 1; transition: opacity 0.2s; }
-  html.abrindo:not(.abriu) .hr-s { visibility: hidden; }
   .hr-txt { padding-bottom: 70px; }
-  .hr-t { font-family: var(--f-script); font-weight: 700; font-size: clamp(40px, 6.9vw, 100px); line-height: 0.98; color: var(--cereja); text-wrap: balance; max-width: 11ch; }
+  .hr-sobre { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cereja); }
+  .hr-sobre i { flex: none; width: 34px; height: 1px; background: var(--ouro); }
+  .hr-sobre b { font-weight: inherit; }
+  .hr-t { font-family: var(--f-script); font-weight: 700; font-size: clamp(40px, 6.4vw, 92px); line-height: 0.98; color: var(--cereja); text-wrap: balance; max-width: 11ch; }
   .hr-t .w { display: inline-block; }
   .hr-p { margin-top: 18px; font-size: clamp(16px, 1.5vw, 20px); max-width: 40ch; }
-  .hr-b { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .hr-b { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; }
   .hr-palco { position: relative; align-self: stretch; min-height: 420px; }
-  .hr-arco { position: absolute; left: 50%; bottom: 0; width: min(100%, 500px); height: 84%; translate: -50% 0; border-radius: 999px 999px 0 0; background-color: var(--cereja); box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.07); animation: hr-pt 40s linear infinite; }
-  .hr-arco--1 { background-color: var(--rosa); --pt: rgba(255, 255, 255, 0.22); }
-  .hr-arco--2 { background-color: var(--framboesa); --pt: rgba(255, 255, 255, 0.13); }
-  @keyframes hr-pt { to { background-position: 224px 224px; } }
-  .hr-img { position: absolute; left: 50%; bottom: 3%; height: 96%; width: auto; max-width: 112%; object-fit: contain; object-position: 50% 100%; translate: -50% 0; filter: drop-shadow(0 26px 20px rgba(60, 0, 20, 0.4)); }
-  .hr-adesivo { position: absolute; left: max(-8px, 50% - 300px); bottom: 12%; width: 138px; height: 138px; border-radius: 50%; border: 0; background: var(--chiclete); color: #fff; display: grid; place-content: center; justify-items: center; gap: 1px; rotate: -10deg; box-shadow: 0 0 0 5px var(--chiclete), inset 0 0 0 2px rgba(255, 255, 255, 0.7), 0 14px 24px -10px rgba(60, 0, 20, 0.6); transition: scale 0.4s var(--mola), rotate 0.4s var(--mola); }
-  .hr-adesivo s, .hr-adesivo small { font-size: 13px; font-weight: 700; opacity: 0.95; }
-  .hr-adesivo b { font-family: var(--f-gorda); font-weight: 400; font-size: 27px; line-height: 1; }
-  .hr-adesivo span { font-size: 12px; font-weight: 800; background: var(--cereja); padding: 2px 9px; border-radius: 99px; margin-top: 3px; }
-  .hr-adesivo:hover { scale: 1.08; rotate: 4deg; }
-  .hr-selo { position: absolute; z-index: 3; right: max(14px, 50% - 620px); top: calc(var(--barra) + 34px); width: clamp(88px, 10vw, 138px); animation: hr-gira 24s linear infinite; }
-  .hr-selo text { font: 800 15px var(--f-texto); letter-spacing: 2px; fill: var(--cereja); }
+  /* o arco é um nicho de veludo: degradê, luz no alto e um fio claro por dentro */
+  .hr-arco { --c1: var(--cereja); --c2: var(--cereja-esc); position: absolute; left: 50%; bottom: 0; width: min(100%, 480px); height: 84%; margin-left: max(-50%, -240px); border-radius: 999px 999px 0 0; background: radial-gradient(90% 55% at 32% 4%, rgba(251, 246, 240, 0.2), transparent 62%), var(--escama-clara), linear-gradient(180deg, var(--c1), var(--c2)); box-shadow: 0 40px 60px -40px rgba(71, 9, 27, 0.55); }
+  .hr-arco::after { content: ''; position: absolute; inset: 12px 12px 0; border-radius: inherit; border: 1px solid rgba(216, 189, 140, 0.55); border-bottom: 0; }
+  .hr-arco--1 { --c1: #b8456a; --c2: #8f2247; }
+  .hr-arco--2 { --c1: #8a1436; --c2: #5c0c24; }
+  .hr-img { position: absolute; left: 50%; bottom: 3%; height: 96%; width: auto; max-width: 112%; object-fit: contain; object-position: 50% 100%; translate: -50% 0; filter: drop-shadow(0 26px 20px rgba(40, 0, 14, 0.42)); cursor: pointer; }
+  /* medalhão de preço */
+  .hr-adesivo { position: absolute; left: max(-8px, 50% - 292px); bottom: 12%; width: 128px; height: 128px; border-radius: 50%; border: 0; background: var(--creme); color: var(--cereja); display: grid; place-content: center; justify-items: center; gap: 2px; rotate: -7deg; box-shadow: inset 0 0 0 1px var(--cereja), inset 0 0 0 6px var(--creme), inset 0 0 0 7px var(--ouro), 0 16px 26px -12px rgba(40, 0, 14, 0.55); transition: scale 0.4s var(--mola), rotate 0.4s var(--mola); }
+  .hr-adesivo s, .hr-adesivo small { font-size: 12.5px; font-weight: 700; color: var(--tinta-suave); }
+  .hr-adesivo b { font-family: var(--f-gorda); font-weight: 650; font-size: 27px; line-height: 1; letter-spacing: -0.02em; }
+  .hr-adesivo span { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--framboesa); margin-top: 3px; }
+  .hr-adesivo:hover { scale: 1.06; rotate: 0deg; }
+  .hr-selo { position: absolute; z-index: 3; right: max(14px, 50% - 620px); top: calc(var(--barra) + 34px); width: clamp(84px, 9vw, 122px); animation: hr-gira 30s linear infinite; }
+  @keyframes hr-gira { to { rotate: 360deg; } }
+  .hr-selo text { font: 800 13.5px var(--f-texto); letter-spacing: 3.2px; fill: var(--cereja); }
 
   /* entradas a cada slide, só depois da abertura */
-  html.abriu .hr-s.on .w { animation: hr-w 0.8s var(--mola) both; animation-delay: calc(0.08s + var(--i) * 75ms); }
-  html.abriu .hr-s.on .hr-p, html.abriu .hr-s.on .hr-b { animation: hr-sobe 0.7s 0.5s var(--sai) both; }
-  html.abriu .hr-s.on .hr-b { animation-delay: 0.62s; }
-  html.abriu .hr-s.on .hr-arco { animation: hr-arco 0.8s 0.1s var(--sai) both, hr-pt 40s linear infinite; }
-  html.abriu .hr-s.on .hr-img { animation: hr-prod 0.95s 0.28s var(--mola) both, hr-flutua 5.5s 1.4s ease-in-out infinite alternate; }
-  html.abriu .hr-s.on .hr-adesivo { animation: hr-ade 0.8s 0.75s var(--mola) both; }
-  @keyframes hr-w { from { opacity: 0; transform: translateY(0.6em) rotate(6deg); filter: blur(8px); } }
+  html.abrindo.abriu .hr { --at: 0.55s; } /* na primeira carga, espera o papel abrir */
+  html.abriu .hr-s.on .w { animation: hr-w 0.8s var(--sai) both; animation-delay: calc(var(--at, 0s) + 0.08s + var(--i) * 75ms); }
+  html.abriu .hr-s.on .hr-sobre { animation: hr-sobe 0.7s calc(var(--at, 0s) + 0.05s) var(--sai) both; }
+  html.abriu .hr-s.on .hr-p, html.abriu .hr-s.on .hr-b { animation: hr-sobe 0.7s calc(var(--at, 0s) + 0.5s) var(--sai) both; }
+  html.abriu .hr-s.on .hr-b { animation-delay: calc(var(--at, 0s) + 0.62s); }
+  html.abriu .hr-s.on .hr-arco { animation: hr-arco 0.9s calc(var(--at, 0s) + 0.1s) var(--sai) both; }
+  html.abriu .hr-s.on .hr-img { animation: hr-prod 0.95s calc(var(--at, 0s) + 0.28s) var(--sai) both, hr-flutua 6s calc(var(--at, 0s) + 1.4s) ease-in-out infinite alternate; }
+  html.abriu .hr-s.on .hr-adesivo { animation: hr-ade 0.7s calc(var(--at, 0s) + 0.8s) var(--mola) both; }
+  @keyframes hr-w { from { opacity: 0; transform: translateY(0.5em); filter: blur(8px); } }
   @keyframes hr-sobe { from { opacity: 0; transform: translateY(22px); } }
   @keyframes hr-arco { from { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); } to { clip-path: inset(0 0 0 0 round 999px 999px 0 0); } }
-  @keyframes hr-prod { from { opacity: 0; transform: translateY(70px) scale(0.78) rotate(7deg); } }
-  @keyframes hr-flutua { to { transform: translateY(-10px) rotate(-1.2deg); } }
-  @keyframes hr-ade { from { opacity: 0; scale: 0; rotate: -160deg; } }
+  @keyframes hr-prod { from { opacity: 0; transform: translateY(60px) scale(0.86); } }
+  @keyframes hr-flutua { to { transform: translateY(-8px); } }
+  @keyframes hr-ade { from { opacity: 0; scale: 0.4; } }
 
-  .hr-ctl { position: absolute; left: 50%; translate: -50% 0; bottom: 26px; z-index: 4; display: flex; align-items: center; gap: 10px; pointer-events: none; }
+  .hr-ctl { position: absolute; left: 50%; translate: -50% 0; bottom: 26px; z-index: 4; display: flex; align-items: center; gap: 8px; pointer-events: none; }
   .hr-ctl > * { pointer-events: auto; }
-  .hr-seta, .hr-pausa { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--cereja); background: var(--creme); color: var(--cereja); display: grid; place-items: center; box-shadow: 0 3px 0 var(--cereja); transition: transform 0.15s; }
-  .hr-seta:active, .hr-pausa:active { transform: translateY(3px); box-shadow: none; }
+  .hr-seta, .hr-pausa { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--cereja); background: var(--creme); color: var(--cereja); display: grid; place-items: center; transition: background-color 0.2s, color 0.2s, transform 0.15s; }
+  .hr-seta:hover, .hr-pausa:hover { background: var(--cereja); color: var(--creme); }
+  .hr-seta:active, .hr-pausa:active { transform: scale(0.94); }
   .hr-pausa .p2, .hr-pausa[aria-pressed='true'] .p1 { display: none; }
   .hr-pausa[aria-pressed='true'] .p2 { display: block; }
-  .hr-pts { display: flex; gap: 6px; padding: 0 4px; }
+  .hr-pts { display: flex; gap: 2px; padding: 0 4px; }
   .hr-pts button { width: 44px; height: 44px; border: 0; background: none; display: grid; place-items: center; padding: 0; }
-  .hr-pts i { display: block; width: 14px; height: 14px; border-radius: 99px; background: var(--pastel); box-shadow: inset 0 0 0 2px var(--cereja); overflow: hidden; transition: width 0.4s var(--mola); position: relative; }
+  .hr-pts i { display: block; width: 10px; height: 10px; border-radius: 99px; background: var(--pastel); box-shadow: inset 0 0 0 1.5px var(--cereja); overflow: hidden; transition: width 0.4s var(--sai); position: relative; }
   .hr-pts .on i { width: 40px; }
   .hr-pts .on i::after { content: ''; position: absolute; inset: 0; background: var(--cereja); transform-origin: 0 50%; transform: scaleX(0); }
   html.abriu .hr.roda .hr-pts .on i::after { animation: hr-prog 6.5s linear forwards; }
@@ -129,22 +138,25 @@ const FLUT = [
   @keyframes hr-prog { to { transform: scaleX(1); } }
 
   @media (max-width: 900px) {
-    .hr { padding-top: calc(var(--barra) + 40px); min-height: min(100svh, 780px); }
+    .hr { padding-top: calc(var(--barra) + 40px); min-height: min(100svh, 780px); background: radial-gradient(90% 46% at 50% 74%, var(--campo), transparent 72%), var(--fundo); }
     .hr-s { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 8px; align-items: start; }
     .hr-txt { padding-bottom: 0; }
+    .hr-sobre { margin-bottom: 10px; font-size: 10.5px; letter-spacing: 0.14em; gap: 8px; }
+    .hr-sobre i { width: 20px; }
+    .hr-sobre b, .hr-flut svg:nth-child(2) { display: none; }
     .hr-t { font-size: clamp(38px, 11vw, 52px); max-width: 100%; }
     .hr-p { margin-top: 10px; font-size: 16px; line-height: 1.4; }
     .hr-b { margin-top: 14px; gap: 10px; }
     .hr-b .bt { padding: 0 20px; min-height: 48px; font-size: 15.5px; }
-    .hr-palco { min-height: 290px; }
-    .hr-arco { width: min(84%, 340px); height: 80%; }
-    .hr-adesivo { width: 104px; height: 104px; left: auto; right: 0; bottom: auto; top: 0; }
-    .hr-adesivo b { font-size: 21px; } .hr-adesivo s, .hr-adesivo small { font-size: 11px; } .hr-adesivo span { font-size: 10.5px; }
+    .hr-palco { min-height: 280px; }
+    .hr-arco { width: min(84%, 340px); height: 80%; margin-left: max(-42%, -170px); }
+    .hr-arco::after { inset: 9px 9px 0; }
+    .hr-adesivo { width: 98px; height: 98px; left: auto; right: 0; bottom: auto; top: 0; }
+    .hr-adesivo b { font-size: 21px; } .hr-adesivo s, .hr-adesivo small { font-size: 11px; } .hr-adesivo span { font-size: 9px; }
     .hr-selo { display: none; }
     .hr-ctl { left: 0; translate: none; bottom: 12px; padding-left: 0; gap: 6px; width: auto; margin-left: 12px; }
     .hr-seta { display: none; }
-    .hr-pausa { width: 44px; height: 44px; }
-    .hr-raios { right: -60%; top: 68%; }
+    .hr-halo { right: auto; left: 50%; top: 70%; width: 150vw; translate: -50% -50%; }
   }
 </style>
 

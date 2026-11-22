@@ -1,20 +1,20 @@
 ---
-// Cardápio de cestas: lista de nomes e preços; a cesta aparece no palco ao passar o mouse, focar ou tocar.
+// Catálogo único: lista de nomes e preços; a cesta aparece no nicho ao passar o mouse, focar ou tocar. Clique abre a ficha.
 import { PRODUTOS, reais } from '../data/catalogo';
 import { CATEGORIAS } from '../data/loja';
 const ABAS = [...CATEGORIAS.map((c) => ({ id: c.id, nome: c.nome })), { id: 'promo', nome: 'Promoções' }];
 const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 ---
-<section class="sec cd" id="cardapio" data-cardapio data-aba={ABAS[0].id}>
-  <div class="cd-fantasma" aria-hidden="true">cardápio</div>
+<section class="sec cd" id="cestas" data-cardapio data-aba={ABAS[0].id}>
+  <div class="cd-fantasma" aria-hidden="true">cestas</div>
   <div class="cx">
     <header class="cd-topo">
-      <h2 class="tit" data-pal>O cardápio de <em>mimos</em></h2>
+      <h2 class="tit" data-pal>Nossas <em>cestas</em></h2>
       <p class="sub" data-rev="sobe">Passe o mouse ou toque num nome para ver a cesta. Gostou? Abra e peça.</p>
     </header>
     <div class="cd-g">
       <div class="cd-esq">
-        <div class="cd-abas" role="tablist" aria-label="Categorias do cardápio">
+        <div class="cd-abas" role="tablist" aria-label="Categorias de cestas">
           <i class="cd-gota" aria-hidden="true"></i>
           {ABAS.map((a, i) => <button type="button" role="tab" id={`cd-aba-${a.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls="cd-lista" data-aba={a.id}>{a.nome}</button>)}
         </div>
@@ -28,12 +28,13 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
             </li>
           ))}
         </ul></div>
+        <p class="cd-monte"><span>Não achou a cesta ideal?</span><a class="bt bt--linha" href="#monte">Monte a sua</a></p>
       </div>
       <div class="cd-palco" aria-live="polite">
-        <div class="cd-raios" aria-hidden="true"></div>
-        <div class="cd-mesa pt-xadrez" aria-hidden="true"></div>
-        <img class="cd-img on" src={prim.corte} width={prim.cw} height={prim.ch} alt={prim.nome} loading="lazy" />
-        <img class="cd-img" alt="" loading="lazy" />
+        <div class="cd-halo aneis" aria-hidden="true"></div>
+        <div class="cd-mesa" aria-hidden="true"></div>
+        <img class="cd-img on" src={prim.corte} width={prim.cw} height={prim.ch} alt={prim.nome} loading="lazy" data-cur="ver" />
+        <img class="cd-img" alt="" loading="lazy" data-cur="ver" />
         <div class="cd-ficha">
           <strong class="cd-fn">{prim.nome}</strong>
           <span class="cd-fp preco">{reais(prim.preco)}</span>
@@ -45,44 +46,50 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 </section>
 
 <style is:global>
-  .cd { background: var(--clarinho); overflow: clip; }
-  .cd-fantasma { position: absolute; left: 50%; top: 10px; translate: -50% 0; font-family: var(--f-gorda); font-size: clamp(96px, 19vw, 300px); line-height: 1; color: var(--pastel); opacity: 0.32; white-space: nowrap; user-select: none; pointer-events: none; }
+  .cd { background: radial-gradient(50% 40% at 100% 0%, rgba(239, 201, 207, 0.4), transparent 70%), var(--clarinho); overflow: clip; }
+  .cd-fantasma { position: absolute; left: 50%; top: 10px; translate: -50% 0; font-family: var(--f-gorda); font-weight: 600; font-style: italic; font-size: clamp(96px, 19vw, 300px); line-height: 1; color: var(--pastel); opacity: 0.3; white-space: nowrap; user-select: none; pointer-events: none; }
   .cd-topo { position: relative; display: grid; gap: 14px; margin-bottom: clamp(26px, 4vw, 46px); }
   .cd-g { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: clamp(20px, 4vw, 60px); align-items: start; }
-  .cd-abas { position: relative; display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; border: 2px solid var(--cereja); border-radius: 999px; background: var(--creme); width: max-content; max-width: 100%; box-shadow: 0 4px 0 var(--cereja); }
+  .cd-abas { position: relative; display: flex; flex-wrap: wrap; gap: 6px; padding: 5px; border: 1.5px solid var(--cereja); border-radius: 999px; background: var(--creme); width: max-content; max-width: 100%; }
   .cd-abas button { position: relative; z-index: 1; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: none; font-weight: 800; font-size: 15.5px; color: var(--cereja); white-space: nowrap; transition: color 0.25s; }
-  .cd-abas button[aria-selected='true'] { color: #fff; }
-  .cd-gota { position: absolute; top: 6px; left: 0; height: 44px; width: 0; border-radius: 999px; background: var(--framboesa); transition: left 0.5s var(--mola), width 0.42s var(--sai), top 0.4s var(--sai); }
-  .cd-lista { margin-top: 22px; columns: 2; column-gap: 34px; }
+  .cd-abas button[aria-selected='true'] { color: var(--creme); }
+  .cd-gota { position: absolute; top: 5px; left: 0; height: 44px; width: 0; border-radius: 999px; background: var(--cereja); transition: left 0.5s var(--sai), width 0.42s var(--sai), top 0.4s var(--sai); }
+  .cd-lista { margin-top: 24px; columns: 2; column-gap: 34px; }
   .cd-lista li { break-inside: avoid; display: none; }
   .cd[data-aba='cafe-da-manha'] li[data-cat='cafe-da-manha'], .cd[data-aba='kits-presente'] li[data-cat='kits-presente'], .cd[data-aba='bebe-e-infantil'] li[data-cat='bebe-e-infantil'], .cd[data-aba='promo'] li[data-promo] { display: block; animation: cd-entra 0.5s var(--sai) both; }
   @keyframes cd-entra { from { opacity: 0; transform: translateY(10px); } }
-  .cd-it { width: 100%; min-height: 46px; display: flex; align-items: baseline; gap: 8px; padding: 9px 12px; border: 0; border-radius: 12px; background: none; text-align: left; transition: background-color 0.2s, padding 0.3s var(--sai); }
-  .cd-n { font-weight: 800; line-height: 1.25; }
-  .cd-it i { flex: 1; min-width: 14px; border-bottom: 2px dotted var(--rosa-cl); translate: 0 -4px; }
+  .cd-it { width: 100%; min-height: 48px; display: flex; align-items: baseline; gap: 8px; padding: 10px 12px; border: 0; border-radius: 10px; background: none; text-align: left; transition: background-color 0.2s, padding 0.3s var(--sai); }
+  .cd-n { font-family: var(--f-gorda); font-weight: 560; font-size: 17.5px; line-height: 1.25; color: var(--tinta); }
+  .cd-it i { flex: 1; min-width: 14px; border-bottom: 1px dotted var(--chiclete); translate: 0 -4px; }
   .cd-p { display: inline-flex; align-items: baseline; gap: 7px; }
   .cd-it:hover, .cd-it:focus-visible, .cd-it.on { background: var(--pastel); padding-left: 18px; }
-  .cd-it.on i { border-color: var(--framboesa); }
+  .cd-it.on .cd-n { color: var(--cereja); }
+  .cd-it.on i { border-color: var(--cereja); }
   .cd-it:hover .preco, .cd-it:focus-visible .preco, .cd-it.on .preco { color: var(--cereja); }
-  .cd-palco { position: sticky; top: 96px; height: min(560px, 74vh); border-radius: 280px 280px 28px 28px; background: var(--fundo); overflow: hidden; border: 2px solid var(--cereja); box-shadow: 0 6px 0 var(--cereja); }
-  .cd-raios { position: absolute; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; translate: -50% -50%; background: repeating-conic-gradient(rgba(226, 69, 126, 0.16) 0 9deg, transparent 9deg 18deg); border-radius: 50%; animation: hr-gira 90s linear infinite; }
-  .cd-mesa { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background-color: var(--rosa); --pt: rgba(255, 255, 255, 0.16); border-top: 3px solid var(--cereja); }
-  .cd-img { position: absolute; left: 5%; bottom: 120px; height: calc(100% - 150px); width: 90%; object-fit: contain; object-position: 50% 100%; opacity: 0; transform: translateY(30px) scale(0.86) rotate(4deg); transition: opacity 0.25s, transform 0.3s; filter: drop-shadow(0 18px 14px rgba(60, 0, 20, 0.35)); }
-  .cd-img.on { opacity: 1; transform: none; transition: opacity 0.3s, transform 0.7s var(--mola); }
-  .cd-ficha { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 12px 14px 12px 18px; border-radius: 18px; background: var(--creme); border: 2px solid var(--cereja); }
-  .cd-fn { font-size: 15.5px; line-height: 1.2; }
+  .cd-monte { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--pastel); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; font-family: var(--f-gorda); font-weight: 560; font-size: 19px; color: var(--cereja); }
+  .cd-monte .bt { min-height: 46px; font-family: var(--f-texto); }
+  /* o nicho: mesmo arco do topo, luz atrás da cesta, anéis finos e uma base de veludo */
+  .cd-palco { position: sticky; top: 96px; height: min(580px, 76vh); border-radius: 290px 290px 26px 26px; background: radial-gradient(70% 46% at 50% 36%, var(--campo), transparent 74%), linear-gradient(180deg, var(--clarinho), var(--fundo)); overflow: hidden; border: 2px solid var(--cereja); box-shadow: 0 6px 0 var(--cereja); }
+  .cd-halo { left: -15%; top: 36%; width: 130%; translate: 0 -50%; }
+  .cd-mesa { position: absolute; left: 0; right: 0; bottom: 0; height: 31%; background: radial-gradient(70% 90% at 50% 0%, rgba(251, 246, 240, 0.16), transparent 70%), var(--escama-clara), linear-gradient(180deg, var(--cereja), var(--cereja-esc)); border-top: 1px solid var(--ouro-cl); }
+  .cd-img { position: absolute; left: 5%; bottom: 122px; height: calc(100% - 152px); width: 90%; object-fit: contain; object-position: 50% 100%; opacity: 0; transform: translateY(24px) scale(0.92); transition: opacity 0.25s, transform 0.3s; filter: drop-shadow(0 18px 14px rgba(40, 0, 14, 0.38)); cursor: pointer; }
+  .cd-img.on { opacity: 1; transform: none; transition: opacity 0.3s, transform 0.6s var(--sai); }
+  .cd-img:not(.on) { pointer-events: none; }
+  .cd-ficha { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 12px 14px 12px 18px; border-radius: 16px; background: var(--creme); }
+  .cd-fn { font-family: var(--f-gorda); font-weight: 600; font-size: 16px; line-height: 1.2; }
   .cd-fp { grid-column: 1; font-size: 20px; }
   .cd-ficha .bt { grid-column: 2; grid-row: 1 / 3; min-height: 46px; padding: 0 18px; font-size: 15px; box-shadow: 0 4px 0 var(--bd); }
   @media (max-width: 900px) {
     .cd-g { grid-template-columns: minmax(0, 1fr); }
     .cd-lista { columns: 1; }
-    .cd-palco { position: sticky; top: auto; bottom: 10px; height: 150px; border-radius: 22px; z-index: 6; margin-top: 8px; }
-    .cd-mesa { height: 100%; width: 124px; right: auto; border-top: 0; border-right: 3px solid var(--cereja); }
-    .cd-raios { display: none; }
+    .cd-palco { position: sticky; top: auto; bottom: 10px; height: 150px; border-radius: 20px; z-index: 6; margin-top: 8px; box-shadow: 0 4px 0 var(--cereja), 0 18px 30px -14px rgba(40, 0, 14, 0.5); }
+    .cd-mesa { height: 100%; width: 124px; right: auto; border-top: 0; border-right: 1px solid var(--ouro-cl); }
+    .cd-halo { display: none; }
     .cd-img { left: 6px; bottom: 8px; height: 132px; width: 112px; }
-    .cd-ficha { left: 136px; right: 8px; top: 8px; bottom: 8px; border: 0; background: none; padding: 4px; grid-template-columns: minmax(0, 1fr); align-content: center; }
+    .cd-ficha { left: 136px; right: 8px; top: 8px; bottom: 8px; background: none; padding: 4px; grid-template-columns: minmax(0, 1fr); align-content: center; }
     .cd-ficha .bt { grid-column: 1; grid-row: auto; margin-top: 6px; min-height: 44px; justify-self: start; }
     .cd-abas { border-radius: 26px; }
+    .cd-monte { margin-bottom: 6px; }
   }
 </style>
 
@@ -110,6 +117,10 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
     if (prim) mostra(prim.querySelector<HTMLElement>('.cd-it')!);
   };
   abas.forEach((b) => b.addEventListener('click', () => escolhe(b.dataset.aba!)));
+  // links de categoria fora da seção (rodapé) trocam a aba
+  document.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest<HTMLElement>('[data-filtro]'); if (a && abas.some((b) => b.dataset.aba === a.dataset.filtro)) escolhe(a.dataset.filtro!); });
+  // a cesta do nicho também abre a ficha
+  imgs.forEach((i) => i.addEventListener('click', () => bt.click()));
   const lista = sec.querySelector<HTMLElement>('.cd-lista')!;
   const alvo = (e: Event) => (e.target as HTMLElement).closest<HTMLElement>('.cd-it');
   lista.addEventListener('pointerover', (e) => { const b = alvo(e); if (b && (e as PointerEvent).pointerType === 'mouse') mostra(b); });

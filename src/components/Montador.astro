@@ -101,7 +101,7 @@ const dados = { itens: ITENS.flatMap((g) => g.itens), tamanhos: TAMANHOS, lacos:
   .mt-grp summary::-webkit-details-marker { display: none; }
   .mt-grp summary::after { content: ''; width: 10px; height: 10px; border-right: 3px solid var(--cereja); border-bottom: 3px solid var(--cereja); rotate: 45deg; transition: rotate 0.3s var(--sai); margin-left: auto; }
   .mt-grp[open] summary::after { rotate: 225deg; }
-  .mt-grp summary em { font-style: normal; font-size: 13px; background: var(--framboesa); color: #fff; padding: 2px 9px; border-radius: 99px; }
+  .mt-grp summary em { font-style: normal; font-size: 13px; background: var(--framboesa); color: var(--creme); padding: 2px 9px; border-radius: 99px; }
   .mt-grp summary em:empty { display: none; }
   .mt-it { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 12px 8px 14px; border-top: 2px dashed var(--pastel); transition: background-color 0.25s; }
   .mt-it.tem { background: var(--clarinho); }
@@ -110,10 +110,10 @@ const dados = { itens: ITENS.flatMap((g) => g.itens), tamanhos: TAMANHOS, lacos:
   .mt-in { display: grid; line-height: 1.2; } .mt-in strong { font-size: 16px; } .mt-in small { font-size: 14px; color: var(--framboesa); font-weight: 800; }
   .mt-st { display: flex; align-items: center; gap: 4px; }
   .mt-st button { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--cereja); background: var(--creme); color: var(--cereja); font-size: 24px; font-weight: 800; line-height: 1; display: grid; place-items: center; box-shadow: 0 3px 0 var(--cereja); transition: transform 0.12s; }
-  .mt-st button[data-mais] { background: var(--rosa); color: #fff; }
+  .mt-st button[data-mais] { background: var(--rosa); color: var(--creme); }
   .mt-st button:active { transform: translateY(3px); box-shadow: none; }
   .mt-st button[disabled] { opacity: 0.35; box-shadow: none; cursor: not-allowed; }
-  .mt-st output { min-width: 26px; text-align: center; font-family: var(--f-gorda); font-size: 19px; }
+  .mt-st output { min-width: 26px; text-align: center; font-family: var(--f-gorda); font-weight: 700; font-size: 19px; }
   .mt-st output.pula, [data-vt].pula, [data-n].pula { animation: mt-pula 0.45s var(--mola); }
   @keyframes mt-pula { 0% { scale: 1; } 35% { scale: 1.45; color: var(--rosa); } 100% { scale: 1; } }
 
@@ -122,7 +122,7 @@ const dados = { itens: ITENS.flatMap((g) => g.itens), tamanhos: TAMANHOS, lacos:
   .mt[data-tam='P'] .mt-cena { scale: 0.86; } .mt[data-tam='M'] .mt-cena { scale: 0.94; }
   .mt-base { position: absolute; left: 50%; top: 14px; translate: -50% 0; z-index: 9; max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mt-cont { margin-top: 8px; text-align: center; color: var(--pastel); font-weight: 700; display: grid; justify-items: center; gap: 6px; }
-  .mt-cont b { font-size: 22px; color: #fff; display: inline-block; }
+  .mt-cont b { font-size: 22px; color: var(--creme); display: inline-block; }
   .mt-cont i { display: block; width: min(240px, 80%); height: 8px; border-radius: 9px; background: var(--cereja-esc); overflow: hidden; }
   .mt-cont u { display: block; height: 100%; width: 0; border-radius: 9px; background: var(--rosa-cl); transition: width 0.5s var(--mola); }
   .mt-palco.cheia { animation: mt-treme 0.4s; }

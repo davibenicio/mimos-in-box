@@ -6,7 +6,7 @@ const [url, w = '1440', h = '900', pasta = '/tmp/fluxo'] = process.argv.slice(2)
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: +w, height: +h }, isMobile: +w < 700, hasTouch: +w < 700 });
   const erros = []; p.on('console', (m) => { if (m.type() === 'error') erros.push(m.text()); }); p.on('pageerror', (e) => erros.push(String(e)));
-  await p.goto(url, { waitUntil: 'load' }); await p.waitForTimeout(3000);
+  await p.goto(url, { waitUntil: 'load' }); await p.waitForTimeout(4800);
   await p.evaluate(() => document.querySelector('#monte').scrollIntoView({ behavior: 'instant' })); await p.waitForTimeout(800);
   await p.evaluate(() => document.querySelectorAll('.mt-grp').forEach((d) => (d.open = true)));
   const ids = ['suco', 'biscoitos', 'nutella', 'caneca', 'pelucia', 'buque', 'ferrero', 'balao', 'fini', 'cartao'];
@@ -24,8 +24,12 @@ const [url, w = '1440', h = '900', pasta = '/tmp/fluxo'] = process.argv.slice(2)
   console.log('zap:', decodeURIComponent(await p.getAttribute('[data-zap]', 'href')).slice(0, 600));
   await p.click('#pedido .pd-volta'); await p.waitForTimeout(500);
   await p.evaluate(() => document.querySelector('#cestas').scrollIntoView({ behavior: 'instant' })); await p.waitForTimeout(1500);
-  await p.click('.vt-c:not(.oc) .vt-b'); await p.waitForTimeout(1000);
+  const it = p.locator('.cd-lista li[data-cat="cafe-da-manha"] .cd-it').nth(1);
+  if (+w < 700) { await it.tap(); await p.waitForTimeout(500); await p.locator('.cd-ficha .bt').tap(); } else await it.click();
+  await p.waitForTimeout(1300);
   await p.screenshot({ path: `${pasta}/5-ficha.png` });
+  await p.click('#ficha [data-comprar]'); await p.waitForTimeout(1200);
+  await p.screenshot({ path: `${pasta}/6-pedido-pronta.png` });
   console.log('erros:', erros.length ? erros.slice(0, 5) : 'nenhum');
   await b.close();
 })();

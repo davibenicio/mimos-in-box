@@ -1,5 +1,6 @@
 ---
-// Abertura temática: a tela é um embrulho. A fita cruza, o selo pousa, e o papel abre em círculo. ≤ 1,4 s.
+// Abertura temática: a tela é um embrulho. As fitas cruzam, o selo pousa, as fitas desatam e o papel abre em círculo.
+// Primeira visita: cerca de 2,7 s. Na volta dentro da mesma visita, mais curta. Some com movimento reduzido.
 const TXT = 'FEITO COM CARINHO • MIMOS IN BOX • ';
 ---
 <div class="ab pt-coracoes" aria-hidden="true">
@@ -7,7 +8,7 @@ const TXT = 'FEITO COM CARINHO • MIMOS IN BOX • ';
   <i class="ab-f ab-fv"></i>
   <div class="ab-selo">
     <svg viewBox="0 0 200 200" class="ab-anel">
-      <defs><path id="ab-c" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0" /></defs>
+      <defs><path id="ab-c" d="M100 100m-79 0a79 79 0 1 1 158 0a79 79 0 1 1-158 0" /></defs>
       <text><textPath href="#ab-c">{TXT}</textPath></text>
     </svg>
     <img src="/img/logo-192.webp" alt="" width="120" height="120" />
@@ -20,30 +21,43 @@ const TXT = 'FEITO COM CARINHO • MIMOS IN BOX • ';
   html.abrindo .ab { display: grid; place-items: center; position: fixed; inset: 0; z-index: 200; background-color: var(--cereja); overflow: hidden;
     -webkit-mask: radial-gradient(circle at 50% 50%, #0000 var(--ab-r), #000 calc(var(--ab-r) + 0.5%)); mask: radial-gradient(circle at 50% 50%, #0000 var(--ab-r), #000 calc(var(--ab-r) + 0.5%)); }
   html.abrindo { overflow: hidden; }
-  .ab-f { position: absolute; background: repeating-linear-gradient(90deg, var(--rosa) 0 10px, var(--rosa-cl) 10px 12px, var(--rosa) 12px 44px, var(--chiclete) 44px 46px, var(--rosa) 46px 56px); box-shadow: 0 6px 18px rgba(40, 0, 15, 0.35); }
-  .ab-fh { left: 0; right: 0; top: 50%; height: 56px; margin-top: -28px; transform-origin: 0 50%; background-size: 100% 100%; background-image: linear-gradient(var(--rosa-cl) 0 4px, var(--rosa) 4px 52px, var(--chiclete) 52px); animation: ab-h 0.45s var(--sai) both; }
-  .ab-fv { top: 0; bottom: 0; left: 50%; width: 56px; margin-left: -28px; transform-origin: 50% 0; animation: ab-v 0.45s 0.12s var(--sai) both; }
+  /* fita de gorgorão com fio dourado, a mesma das faixas do site */
+  .ab-f { position: absolute; background-color: var(--rosa); box-shadow: 0 8px 22px rgba(20, 0, 8, 0.4); }
+  .ab-f::before { content: ''; position: absolute; border: 0 solid rgba(216, 189, 140, 0.7); }
+  .ab-fh { left: 0; right: 0; top: 50%; height: 54px; margin-top: -27px; transform-origin: 0 50%; background-image: linear-gradient(180deg, rgba(251, 246, 240, 0.16), transparent 36%, transparent 64%, rgba(20, 0, 8, 0.24)); animation: ab-h 0.8s 0.1s var(--sai) both; }
+  .ab-fh::before { inset: 6px 0; border-width: 1px 0; }
+  .ab-fv { top: 0; bottom: 0; left: 50%; width: 54px; margin-left: -27px; transform-origin: 50% 0; background-image: linear-gradient(90deg, rgba(251, 246, 240, 0.16), transparent 36%, transparent 64%, rgba(20, 0, 8, 0.24)); animation: ab-v 0.8s 0.34s var(--sai) both; }
+  .ab-fv::before { inset: 0 6px; border-width: 0 1px; }
   @keyframes ab-h { from { transform: scaleX(0); } }
   @keyframes ab-v { from { transform: scaleY(0); } }
-  .ab-selo { position: relative; width: 190px; height: 190px; border-radius: 50%; background: var(--creme); display: grid; place-items: center; box-shadow: 0 0 0 6px var(--cereja), 0 0 0 8px var(--pastel), 0 18px 40px rgba(40, 0, 15, 0.5); animation: ab-s 0.6s 0.3s var(--mola) both; }
-  .ab-selo img { width: 116px; height: 116px; border-radius: 50%; }
-  .ab-anel { position: absolute; inset: 0; animation: ab-g 9s linear infinite; }
-  .ab-anel text { font: 800 15.5px var(--f-texto); letter-spacing: 2.2px; fill: var(--cereja); }
-  @keyframes ab-s { from { transform: scale(0) rotate(-120deg); } }
+  .ab-selo { position: relative; width: 190px; height: 190px; border-radius: 50%; background: var(--creme); display: grid; place-items: center; box-shadow: 0 0 0 5px var(--cereja), 0 0 0 6px var(--ouro-cl), 0 20px 44px rgba(20, 0, 8, 0.55); animation: ab-s 0.75s 0.8s cubic-bezier(0.2, 1.25, 0.3, 1) both; }
+  .ab-selo img { width: 112px; height: 112px; border-radius: 50%; mix-blend-mode: multiply; }
+  .ab-anel { position: absolute; inset: 0; animation: ab-g 14s linear infinite; }
+  .ab-anel text { font: 800 14px var(--f-texto); letter-spacing: 3px; fill: var(--cereja); }
+  @keyframes ab-s { from { transform: scale(0.6); opacity: 0; } }
   @keyframes ab-g { to { transform: rotate(360deg); } }
-  html.abrindo.abriu .ab { animation: ab-abre 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards; pointer-events: none; }
+  /* saída: as fitas desatam, o selo some e o papel abre */
+  html.abrindo.abriu .ab { animation: ab-abre 0.85s 0.34s cubic-bezier(0.7, 0, 0.3, 1) forwards; pointer-events: none; }
   html.abrindo.abriu { overflow: visible; overflow-x: clip; }
-  html.abrindo.abriu .ab-selo { transition: transform 0.35s var(--sai), opacity 0.3s; transform: scale(1.5); opacity: 0; }
+  html.abrindo.abriu .ab-fh { transform-origin: 100% 50%; animation: ab-h-sai 0.5s cubic-bezier(0.6, 0, 0.8, 0.3) forwards; }
+  html.abrindo.abriu .ab-fv { transform-origin: 50% 100%; animation: ab-v-sai 0.5s 0.06s cubic-bezier(0.6, 0, 0.8, 0.3) forwards; }
+  html.abrindo.abriu .ab-selo { animation: ab-s-sai 0.5s 0.16s var(--sai) forwards; }
+  @keyframes ab-h-sai { to { transform: scaleX(0); } }
+  @keyframes ab-v-sai { to { transform: scaleY(0); } }
+  @keyframes ab-s-sai { to { transform: scale(1.18); opacity: 0; } }
   @keyframes ab-abre { to { --ab-r: 150%; visibility: hidden; } }
 </style>
 
 <script>
-  // Abre quando as fontes chegaram e a fita terminou. Na volta dentro da mesma visita, mais curta.
+  // Abre quando as fontes chegaram e o selo pousou. Na volta dentro da mesma visita, mais curta.
   const h = document.documentElement;
   if (h.classList.contains('abrindo')) {
     let visto = false; try { visto = sessionStorage.getItem('mimos-ab') === '1'; sessionStorage.setItem('mimos-ab', '1'); } catch {}
-    const minimo = new Promise((r) => setTimeout(r, visto ? 520 : 880));
-    const fontes = Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1200))]);
+    const minimo = new Promise((r) => setTimeout(r, visto ? 1000 : 1750));
+    const fontes = Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1400))]);
     Promise.all([minimo, fontes]).then(() => (window as any).__abre());
+    // depois que o papel abriu, a cortina sai da árvore de pintura e o topo volta ao ritmo normal de troca
+    const limpa = () => setTimeout(() => h.classList.remove('abrindo'), 2600);
+    if (h.classList.contains('abriu')) limpa(); else addEventListener('mimos:abriu', limpa, { once: true });
   }
 </script>

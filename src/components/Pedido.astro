@@ -72,15 +72,15 @@ import { LOJA, LACOS } from '../data/loja';
   .pd-c { display: grid; gap: 4px; }
   .pd-c > span, .pd-op legend { font-weight: 800; font-size: 14.5px; color: var(--cereja); padding: 0; }
   .pd-c i { font-style: normal; font-weight: 600; color: var(--tinta-suave); }
-  .pd-c input, .pd-c select, .pd-c textarea { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 14px; border: 2px solid var(--pastel); background: #fff; font-size: 16px; resize: vertical; transition: border-color 0.2s, box-shadow 0.2s; }
+  .pd-c input, .pd-c select, .pd-c textarea { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 14px; border: 2px solid var(--pastel); background: var(--campo); font-size: 16px; resize: vertical; transition: border-color 0.2s, box-shadow 0.2s; }
   .pd-c input:focus, .pd-c select:focus, .pd-c textarea:focus { outline: 0; border-color: var(--cereja); box-shadow: 0 4px 0 var(--pastel); }
   .pd-c [aria-invalid='true'] { border-color: var(--framboesa); background: var(--clarinho); }
   .pd-c small { font-size: 13px; color: var(--tinta-suave); }
   .pd-op { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
   .pd-op legend { width: 100%; margin-bottom: 4px; }
   .pd-op input { position: absolute; opacity: 0; }
-  .pd-op span { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; border-radius: 99px; border: 2px solid var(--pastel); background: #fff; font-weight: 800; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.4s var(--mola); }
-  .pd-op input:checked + span { background: var(--cereja); border-color: var(--cereja); color: #fff; transform: scale(1.04); }
+  .pd-op span { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; border-radius: 99px; border: 2px solid var(--pastel); background: var(--campo); font-weight: 800; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.4s var(--mola); }
+  .pd-op input:checked + span { background: var(--cereja); border-color: var(--cereja); color: var(--creme); transform: scale(1.04); }
   .pd-op input:focus-visible + span { outline: 3px solid var(--framboesa); outline-offset: 3px; }
   .pd-ck { display: flex; gap: 10px; align-items: center; min-height: 44px; font-weight: 700; cursor: pointer; }
   .pd-ck input { width: 24px; height: 24px; accent-color: var(--framboesa); }
