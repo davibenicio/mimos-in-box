@@ -10,7 +10,11 @@ import numpy as np, cv2
 from PIL import Image
 
 nn, src, alf = sys.argv[1], sys.argv[2], sys.argv[3]
-LIM = int(sys.argv[4]) if len(sys.argv) > 4 else 10**9   # último quadro usado (corta o fim se o vídeo entorta)
+LIM = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] != '-' else 10**9   # último quadro usado (corta o fim se o vídeo entorta)
+# recorte do modelo 'Matting' (celofane semitransparente): sem a chave por diferença e sem tapar buracos
+FINO = os.environ.get('RECORTE', 'fino') == 'fino'
+# SUPORTE=placa: o suporte tem a cor do fundo (caixa clara, ex. 29); SUPORTE=cor (padrão): branco/cinza neutro
+PELA_PLACA = os.environ.get('SUPORTE', 'cor') == 'placa'
 S = 1920
 tmp = tempfile.mkdtemp(prefix='giro' + nn + '-')
 
@@ -22,28 +26,59 @@ def fluxo(arq, extra, pix, n):
         if len(b) < tam: break
         yield np.frombuffer(b, np.uint8).reshape(S, S, n)
 
+# 0ª passada: "placa" do fundo creme do vídeo (mediana dos pixels que nunca são cesta), para achar o celofane
+def placa():
+    h = S // 2; soma = []
+    for i, (c, a) in enumerate(zip(fluxo(src, [], 'rgb24', 3), fluxo(alf, ['-c:v', 'libvpx-vp9'], 'rgba', 4))):
+        if i > LIM: break
+        if i % 10: continue
+        c = cv2.resize(c, (h, h), interpolation=cv2.INTER_AREA).astype(np.float32)
+        a = cv2.resize(a[..., 3], (h, h), interpolation=cv2.INTER_AREA)
+        c[a > 5] = np.nan; soma.append(c)
+    import warnings; warnings.simplefilter('ignore')
+    pl = np.nanmedian(np.stack(soma), axis=0); falta = np.isnan(pl[..., 0])
+    pl = cv2.inpaint(np.nan_to_num(pl).clip(0, 255).astype(np.uint8), falta.astype(np.uint8), 15, cv2.INPAINT_TELEA)
+    return cv2.GaussianBlur(cv2.resize(pl, (S, S), interpolation=cv2.INTER_CUBIC).astype(np.float32), (0, 0), 3)
+PLACA = placa() if (PELA_PLACA or not FINO) else None
+PLACA_M = cv2.resize(PLACA, (S // 2, S // 2), interpolation=cv2.INTER_AREA) if PLACA is not None else None
+PERTO = np.ones((121, 121), np.uint8)
+
 def limpa(rgb, a):
+    # celofane transparente: onde o quadro difere do fundo creme, perto da cesta, também é cesta (alfa suave)
+    if not FINO:
+        d = np.abs(rgb.astype(np.float32) - PLACA).max(2)
+        ad = np.clip((d - 7) / 28, 0, 1) * 255
+        ad *= cv2.dilate((a > 128).astype(np.uint8), PERTO)
+        a = np.maximum(a.astype(np.float32), ad).astype(np.uint8)
     # análise em meia resolução: em cada coluna, abaixo da última parte que não é branco neutro (a bandeja/caixa), sai tudo (o suporte)
     h = S // 2
     r = cv2.resize(rgb, (h, h), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
     al = cv2.resize(a, (h, h), interpolation=cv2.INTER_AREA)
     mx, mn = r.max(2), r.min(2)
     sat = (mx - mn) / np.maximum(mx, 1e-3)
-    suporte = (sat < 0.12) & (mx > 0.30)          # branco/cinza neutro do suporte (a bandeja é rosa, madeira ou preta)
+    if PELA_PLACA: suporte = np.abs(r * 255 - PLACA_M).max(2) < 14   # igual ao fundo creme = suporte branco
+    else: suporte = (sat < 0.12) & (mx > 0.30)    # branco/cinza neutro do suporte (bandeja rosa ou caixa preta)
     tem = ((al > 128) & ~suporte).astype(np.uint8)
     tem = cv2.morphologyEx(tem, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
     fundo = np.full(h, -1.0)
     cols = np.where(tem.any(0))[0]
     if len(cols):
         ult = h - 1 - np.argmax(tem[::-1, cols], axis=0)
-        from scipy.ndimage import median_filter
-        fundo[cols] = median_filter(ult.astype(float), size=31, mode='nearest')
+        from scipy.ndimage import maximum_filter1d
+        # o limite nunca sobe acima da cesta: pega o ponto mais baixo das colunas vizinhas (não come os cantos)
+        cheio = np.full(h, -1.0); cheio[cols] = ult
+        fundo[cols] = maximum_filter1d(cheio, size=13, mode='nearest')[cols]
         falta = np.where(fundo < 0)[0]
         if len(falta): fundo[falta] = np.interp(falta, cols, fundo[cols])
     linha = cv2.resize(fundo.reshape(1, -1).astype(np.float32) * 2, (S, 1), interpolation=cv2.INTER_LINEAR)[0]
     yy = np.arange(S, dtype=np.float32)[:, None]
     corte = np.clip((linha[None, :] + 12 - yy) / 12.0, 0, 1)
     a = a.astype(np.float32) * corte
+    # buracos fechados dentro da cesta (celofane que o recorte achou que era fundo) são preenchidos
+    from scipy.ndimage import binary_fill_holes
+    if not FINO:
+        cheio = binary_fill_holes(a > 128)
+        a = np.where(cheio & (a < 128), np.maximum(a, 255 * cheio), a)
     # só a peça maior
     m = (a > 40).astype(np.uint8)
     n, lab, st, _ = cv2.connectedComponentsWithStats(m, 8)
@@ -62,6 +97,10 @@ for i, (c, a) in enumerate(zip(fluxo(src, [], 'rgb24', 3), fluxo(alf, ['-c:v', '
     ys, xs = np.where(al > 30)
     if len(xs): caixa = [min(caixa[0], xs.min()), min(caixa[1], ys.min()), max(caixa[2], xs.max() + 1), max(caixa[3], ys.max() + 1)]
     N = i + 1
+# suaviza no tempo (mediana de 3 quadros): o recorte não pisca nem perde pedaços num quadro só
+for i in range(N):
+    viz = [cv2.imread(f'{tmp}/a{j:04d}.png', cv2.IMREAD_GRAYSCALE) for j in (max(0, i - 1), i, min(N - 1, i + 1))]
+    cv2.imwrite(f'{tmp}/m{i:04d}.png', np.median(np.stack(viz), axis=0).astype(np.uint8), [cv2.IMWRITE_PNG_COMPRESSION, 1])
 x0, y0 = max(0, caixa[0] - 8), max(0, caixa[1] - 8)
 x1, y1 = min(S, caixa[2] + 8), min(S, caixa[3] + 8)
 cw, ch = x1 - x0, y1 - y0
@@ -90,7 +129,7 @@ def prepara(c, a, w, h):
 primeiro = None
 for i, c in enumerate(fluxo(src, [], 'rgb24', 3)):
     if i >= N: break
-    a = cv2.imread(f'{tmp}/a{i:04d}.png', cv2.IMREAD_GRAYSCALE)
+    a = cv2.imread(f'{tmp}/m{i:04d}.png', cv2.IMREAD_GRAYSCALE)
     cc, aa = c[y0:y1, x0:x1], a[y0:y1, x0:x1]
     if i == 0: primeiro = (cc.copy(), aa.copy())
     if i % 10 == 0 or i == N - 1: np.save(f'{tmp}/f{i:04d}.npy', np.dstack([cc, aa]))
