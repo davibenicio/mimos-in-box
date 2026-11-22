@@ -55,11 +55,14 @@
   cada('inverte', () => {
     const h = document.documentElement;
     const ss = [...document.querySelectorAll<HTMLElement>('[data-inverte]')];
-    if (!ss.length) return;
+    // a promoção fica rosa claro também no tema escuro: lá ela inverte junto
+    const se = [...document.querySelectorAll<HTMLElement>('[data-inverte-escuro]')];
+    if (!ss.length && !se.length) return;
     let raf = 0, agora = false;
     const pinta = () => {
       raf = 0; const m = innerHeight * 0.5;
-      const dentro = ss.some((s) => { const r = s.getBoundingClientRect(); return r.top < m && r.bottom > m; });
+      const lista = h.dataset.theme === 'dark' ? ss.concat(se) : ss;
+      const dentro = lista.some((s) => { const r = s.getBoundingClientRect(); return r.top < m && r.bottom > m; });
       if (dentro === agora) return; agora = dentro;
       if (!calmo) { h.classList.add('trocando'); clearTimeout((pinta as any).t); (pinta as any).t = setTimeout(() => h.classList.remove('trocando'), 800); }
       h.classList.toggle('invertido', dentro); (window as any).__ve?.();

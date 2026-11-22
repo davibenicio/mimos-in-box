@@ -6,6 +6,13 @@ Atualizado em 21/11/2026, 22h (v2 publicada como prévia: mais sóbria, sem bran
 Site de vendas da Mimos in Box (cestas e presentes personalizados, Pontal, Ilhéus-BA). O cliente vê o catálogo, monta uma cesta e fecha o pedido no site. WhatsApp fica para dúvidas e para a loja receber o pedido pronto.
 Cliente fechado. Ação nº 1: pedir uma cesta (pronta ou montada).
 
+## v3.2 (22/11, 00h15)
+- Fundo de cada seção em degradê (bege em cima → off-white), deslizando devagar (classe `.grad` em `tokens.css`, cores `--g1/--g2` registradas para a troca ser suave). Off-white mais quente e, depois, um tom mais claro a pedido.
+- Rolagem: "Em promoção" no meio da tela pinta tudo de rosa claro (`html.rosa`, motor `rosa` em `Efeitos.astro`). Depois dela: vinho no tema claro (`data-inverte` em Sobre, Cestas, Camadas, Como pedir, Contato); no escuro, a promoção também fica rosa claro (`data-inverte-escuro`) e o resto clareia.
+- "PRESENTES", palavras gigantes e fitas com degradê que anda (`--grad-gig`, `#fita-grad` com `animateTransform`, sai com movimento reduzido). Topo das letras não corta mais (o fundo do texto precisa de folga acima da caixa).
+- Fonte gigante: testada uma condensada fina (Antonio) pela referência "PORTFÓLIO"; o Davi preferiu a Anton. Fica a Anton.
+- Topo de volta ao formato do mock (texto à esquerda, cesta à direita), cesta e texto maiores, palavra mais baixa. Giro com 32 quadros e transição entre quadros.
+
 ## v3.1 (21/11, 23h30)
 - Topo centrado: palavra no alto, cesta no meio girando sem parar, título e texto embaixo, e os dois botões no lugar da faixa de três ideias (pedido do Davi). Tamanhos presos à altura da tela (antes a palavra cobria o título em telas baixas, como 1366x657).
 - Movimento constante no lugar das entradas pela rolagem: letras do "PRESENTES" ondulam, fitas balançam com um brilho correndo, palavras gigantes andam, cestas flutuam, a fita do "Do clique ao laço" se desenha em ciclo. Nada fica escondido esperando rolar. O botão "Pausar animações" no rodapé pausa tudo.
