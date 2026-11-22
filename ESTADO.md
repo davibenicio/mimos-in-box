@@ -36,6 +36,11 @@ Padrões da casa que saíram, com motivo:
 - Pedido: chuva de corações na confirmação.
 - Botão "Pausar animações" no rodapé. Movimento reduzido: tudo parado, conteúdo inteiro visível.
 
+## Medido no publicado (21/11, https://mimos-in-box.vercel.app)
+Portão de qualidade aprovado: LCP no celular 2,46 s (4G lento, CPU 4×), CLS 0, JS 8 KB, 607 KB no 1º acesso, sem rolagem lateral de 320 a 1280, sem erro de console, axe sem falha grave.
+Conferido em tela: 1440 e 390, todas as seções; fluxo montar → embrulhar → pedido → confirmação no celular e no PC.
+Ainda não conferido: percurso só com teclado, percurso com movimento reduzido, GIF de rolagem.
+
 ## Onde mexer
 - Dados da loja, regras, tamanhos, cores de laço e itens do montador: `src/data/loja.ts`.
 - Produtos: `src/data/produtos.json`. Fotos: `public/img/p` (fotos) e `public/img/c` (recortes). Gerar de novo: `python3 tools/imagens.py <fotos> <recortes> <logo>`.
