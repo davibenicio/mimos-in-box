@@ -111,7 +111,7 @@ const FLUT = [
   html.abriu .hr-s.on .hr-sobre { animation: hr-sobe 0.7s calc(var(--at, 0s) + 0.05s) var(--sai) both; }
   html.abriu .hr-s.on .hr-p, html.abriu .hr-s.on .hr-b { animation: hr-sobe 0.7s calc(var(--at, 0s) + 0.5s) var(--sai) both; }
   html.abriu .hr-s.on .hr-b { animation-delay: calc(var(--at, 0s) + 0.62s); }
-  html.abriu .hr-s.on .hr-arco { animation: hr-arco 0.9s calc(var(--at, 0s) + 0.1s) var(--sai) both; }
+  html.abriu .hr-s.on .hr-arco { animation: hr-arco 0.9s calc(var(--at, 0s) + 0.1s) var(--sai) backwards; }
   html.abriu .hr-s.on .hr-img { animation: hr-prod 0.95s calc(var(--at, 0s) + 0.28s) var(--sai) both, hr-flutua 6s calc(var(--at, 0s) + 1.4s) ease-in-out infinite alternate; }
   html.abriu .hr-s.on .hr-adesivo { animation: hr-ade 0.7s calc(var(--at, 0s) + 0.8s) var(--mola) both; }
   @keyframes hr-w { from { opacity: 0; transform: translateY(0.5em); filter: blur(8px); } }
@@ -138,23 +138,23 @@ const FLUT = [
   @keyframes hr-prog { to { transform: scaleX(1); } }
 
   @media (max-width: 900px) {
-    .hr { padding-top: calc(var(--barra) + 40px); min-height: min(100svh, 780px); background: radial-gradient(90% 46% at 50% 74%, var(--campo), transparent 72%), var(--fundo); }
+    .hr { padding-top: calc(var(--barra) + 34px); padding-bottom: 62px; min-height: min(100svh, 780px); background: radial-gradient(90% 46% at 50% 70%, var(--campo), transparent 72%), var(--fundo); }
     .hr-s { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 8px; align-items: start; }
     .hr-txt { padding-bottom: 0; }
     .hr-sobre { margin-bottom: 10px; font-size: 10.5px; letter-spacing: 0.14em; gap: 8px; }
     .hr-sobre i { width: 20px; }
-    .hr-sobre b, .hr-flut svg:nth-child(2) { display: none; }
+    .hr-sobre b, .hr-flut svg:nth-child(1), .hr-flut svg:nth-child(2), .hr-flut svg:nth-child(5) { display: none; }
     .hr-t { font-size: clamp(38px, 11vw, 52px); max-width: 100%; }
     .hr-p { margin-top: 10px; font-size: 16px; line-height: 1.4; }
     .hr-b { margin-top: 14px; gap: 10px; }
     .hr-b .bt { padding: 0 20px; min-height: 48px; font-size: 15.5px; }
-    .hr-palco { min-height: 280px; }
-    .hr-arco { width: min(84%, 340px); height: 80%; margin-left: max(-42%, -170px); }
-    .hr-arco::after { inset: 9px 9px 0; }
+    .hr-palco { min-height: 262px; }
+    .hr-arco { width: min(84%, 340px); height: 80%; margin-left: max(-42%, -170px); border-radius: 999px 999px 14px 14px; }
+    .hr-arco::after { inset: 9px; border-bottom: 1px solid rgba(216, 189, 140, 0.55); border-radius: 999px 999px 7px 7px; }
     .hr-adesivo { width: 98px; height: 98px; left: auto; right: 0; bottom: auto; top: 0; }
     .hr-adesivo b { font-size: 21px; } .hr-adesivo s, .hr-adesivo small { font-size: 11px; } .hr-adesivo span { font-size: 9px; }
     .hr-selo { display: none; }
-    .hr-ctl { left: 0; translate: none; bottom: 12px; padding-left: 0; gap: 6px; width: auto; margin-left: 12px; }
+    .hr-ctl { left: 0; translate: none; bottom: 10px; padding-left: 0; gap: 6px; width: auto; margin-left: 12px; }
     .hr-seta { display: none; }
     .hr-halo { right: auto; left: 50%; top: 70%; width: 150vw; translate: -50% -50%; }
   }
