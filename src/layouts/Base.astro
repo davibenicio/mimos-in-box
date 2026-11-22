@@ -62,7 +62,8 @@ const ld = {
         var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}
         window.__abre = function () { if (h.classList.contains('abriu')) return; h.classList.remove('abrindo'); h.classList.add('abriu'); window.dispatchEvent(new Event('mimos:abriu')); };
         // abertura só com movimento liberado; rede de segurança: o site abre sozinho se algo falhar
-        var viu = false; try { viu = sessionStorage.getItem('mimos-intro') === '1'; } catch (e) {}
+        // a abertura roda toda vez que a página carrega (pedido do Davi, 22/11); só não roda ao voltar pelo histórico
+        var viu = false;
         if (/[?&]captura/.test(location.search)) { h.classList.add('abriu', 'sem-ab', 'intro-viu', 'captura'); }
         else if (calmo || volta || viu) { h.classList.add('abriu', 'sem-ab'); }
         else { h.classList.add('abrindo'); setTimeout(window.__abre, 9000); }
