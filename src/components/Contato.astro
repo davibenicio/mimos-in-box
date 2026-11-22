@@ -1,0 +1,49 @@
+---
+import { LOJA } from '../data/loja';
+---
+<section class="sec ctt pt-vichy" id="contato">
+  <div class="cx">
+    <div class="ctt-bilhete" data-rev="sobe">
+      <div class="ctt-a">
+        <h2 class="tit" data-pal>Passe <em>na loja</em></h2>
+        <address>
+          <strong>{LOJA.endereco}</strong>, {LOJA.bairro}<br />{LOJA.referencia}<br />{LOJA.cidade}, {LOJA.uf}
+        </address>
+        <a class="bt" href={LOJA.mapa} target="_blank" rel="noopener">Abrir no Google Maps</a>
+      </div>
+      <div class="ctt-b">
+        <ul class="ctt-r">
+          {[LOJA.regras.personalizada, LOJA.regras.pronta, LOJA.regras.entrega, LOJA.regras.laco, LOJA.regras.balao, LOJA.regras.grandes].map((r) => (
+            <li><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21C5 15.5 2 12.6 2 8.6A5.2 5.2 0 0 1 12 6.4 5.2 5.2 0 0 1 22 8.6c0 4-3 6.9-10 12.4z" fill="var(--framboesa)" /></svg>{r}</li>
+          ))}
+        </ul>
+        <div class="ctt-bts">
+          <a class="bt bt--rosa" href={LOJA.whatsappLink} target="_blank" rel="noopener">WhatsApp {LOJA.whatsappTexto}</a>
+          <a class="bt bt--linha" href={LOJA.instagramLink} target="_blank" rel="noopener">@{LOJA.instagram}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .ctt { background-color: var(--fundo); }
+  .ctt-bilhete { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 26px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja); }
+  .ctt-a, .ctt-b { padding: clamp(24px, 4vw, 48px); display: grid; gap: 20px; align-content: center; justify-items: start; }
+  .ctt-a { border-right: 3px dashed var(--pastel); position: relative; }
+  .ctt-a::before, .ctt-a::after { content: ''; position: absolute; right: -15px; width: 26px; height: 26px; border-radius: 50%; background: var(--fundo); border: 2px solid var(--cereja); }
+  .ctt-a::before { top: -15px; clip-path: inset(50% 0 0 0); } .ctt-a::after { bottom: -15px; clip-path: inset(0 0 50% 0); }
+  .ctt address { font-style: normal; font-size: clamp(18px, 1.8vw, 21px); line-height: 1.45; }
+  .ctt address strong { font-family: var(--f-gorda); font-weight: 400; color: var(--cereja); font-size: 1.15em; }
+  .ctt-r { display: grid; gap: 10px; }
+  .ctt-r li { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; line-height: 1.35; }
+  .ctt-r svg { flex: none; margin-top: 2px; }
+  .ctt-bts { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 800px) {
+    .ctt-bilhete { grid-template-columns: minmax(0, 1fr); }
+    .ctt-a { border-right: 0; border-bottom: 3px dashed var(--pastel); }
+    .ctt-a::before, .ctt-a::after { right: auto; bottom: -15px; top: auto; clip-path: none; }
+    .ctt-a::before { left: -15px; clip-path: inset(0 0 0 50%); } .ctt-a::after { right: -15px; clip-path: inset(0 50% 0 0); }
+    .ctt-bts .bt { width: 100%; }
+  }
+</style>

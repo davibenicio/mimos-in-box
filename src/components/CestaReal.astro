@@ -1,0 +1,61 @@
+---
+// Cesta realista em camadas: foto da cesta, itens dentro, frente da cesta por cima, celofane, laço tingido e tag.
+// itens: ids de src/data/loja.ts (composição parada). Sem itens, o montador preenche pelo navegador.
+import { ITENS } from '../data/loja';
+import { arruma, estilo } from '../data/cesta';
+import medidas from '../data/medidas-itens.json';
+interface Props { itens?: string[]; embrulhada?: boolean }
+const { itens = [], embrulhada = false } = Astro.props;
+const M = medidas as Record<string, number[]>;
+const todos = ITENS.flatMap((g) => g.itens);
+const vagas = arruma(itens.map((id) => todos.find((x) => x.id === id)!.alt));
+const uid = 'cg' + Math.random().toString(36).slice(2, 7);
+---
+<div class:list={['cr', embrulhada && 'celo-on laco-on']}>
+  <div class="cr-box">
+    <img class="cr-f" src="/img/m/cesta.webp" width={M.cesta[0]} height={M.cesta[1]} alt="" loading="lazy" />
+    <div class="cr-itens">
+      {itens.map((id, i) => <img class="cr-tk" src={`/img/m/${id}.webp`} width={M[id][0]} height={M[id][1]} alt="" loading="lazy" style={estilo(vagas[i])} />)}
+    </div>
+    <img class="cr-fr" src="/img/m/cesta.webp" width={M.cesta[0]} height={M.cesta[1]} alt="" loading="lazy" />
+    <svg class="cr-celo" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id={uid} x1="0" y1="0.1" x2="1" y2="0.45">
+          <stop offset="0" stop-color="#fff" stop-opacity=".1" /><stop offset=".2" stop-color="#fff" stop-opacity=".12" /><stop offset=".25" stop-color="#fff" stop-opacity=".62" /><stop offset=".3" stop-color="#fff" stop-opacity=".1" />
+          <stop offset=".5" stop-color="#fff" stop-opacity=".08" /><stop offset=".56" stop-color="#fff" stop-opacity=".36" /><stop offset=".62" stop-color="#fff" stop-opacity=".07" />
+          <stop offset=".78" stop-color="#fff" stop-opacity=".1" /><stop offset=".83" stop-color="#fff" stop-opacity=".5" /><stop offset=".88" stop-color="#fff" stop-opacity=".1" /><stop offset="1" stop-color="#fff" stop-opacity=".16" />
+        </linearGradient>
+      </defs>
+      <path d="M0 100C1 84 4 76 10 66 20 52 32 38 44 22c2-3 2-5 1-6L35 3c4 2 8-2 12 1 2-4 4-4 6 0 4-3 8 1 12-1L55 16c-1 1-1 3 1 6 12 16 24 30 34 44 6 10 9 18 10 34z" fill={`url(#${uid})`} stroke="#fff" stroke-opacity=".6" stroke-width="1.2" vector-effect="non-scaling-stroke" />
+      <g fill="none" stroke="#fff" stroke-linecap="round" vector-effect="non-scaling-stroke">
+        <path d="M47 20C40 44 30 70 20 100" stroke-opacity=".34" stroke-width="1.4" vector-effect="non-scaling-stroke" /><path d="M50 20c0 26-2 52-5 80" stroke-opacity=".22" stroke-width="1" vector-effect="non-scaling-stroke" />
+        <path d="M53 20c8 24 18 50 29 80" stroke-opacity=".3" stroke-width="1.4" vector-effect="non-scaling-stroke" /><path d="M45 17L38 5M50 16V3M55 17l7-12" stroke-opacity=".5" stroke-width="1" vector-effect="non-scaling-stroke" />
+      </g>
+    </svg>
+    <div class="cr-tag"><img src="/img/logo-96.webp" width="96" height="96" alt="" loading="lazy" /></div>
+    <div class="cr-laco"><img src="/img/m/laco.webp" width={M.laco[0]} height={M.laco[1]} alt="" loading="lazy" /></div>
+  </div>
+</div>
+
+<style is:global>
+  .cr { position: relative; width: 100%; aspect-ratio: 1 / 1.3; --laco: #f47aa3; }
+  .cr-box { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 1758 / 963; container-type: inline-size; }
+  .cr-f, .cr-fr { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cr-f { filter: drop-shadow(0 22px 18px rgba(60, 20, 0, 0.35)); }
+  .cr-fr { z-index: 5; -webkit-mask: radial-gradient(46.5% 27% at 50% 31.5%, #0000 99%, #000 100%), linear-gradient(#0000 31.5%, #000 31.5%); -webkit-mask-composite: source-in; mask: radial-gradient(46.5% 27% at 50% 31.5%, #0000 99%, #000 100%) intersect, linear-gradient(#0000 31.5%, #000 31.5%); pointer-events: none; }
+  .cr-itens { position: absolute; inset: 0; }
+  .cr-tk { position: absolute; width: auto; max-width: none; translate: -50% 0; rotate: var(--r, 0deg); transform-origin: 50% 100%; filter: drop-shadow(0 5px 4px rgba(70, 35, 0, 0.35)); transition: left 0.6s var(--mola), bottom 0.6s var(--mola), height 0.6s var(--mola); }
+  .cr-tk--balao { rotate: 0deg; transform-origin: 50% 100%; animation: cr-balao 4s ease-in-out infinite alternate; }
+  @keyframes cr-balao { from { rotate: -4deg; } to { rotate: 5deg; } }
+  .cr-celo { position: absolute; left: -2%; width: 104%; bottom: 40%; height: 102cqw; z-index: 6; pointer-events: none; overflow: visible; filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
+    opacity: 0; transform: scaleY(0.15); transform-origin: 50% 100%; transition: opacity 0.4s, transform 0.8s var(--sai); }
+  .cr.celo-on .cr-celo { opacity: 1; transform: none; }
+  .cr-laco { position: absolute; left: 50%; bottom: 149%; width: 29cqw; aspect-ratio: 329 / 420; margin-left: -14.5cqw; z-index: 8; isolation: isolate; background: var(--laco); -webkit-mask: url(/img/m/laco.webp) center / contain no-repeat; mask: url(/img/m/laco.webp) center / contain no-repeat; scale: 0; rotate: -50deg; opacity: 0; transition: scale 0.8s var(--mola), rotate 0.8s var(--mola), opacity 0.2s; transform-origin: 50% 30%; }
+  .cr-laco img { width: 100%; height: 100%; mix-blend-mode: multiply; }
+  .cr.laco-on .cr-laco { scale: 1; rotate: 0deg; opacity: 1; }
+  .cr-tag { position: absolute; left: 58%; bottom: 118%; width: 15cqw; aspect-ratio: 1; z-index: 7; border-radius: 50%; background: var(--creme); box-shadow: 0 0 0 0.6cqw var(--creme), 0 0 0 0.9cqw var(--cereja), 0 3cqw 4cqw -2cqw rgba(60, 0, 20, 0.6); transform-origin: 20% -90%; scale: 0; transition: scale 0.6s 0.25s var(--mola); }
+  .cr-tag::before { content: ''; position: absolute; left: 30%; bottom: 96%; width: 1.5px; height: 80%; background: #b9803f; rotate: -22deg; transform-origin: 50% 100%; }
+  .cr-tag img { width: 100%; height: 100%; border-radius: 50%; }
+  .cr.laco-on .cr-tag { scale: 1; animation: cr-tag 3.2s 1s ease-in-out infinite alternate; }
+  @keyframes cr-tag { from { rotate: -9deg; } to { rotate: 8deg; } }
+</style>

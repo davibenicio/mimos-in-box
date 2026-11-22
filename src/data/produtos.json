@@ -1,0 +1,521 @@
+{
+  "loja": "Mimos in Box",
+  "fonte": "Catálogo do WhatsApp, revisado e aprovado em 21/11/2026",
+  "categorias": {
+    "cafe-da-manha": "Café da manhã",
+    "kits-presente": "Kits presente",
+    "bebe-e-infantil": "Bebê e infantil"
+  },
+  "regras": [
+    "Promoção = produto com preco_original (mostrar preço antigo riscado).",
+    "Preços em reais (número). Itens e valores podem variar conforme disponibilidade."
+  ],
+  "produtos": [
+    {
+      "id": "01-cesta-cafe-da-manha-romantica",
+      "numero": 1,
+      "nome": "Cesta Café da Manhã Romântica",
+      "categoria": "cafe-da-manha",
+      "promocao": false,
+      "preco": 229,
+      "preco_original": null,
+      "descricao": "Cesta temática personalizada para surpreender quem você ama. Bandeja de madeira com balões de coração, ursinhos de pelúcia, Nutella, chocolates, doces e guloseimas, finalizada com laço vermelho. Pode ser montada do seu jeito, trocando itens por doces, e receber extras cobrados à parte, como balão temático, buquê de flores e pelúcia.",
+      "fotos": [
+        "fotos/01-cesta-cafe-da-manha-romantica/foto-1.jpg",
+        "fotos/01-cesta-cafe-da-manha-romantica/foto-2.jpg",
+        "fotos/01-cesta-cafe-da-manha-romantica/foto-3.jpg"
+      ]
+    },
+    {
+      "id": "02-cesta-cafe-da-manha-adulto",
+      "numero": 2,
+      "nome": "Cesta Café da Manhã Adulto",
+      "categoria": "cafe-da-manha",
+      "promocao": false,
+      "preco": 229,
+      "preco_original": null,
+      "descricao": "Café da manhã completo para começar o dia com carinho. Bandeja de madeira com itens doces e salgados, geleias e acompanhamentos, embalada em celofane com laço e balão transparente decorado. Os itens podem ser ajustados ao gosto de quem vai receber.",
+      "fotos": [
+        "fotos/02-cesta-cafe-da-manha-adulto/foto-1.jpg",
+        "fotos/02-cesta-cafe-da-manha-adulto/foto-2.jpg",
+        "fotos/02-cesta-cafe-da-manha-adulto/foto-3.jpg"
+      ]
+    },
+    {
+      "id": "03-kit-bebe-ursinho-azul",
+      "numero": 3,
+      "nome": "Kit Bebê Ursinho Azul",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139,
+      "preco_original": null,
+      "descricao": "Caixa decorada com tema de ursinho e balões, com pelúcia, toalha macia e sabonetes infantis. Um presente delicado para chá de bebê, maternidade ou visita ao recém-nascido.",
+      "fotos": [
+        "fotos/03-kit-bebe-ursinho-azul/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "04-kit-coffee-forca-e-foco",
+      "numero": 4,
+      "nome": "Kit Coffee Força e Foco",
+      "categoria": "kits-presente",
+      "promocao": false,
+      "preco": 149,
+      "preco_original": null,
+      "descricao": "Para quem não vive sem café. Caixa preta com copo térmico “Força, foco, trabalho & café”, cafés selecionados, caneca, biscoitos e bombons. Um presente útil para colegas de trabalho, chefes e amigos.",
+      "fotos": [
+        "fotos/04-kit-coffee-forca-e-foco/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "05-kit-patrulha-canina-baldinho",
+      "numero": 5,
+      "nome": "Kit Patrulha Canina Baldinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 129,
+      "preco_original": null,
+      "descricao": "Baldinho e copo da Patrulha Canina recheados de guloseimas: pirulito, balas, chicletes e doces. Embalado em celofane com laço azul, pronto para presentear em aniversários e datas especiais.",
+      "fotos": [
+        "fotos/05-kit-patrulha-canina-baldinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "06-kit-bebe-cestinha-azul",
+      "numero": 6,
+      "nome": "Kit Bebê Cestinha Azul",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 89,
+      "preco_original": null,
+      "descricao": "Cestinha azul com ursinho de pelúcia, potinhos, copo e itens de higiene do bebê, como lenços umedecidos. Embalada em celofane com laço verde-água, ideal para chá de bebê e maternidade.",
+      "fotos": [
+        "fotos/06-kit-bebe-cestinha-azul/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "07-kit-presente-unicornio",
+      "numero": 7,
+      "nome": "Kit Presente Unicórnio",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 99,
+      "preco_original": 129,
+      "descricao": "Um mimo especial para deixar o dia de quem você ama ainda mais feliz. Embalagem em cone com tema de unicórnio, livro de colorir, pompom e acessórios coloridos, com laço em degradê.",
+      "fotos": [
+        "fotos/07-kit-presente-unicornio/foto-1.jpg",
+        "fotos/07-kit-presente-unicornio/foto-2.jpg"
+      ]
+    },
+    {
+      "id": "08-cesta-cafe-da-manha-infantil",
+      "numero": 8,
+      "nome": "Cesta Café da Manhã Infantil",
+      "categoria": "cafe-da-manha",
+      "promocao": true,
+      "preco": 229,
+      "preco_original": 249.9,
+      "descricao": "Cesta de café da manhã individual para uma criança, com balão “Parabéns”, laço rosa, frutas, bolinho com vela, sucos, achocolatado, pães, biscoitos e guloseimas. Encomendas com 48 horas de antecedência; valores e itens podem sofrer alteração. Retirada na Rua 13 de Maio, 272 (em frente à Pousada Ilhéus) ou entrega com taxa conforme o endereço.",
+      "fotos": [
+        "fotos/08-cesta-cafe-da-manha-infantil/foto-1.jpg",
+        "fotos/08-cesta-cafe-da-manha-infantil/foto-2.jpg",
+        "fotos/08-cesta-cafe-da-manha-infantil/foto-3.jpg"
+      ]
+    },
+    {
+      "id": "09-kit-sabonetes-tododia",
+      "numero": 9,
+      "nome": "Kit Sabonetes Tododia",
+      "categoria": "kits-presente",
+      "promocao": true,
+      "preco": 79.9,
+      "preco_original": 89.9,
+      "descricao": "Caixa presente com quatro sabonetes Tododia, acomodados em palha e finalizados com laço amarelo. Um presente simples, cheiroso e elegante para qualquer ocasião.",
+      "fotos": [
+        "fotos/09-kit-sabonetes-tododia/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "10-caneca-personalizada-com-chocolates",
+      "numero": 10,
+      "nome": "Caneca Personalizada com Chocolates",
+      "categoria": "kits-presente",
+      "promocao": true,
+      "preco": 79,
+      "preco_original": 89.9,
+      "descricao": "Presentes que transformam momentos em memórias. Caneca com frase personalizada, recheada com chocolates Ferrero Rocher e colher dourada, embalada em celofane com laço rosa. A frase da caneca pode ser personalizada.",
+      "fotos": [
+        "fotos/10-caneca-personalizada-com-chocolates/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "11-kit-bebe-caixa-azul",
+      "numero": 11,
+      "nome": "Kit Bebê Caixa Azul",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 129,
+      "preco_original": 150,
+      "descricao": "Já vem prontinho para presentear. Caixa com itens de higiene e cuidados do bebê em tons de azul, sabonete e guloseimas, embalada em papel celofane com fita para deixar o presente ainda mais charmoso.",
+      "fotos": [
+        "fotos/11-kit-bebe-caixa-azul/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "12-kit-infantil-squeeze-azul",
+      "numero": 12,
+      "nome": "Kit Infantil Squeeze Azul",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com squeeze azul, hidratante Giovanna Baby e guloseimas. Um kit infantil personalizado e prático, finalizado com laço azul.",
+      "fotos": [
+        "fotos/12-kit-infantil-squeeze-azul/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "13-kit-kids-patrulha-canina",
+      "numero": 13,
+      "nome": "Kit Kids Patrulha Canina",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com pasta da Patrulha Canina, body splash Giovanna Baby, sabonete Granado, ursinho de pelúcia e caneta. Um presente feito para impressionar, com laço azul.",
+      "fotos": [
+        "fotos/13-kit-kids-patrulha-canina/foto-1.jpg",
+        "fotos/13-kit-kids-patrulha-canina/foto-2.jpg"
+      ]
+    },
+    {
+      "id": "14-kit-kids-meu-diario-magico",
+      "numero": 14,
+      "nome": "Kit Kids Meu Diário Mágico",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com colônia e desodorante Giovanna Baby, sabonete e o caderno “Meu Diário Mágico” com cadeado. Pronto para presentear, com laço rosa.",
+      "fotos": [
+        "fotos/14-kit-kids-meu-diario-magico/foto-1.jpg",
+        "fotos/14-kit-kids-meu-diario-magico/foto-2.jpg",
+        "fotos/14-kit-kids-meu-diario-magico/foto-3.jpg"
+      ]
+    },
+    {
+      "id": "15-kit-kids-papelaria-unicornio",
+      "numero": 15,
+      "nome": "Kit Kids Papelaria Unicórnio",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com caderno de unicórnio, canetas e marca-textos coloridos, tesourinha, garrafinha e massinhas de modelar. Ideal para crianças que amam desenhar e escrever, com laço lilás.",
+      "fotos": [
+        "fotos/15-kit-kids-papelaria-unicornio/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "16-kit-hello-kitty",
+      "numero": 16,
+      "nome": "Kit Hello Kitty",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com livro de colorir Hello Kitty, copo térmico, colônia infantil e acessórios temáticos, finalizada com laço vermelho e balão de coração.",
+      "fotos": [
+        "fotos/16-kit-hello-kitty/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "17-kit-biblico-infantil",
+      "numero": 17,
+      "nome": "Kit Bíblico Infantil",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 99,
+      "preco_original": null,
+      "descricao": "Um presente em forma de carinho. Livro de colorir “Aventuras Bíblicas”, livro “Primeiras Histórias da Bíblia”, lápis de cor e caneca, numa bolsinha transparente com laço vermelho e balão de coração.",
+      "fotos": [
+        "fotos/17-kit-biblico-infantil/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "18-kit-toy-story",
+      "numero": 18,
+      "nome": "Kit Toy Story",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 79.9,
+      "preco_original": 129.9,
+      "descricao": "Cestinha com tema Toy Story recheada de chocolates, Fini Tubes e guloseimas, embalada em celofane com laço dourado. Perfeito para aniversários e lembranças infantis.",
+      "fotos": [
+        "fotos/18-kit-toy-story/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "19-kit-coffee-premium",
+      "numero": 19,
+      "nome": "Kit Coffee Premium",
+      "categoria": "kits-presente",
+      "promocao": false,
+      "preco": 169,
+      "preco_original": null,
+      "descricao": "Surpreenda com gostinho de café. Cesta preta com cafés selecionados, chocolates Ferrero Rocher, biscoitos e outros mimos, embalada em celofane com laço preto e dourado.",
+      "fotos": [
+        "fotos/19-kit-coffee-premium/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "20-kit-minnie",
+      "numero": 20,
+      "nome": "Kit Minnie",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 69,
+      "preco_original": 129.9,
+      "descricao": "Caixa com tema da Minnie recheada de guloseimas e mimos infantis, embalada em celofane com laço preto. Um presente especial com preço promocional.",
+      "fotos": [
+        "fotos/20-kit-minnie/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "21-kit-minions",
+      "numero": 21,
+      "nome": "Kit Minions",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 99.9,
+      "preco_original": 129.9,
+      "descricao": "Seu presente ideal para aniversário. Caixa com produtos de higiene infantil em embalagens dos Minions e guloseimas, finalizada com laço amarelo.",
+      "fotos": [
+        "fotos/21-kit-minions/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "22-kit-stitch-guloseimas",
+      "numero": 22,
+      "nome": "Kit Stitch Guloseimas",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 149.9,
+      "preco_original": null,
+      "descricao": "Um kit especial cheio de guloseimas, em caixa decorada com o Stitch. Balas Fini, doces e chocolates, embalados em celofane com laço azul e branco.",
+      "fotos": [
+        "fotos/22-kit-stitch-guloseimas/foto-1.jpg",
+        "fotos/22-kit-stitch-guloseimas/foto-2.jpg"
+      ]
+    },
+    {
+      "id": "23-kit-maquiagem-envelope-rosa",
+      "numero": 23,
+      "nome": "Kit Maquiagem Envelope Rosa",
+      "categoria": "kits-presente",
+      "promocao": false,
+      "preco": 129.9,
+      "preco_original": null,
+      "descricao": "Caixa em formato de envelope “amor” com itens de maquiagem, como gloss, máscara de cílios e batom, e uma florzinha. Um mimo delicado para presentear quem você ama.",
+      "fotos": [
+        "fotos/23-kit-maquiagem-envelope-rosa/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "24-kit-unicornio-pelucia-e-cofrinho",
+      "numero": 24,
+      "nome": "Kit Unicórnio Pelúcia e Cofrinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 139.9,
+      "preco_original": 169.9,
+      "descricao": "Kit com tema de unicórnio: pelúcia, cofrinho em formato de cadeado e livro “100 Primeiros Desenhos”, embalados em celofane com laço azul.",
+      "fotos": [
+        "fotos/24-kit-unicornio-pelucia-e-cofrinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "25-kit-praia-baldinho-azul",
+      "numero": 25,
+      "nome": "Kit Praia Baldinho Azul",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 79.9,
+      "preco_original": null,
+      "descricao": "Baldinho de praia azul com pazinhas, rastelo e forminhas para brincar na areia, embalado em celofane com laço listrado. Diversão garantida para os pequenos.",
+      "fotos": [
+        "fotos/25-kit-praia-baldinho-azul/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "26-kit-bebe-casinha-de-passarinho",
+      "numero": 26,
+      "nome": "Kit Bebê Casinha de Passarinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 99,
+      "preco_original": null,
+      "descricao": "Caixa decorada com casinha e passarinho, com shampoo e sabonete líquido infantis, lenços umedecidos e livro “100 Primeiros Desenhos”. Embalada em celofane com laço azul.",
+      "fotos": [
+        "fotos/26-kit-bebe-casinha-de-passarinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "27-kit-religioso-nossa-senhora",
+      "numero": 27,
+      "nome": "Kit Religioso Nossa Senhora",
+      "categoria": "kits-presente",
+      "promocao": false,
+      "preco": 169,
+      "preco_original": null,
+      "descricao": "Imagem de Nossa Senhora em caixa de acrílico, acompanhada de terço de pérolas com medalha dourada. Um presente de fé para batizados, aniversários e momentos especiais.",
+      "fotos": [
+        "fotos/27-kit-religioso-nossa-senhora/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "28-kit-infancia-passarinho",
+      "numero": 28,
+      "nome": "Kit Infância Passarinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 99.9,
+      "preco_original": null,
+      "descricao": "O presente perfeito para deixar a infância ainda mais especial. Caixa decorada com casinha e passarinho, itens de higiene infantil, lenços umedecidos e livro “100 Primeiros Desenhos”, com laço azul.",
+      "fotos": [
+        "fotos/28-kit-infancia-passarinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "29-kit-urso-de-pelucia-lilas",
+      "numero": 29,
+      "nome": "Kit Urso de Pelúcia Lilás",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 169,
+      "preco_original": null,
+      "descricao": "Pequenos presentes, grandes sorrisos. Urso de pelúcia, caixa personalizada e 2 sabonetes Giovanna Baby, embalados em celofane com laço branco. Preparado com muito carinho para encantar os pequenos.",
+      "fotos": [
+        "fotos/29-kit-urso-de-pelucia-lilas/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "30-kit-menina-cestinha-rosa",
+      "numero": 30,
+      "nome": "Kit Menina Cestinha Rosa",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 99,
+      "preco_original": null,
+      "descricao": "Um mimo cheio de fofura para surpreender quem você ama. Cestinha de vime com escova, pente, acessórios de cabelo e necessaire em tons de rosa, com laço pink.",
+      "fotos": [
+        "fotos/30-kit-menina-cestinha-rosa/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "31-kit-diario-e-ursinho",
+      "numero": 31,
+      "nome": "Kit Diário e Ursinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 139.9,
+      "preco_original": null,
+      "descricao": "Bolsinha transparente com ursinho de pelúcia, caderno “Meu Diário” e kit de sabonetes, finalizada com laço lilás. Seu kit personalizado pronto para presentear.",
+      "fotos": [
+        "fotos/31-kit-diario-e-ursinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "32-kit-homem-aranha-baldinho",
+      "numero": 32,
+      "nome": "Kit Homem-Aranha Baldinho",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 129,
+      "preco_original": null,
+      "descricao": "Balde do Homem-Aranha recheado de Fini Tubes, balas, chocolates e guloseimas, embalado em celofane com laço vermelho.",
+      "fotos": [
+        "fotos/32-kit-homem-aranha-baldinho/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "33-kit-maquiagem-floral",
+      "numero": 33,
+      "nome": "Kit Maquiagem Floral",
+      "categoria": "kits-presente",
+      "promocao": false,
+      "preco": 149,
+      "preco_original": null,
+      "descricao": "Para presentear alguém especial. Caixa floral com paleta de sombras, blush, gloss, itens de skincare e flor decorativa.",
+      "fotos": [
+        "fotos/33-kit-maquiagem-floral/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "34-kit-stitch-copo",
+      "numero": 34,
+      "nome": "Kit Stitch Copo",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 129,
+      "preco_original": null,
+      "descricao": "Copo do Stitch com pelúcia do personagem e guloseimas, embalado em celofane com laço rosa e azul. Feito para presentear.",
+      "fotos": [
+        "fotos/34-kit-stitch-copo/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "35-kit-maternidade-rosa",
+      "numero": 35,
+      "nome": "Kit Maternidade Rosa",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 129,
+      "preco_original": 159,
+      "descricao": "Um presente encantador para celebrar a maternidade. Bandeja rosa com ursinho de pelúcia, manta, acessórios e itens de cuidado do bebê, embalada em celofane com laço rosa.",
+      "fotos": [
+        "fotos/35-kit-maternidade-rosa/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "36-kit-bebe-natureza",
+      "numero": 36,
+      "nome": "Kit Bebê Natureza",
+      "categoria": "bebe-e-infantil",
+      "promocao": true,
+      "preco": 129,
+      "preco_original": 150,
+      "descricao": "Já vem prontinho para presentear. Caixa com toalha, produtos de higiene Bebê Natureza, ursinho de pelúcia, escova e pente, embalada em papel celofane, fita e balão.",
+      "fotos": [
+        "fotos/36-kit-bebe-natureza/foto-1.jpg"
+      ]
+    },
+    {
+      "id": "37-kit-bebe-pelucia-e-balao",
+      "numero": 37,
+      "nome": "Kit Bebê Pelúcia e Balão",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 159,
+      "preco_original": null,
+      "descricao": "Um kit delicado e especial para os primeiros momentos do bebê. Caixa com urso de pelúcia, lenços umedecidos, shampoo e sabonete líquido infantis e brinquedo, embalada em celofane com fita e balão.",
+      "fotos": [
+        "fotos/37-kit-bebe-pelucia-e-balao/foto-1.jpg",
+        "fotos/37-kit-bebe-pelucia-e-balao/foto-2.jpg"
+      ]
+    },
+    {
+      "id": "38-kit-bebe-amarelo",
+      "numero": 38,
+      "nome": "Kit Bebê Amarelo",
+      "categoria": "bebe-e-infantil",
+      "promocao": false,
+      "preco": 99.9,
+      "preco_original": null,
+      "descricao": "Cestinha com linha de higiene infantil em tons de amarelo e bichinho de brinquedo, embalada em celofane com laço e balão amarelos. Ideal para chá de bebê e maternidade.",
+      "fotos": [
+        "fotos/38-kit-bebe-amarelo/foto-1.jpg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+---
+// Abertura temática: a tela é um embrulho. A fita cruza, o selo pousa, e o papel abre em círculo. ≤ 1,4 s.
+const TXT = 'FEITO COM CARINHO • MIMOS IN BOX • ';
+---
+<div class="ab pt-coracoes" aria-hidden="true">
+  <i class="ab-f ab-fh"></i>
+  <i class="ab-f ab-fv"></i>
+  <div class="ab-selo">
+    <svg viewBox="0 0 200 200" class="ab-anel">
+      <defs><path id="ab-c" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0" /></defs>
+      <text><textPath href="#ab-c">{TXT}</textPath></text>
+    </svg>
+    <img src="/img/logo-192.webp" alt="" width="120" height="120" />
+  </div>
+</div>
+
+<style is:global>
+  @property --ab-r { syntax: '<length-percentage>'; inherits: false; initial-value: 0%; }
+  .ab { display: none; }
+  html.abrindo .ab { display: grid; place-items: center; position: fixed; inset: 0; z-index: 200; background-color: var(--cereja); overflow: hidden;
+    -webkit-mask: radial-gradient(circle at 50% 50%, #0000 var(--ab-r), #000 calc(var(--ab-r) + 0.5%)); mask: radial-gradient(circle at 50% 50%, #0000 var(--ab-r), #000 calc(var(--ab-r) + 0.5%)); }
+  html.abrindo { overflow: hidden; }
+  .ab-f { position: absolute; background: repeating-linear-gradient(90deg, var(--rosa) 0 10px, var(--rosa-cl) 10px 12px, var(--rosa) 12px 44px, var(--chiclete) 44px 46px, var(--rosa) 46px 56px); box-shadow: 0 6px 18px rgba(40, 0, 15, 0.35); }
+  .ab-fh { left: 0; right: 0; top: 50%; height: 56px; margin-top: -28px; transform-origin: 0 50%; background-size: 100% 100%; background-image: linear-gradient(var(--rosa-cl) 0 4px, var(--rosa) 4px 52px, var(--chiclete) 52px); animation: ab-h 0.45s var(--sai) both; }
+  .ab-fv { top: 0; bottom: 0; left: 50%; width: 56px; margin-left: -28px; transform-origin: 50% 0; animation: ab-v 0.45s 0.12s var(--sai) both; }
+  @keyframes ab-h { from { transform: scaleX(0); } }
+  @keyframes ab-v { from { transform: scaleY(0); } }
+  .ab-selo { position: relative; width: 190px; height: 190px; border-radius: 50%; background: var(--creme); display: grid; place-items: center; box-shadow: 0 0 0 6px var(--cereja), 0 0 0 8px var(--pastel), 0 18px 40px rgba(40, 0, 15, 0.5); animation: ab-s 0.6s 0.3s var(--mola) both; }
+  .ab-selo img { width: 116px; height: 116px; border-radius: 50%; }
+  .ab-anel { position: absolute; inset: 0; animation: ab-g 9s linear infinite; }
+  .ab-anel text { font: 800 15.5px var(--f-texto); letter-spacing: 2.2px; fill: var(--cereja); }
+  @keyframes ab-s { from { transform: scale(0) rotate(-120deg); } }
+  @keyframes ab-g { to { transform: rotate(360deg); } }
+  html.abrindo.abriu .ab { animation: ab-abre 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards; pointer-events: none; }
+  html.abrindo.abriu { overflow: visible; overflow-x: clip; }
+  html.abrindo.abriu .ab-selo { transition: transform 0.35s var(--sai), opacity 0.3s; transform: scale(1.5); opacity: 0; }
+  @keyframes ab-abre { to { --ab-r: 150%; visibility: hidden; } }
+</style>
+
+<script>
+  // Abre quando as fontes chegaram e a fita terminou. Na volta dentro da mesma visita, mais curta.
+  const h = document.documentElement;
+  if (h.classList.contains('abrindo')) {
+    let visto = false; try { visto = sessionStorage.getItem('mimos-ab') === '1'; sessionStorage.setItem('mimos-ab', '1'); } catch {}
+    const minimo = new Promise((r) => setTimeout(r, visto ? 520 : 880));
+    const fontes = Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1200))]);
+    Promise.all([minimo, fontes]).then(() => (window as any).__abre());
+  }
+</script>

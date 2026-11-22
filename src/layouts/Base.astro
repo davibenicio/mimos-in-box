@@ -1,0 +1,67 @@
+---
+import '@fontsource/oleo-script/latin-700.css';
+import '@fontsource/caprasimo/latin-400.css';
+import '@fontsource-variable/nunito/wght.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { LOJA } from '../data/loja';
+import Abertura from '../components/Abertura.astro';
+import Barra from '../components/Barra.astro';
+import Rodape from '../components/Rodape.astro';
+import Flutuantes from '../components/Flutuantes.astro';
+
+/** Prévia: sai com noindex. Trocar para false só depois do Checklist de lançamento. */
+const PREVIA = true;
+interface Props { titulo?: string; descricao?: string }
+const {
+  titulo = 'Mimos in Box · Cestas e presentes personalizados em Ilhéus',
+  descricao = 'Cestas de café da manhã, kits presente e mimos para bebê em Ilhéus, BA. Escolha no catálogo ou monte a sua cesta e faça o pedido pelo site.',
+} = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const og = new URL('/og.jpg', Astro.site).href;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Store', name: LOJA.nome, description: descricao, url,
+  image: og, telephone: '+' + LOJA.whatsappNumero, sameAs: [LOJA.instagramLink],
+  address: { '@type': 'PostalAddress', streetAddress: `${LOJA.endereco}, ${LOJA.bairro}`, addressLocality: LOJA.cidade, addressRegion: LOJA.uf, addressCountry: 'BR' },
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    {PREVIA && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#7a1230" />
+    <meta name="color-scheme" content="only light" />
+    <link rel="preload" as="image" href="/img/c/08-g.webp" imagesrcset="/img/c/08.webp 560w, /img/c/08-g.webp 800w" imagesizes="(max-width: 900px) 70vw, 520px" fetchpriority="high" />
+    <link rel="canonical" href={url} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content="pt_BR" />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script is:inline>
+      (function () {
+        var h = document.documentElement; h.classList.add('js');
+        var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}
+        window.__abre = function () { if (h.classList.contains('abriu')) return; h.classList.add('abriu'); window.dispatchEvent(new Event('mimos:abriu')); };
+        if (calmo || volta) { h.classList.add('abriu', 'sem-ab'); } else { h.classList.add('abrindo'); setTimeout(window.__abre, 2400); }
+      })();
+    </script>
+  </head>
+  <body>
+    <Abertura />
+    <Barra />
+    <main id="topo"><slot /></main>
+    <Rodape />
+    <Flutuantes />
+    <div class="cur" aria-hidden="true"></div>
+  </body>
+</html>

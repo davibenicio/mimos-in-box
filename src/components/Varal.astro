@@ -1,0 +1,42 @@
+---
+// Varal de fotos: polaroides penduradas numa fita, passando sozinhas. Pausa no hover, no foco e no toque. Clique abre a cesta.
+import { PRODUTOS } from '../data/catalogo';
+const NN = ['19', '08', '27', '04', '35', '10', '29', '33', '14', '37', '09', '22', '24', '16'];
+const itens = NN.map((n) => PRODUTOS.find((p) => p.nn === n)!);
+---
+<section class="vr" aria-label="Fotos das cestas">
+  <div class="vr-fantasma" aria-hidden="true">mimos</div>
+  <div class="vr-fita" aria-hidden="true"></div>
+  <div class="vr-jan" data-varal>
+    <div class="vr-t">
+      {[0, 1].map((k) => itens.map((p, i) => (
+        <button type="button" class="vr-p" data-abre={p.nn} data-cur="Abrir" style={`--r:${((i * 37) % 9) - 4}deg;--d:${3.4 + (i % 4) * 0.5}s`} tabindex={k ? -1 : 0} aria-hidden={k ? 'true' : undefined}>
+          <i></i>
+          <img src={`/img/p/${p.nn}-1-p.webp`} alt={p.nome} width="360" height="479" loading="lazy" draggable="false" />
+          <span>{p.nome}</span>
+        </button>
+      )))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .vr { position: relative; background: var(--creme); padding: 30px 0 clamp(70px, 9vw, 110px); overflow: clip; }
+  .vr-fantasma { position: absolute; left: 50%; top: 50%; translate: -50% -58%; font-family: var(--f-script); font-size: clamp(180px, 34vw, 520px); line-height: 0.8; color: transparent; -webkit-text-stroke: 2px var(--pastel); white-space: nowrap; user-select: none; }
+  .vr-fita { position: absolute; left: 0; right: 0; top: 46px; height: 8px; background: repeating-linear-gradient(90deg, var(--cereja) 0 16px, var(--framboesa) 16px 32px); box-shadow: 0 3px 6px -2px rgba(60, 0, 20, 0.5); }
+  .vr-jan { position: relative; overflow: hidden; padding: 12px 0 30px; }
+  .vr-t { display: flex; width: max-content; animation: fx-anda 70s linear infinite; }
+  .vr-jan:hover .vr-t, .vr-jan:focus-within .vr-t, .vr-jan.toque .vr-t { animation-play-state: paused; }
+  .vr-p { position: relative; flex: none; width: clamp(170px, 20vw, 236px); margin-right: clamp(18px, 2.4vw, 34px); padding: 9px 9px 12px; border: 0; background: #fff; text-align: center; box-shadow: 0 16px 28px -16px rgba(74, 19, 34, 0.65); transform-origin: 50% -6px; rotate: var(--r); animation: vr-balanca var(--d) ease-in-out infinite alternate; }
+  .vr-p i { position: absolute; left: 50%; top: -22px; width: 16px; height: 34px; margin-left: -8px; border-radius: 4px; background: var(--rosa); box-shadow: inset 0 -12px 0 var(--chiclete), 0 2px 3px rgba(0, 0, 0, 0.25); z-index: 2; }
+  .vr-p img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; pointer-events: none; }
+  .vr-p span { display: block; margin-top: 8px; font-family: var(--f-script); font-size: 17px; line-height: 1.1; color: var(--cereja); }
+  .vr-p:hover, .vr-p:focus-visible { animation-play-state: paused; z-index: 3; scale: 1.06; transition: scale 0.4s var(--mola); }
+  @keyframes vr-balanca { from { transform: rotate(-2.2deg); } to { transform: rotate(2.2deg); } }
+</style>
+
+<script>
+  const jan = document.querySelector<HTMLElement>('[data-varal]')!;
+  jan.addEventListener('touchstart', () => jan.classList.add('toque'), { passive: true });
+  jan.addEventListener('touchend', () => setTimeout(() => jan.classList.remove('toque'), 2500), { passive: true });
+</script>

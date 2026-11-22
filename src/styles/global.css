@@ -1,0 +1,81 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: 84px; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fundo); color: var(--tinta); font-family: var(--f-texto); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+main { overflow-x: clip; position: relative; }
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+h1, h2, h3, p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--framboesa); outline-offset: 3px; border-radius: 6px; }
+.so-leitor { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.cx { width: var(--larg); margin-inline: auto; }
+.sec { position: relative; padding-block: clamp(64px, 9vw, 120px); }
+
+/* ---- tipografia por papéis ---- */
+.tit { font-family: var(--f-script); font-weight: 700; font-size: clamp(40px, 6.2vw, 78px); line-height: 1.02; color: var(--cereja); text-wrap: balance; }
+.tit em { font-style: normal; color: var(--framboesa); }
+.tit--claro { color: var(--creme); }
+.tit--claro em { color: var(--pastel); }
+.sub { font-size: clamp(17px, 1.6vw, 20px); max-width: 52ch; color: var(--tinta); }
+.gorda { font-family: var(--f-gorda); font-weight: 400; }
+.preco { font-family: var(--f-gorda); color: var(--framboesa); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.preco-de { color: var(--tinta-suave); font-size: 0.78em; text-decoration: line-through; font-family: var(--f-texto); font-weight: 600; white-space: nowrap; }
+
+/* ---- botão adesivo (um principal, um secundário) ---- */
+.bt { --bg: var(--cereja); --fg: var(--creme); --bd: var(--cereja-esc); position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 26px; border: 2px solid var(--bd); border-radius: 999px; background: var(--bg); color: var(--fg); font-weight: 800; font-size: 16.5px; text-decoration: none; white-space: nowrap; overflow: hidden; box-shadow: 0 5px 0 var(--bd); transition: transform 0.18s var(--sai), box-shadow 0.18s var(--sai); }
+.bt::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%); transform: translateX(-120%); }
+@media (hover: hover) { .bt:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--bd); } .bt:hover::after { transform: translateX(120%); transition: transform 0.6s var(--sai); } }
+.bt:active { transform: translateY(5px); box-shadow: 0 0 0 var(--bd); }
+.bt--claro { --bg: var(--creme); --fg: var(--cereja); --bd: var(--cereja-esc); }
+.bt--rosa { --bg: var(--rosa); --fg: #fff; --bd: var(--cereja); }
+.bt--linha { --bg: transparent; --fg: var(--cereja); --bd: var(--cereja); box-shadow: none; }
+.bt--linha:hover { box-shadow: 0 4px 0 var(--bd); }
+.bt--linha.bt--claro { --fg: var(--creme); --bd: var(--creme); }
+.bt[disabled] { opacity: 0.5; cursor: not-allowed; transform: none; }
+.bt--bloco { width: 100%; }
+
+/* ---- etiqueta e adesivo ---- */
+.selo-promo { display: inline-block; font-family: var(--f-gorda); font-size: 13px; background: var(--framboesa); color: #fff; padding: 4px 11px; border-radius: 999px; transform: rotate(-4deg); }
+.chip { display: inline-block; font-weight: 800; font-size: 13.5px; background: var(--pastel); color: var(--cereja); padding: 4px 12px; border-radius: 999px; }
+
+/* ---- borda rendada (papel rendado das cestas) ---- */
+.renda-b::after, .renda-t::before { content: ''; position: absolute; left: 0; right: 0; height: 16px; background: inherit; background-image: none; -webkit-mask: radial-gradient(11px at 50% 0, #000 97%, #0000) 0 0 / 22px 100% repeat-x; mask: radial-gradient(11px at 50% 0, #000 97%, #0000) 0 0 / 22px 100% repeat-x; z-index: 3; pointer-events: none; }
+.renda-b::after { top: 100%; margin-top: -1px; }
+.renda-t::before { bottom: 100%; margin-bottom: -1px; transform: scaleY(-1); }
+
+/* ---- entradas (só com JS; sem JS tudo aparece) ---- */
+html.js [data-rev] { opacity: 0; transition: opacity 0.7s var(--sai), transform 0.9s var(--sai), clip-path 0.9s var(--sai); transition-delay: calc(var(--i, 0) * 70ms); }
+html.js [data-rev='sobe'] { transform: translateY(34px); }
+html.js [data-rev='esq'] { transform: translateX(-40px); }
+html.js [data-rev='dir'] { transform: translateX(40px); }
+html.js [data-rev='pop'] { transform: scale(0.82) rotate(-4deg); transition-timing-function: var(--sai), var(--mola), var(--sai); }
+html.js [data-rev].visto { opacity: 1; transform: none; }
+html.js .tit[data-pal] .pl { display: inline-block; opacity: 0; transform: translateY(0.5em) rotate(4deg); filter: blur(6px); transition: opacity 0.6s var(--sai), transform 0.8s var(--mola), filter 0.6s; transition-delay: calc(var(--i) * 80ms); }
+html.js .tit[data-pal].visto .pl { opacity: 1; transform: none; filter: none; }
+
+/* ---- pausa geral e movimento reduzido ---- */
+html.pausado *, html.pausado *::before, html.pausado *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
+  html.js [data-rev], html.js .tit[data-pal] .pl { opacity: 1; transform: none; filter: none; }
+}
+
+/* ---- diálogos ---- */
+dialog { border: 0; padding: 0; background: transparent; color: inherit; max-width: none; max-height: none; }
+dialog::backdrop { background: rgba(86, 11, 32, 0.62); backdrop-filter: blur(4px); }
+dialog[open] { animation: dlg-in 0.5s var(--mola); }
+dialog[open]::backdrop { animation: fade-in 0.3s; }
+@keyframes dlg-in { from { opacity: 0; transform: scale(0.86) translateY(24px); } }
+@keyframes fade-in { from { opacity: 0; } }
+.dlg-x { position: absolute; top: 12px; right: 12px; z-index: 5; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--cereja); background: var(--creme); color: var(--cereja); display: grid; place-items: center; box-shadow: 0 3px 0 var(--cereja); }
+.dlg-x:active { transform: translateY(3px); box-shadow: none; }
+
+/* ---- cursor contextual (só com mouse) ---- */
+.cur { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%; background: var(--framboesa); color: #fff; font-family: var(--f-gorda); font-size: 15px; display: grid; place-items: center; opacity: 0; scale: 0.3; transition: opacity 0.2s, scale 0.35s var(--mola); }
+.cur.on { opacity: 1; scale: 1; }
+@media (hover: none), (pointer: coarse) { .cur { display: none; } }

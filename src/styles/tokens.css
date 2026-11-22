@@ -1,0 +1,35 @@
+/* Mimos in Box — direção "Cereja" (escolhida pelo Davi em 21/11/2026). Site sempre claro, sem tema escuro. */
+:root {
+  --cereja: #7a1230;
+  --cereja-esc: #560b20;
+  --tinta: #4a1322;          /* texto corrido */
+  --tinta-suave: #8a5665;
+  --framboesa: #bf0449;
+  --rosa: #e2457e;
+  --rosa-cl: #f47aa3;
+  --chiclete: #ec739f;
+  --pastel: #f6c1d6;
+  --fundo: #fce1ea;
+  --clarinho: #fff4f7;
+  --creme: #fffbf5;
+  --ouro: #c79a3b;
+  --wa: #128c4b;
+
+  --f-script: 'Oleo Script', 'Brush Script MT', cursive;
+  --f-gorda: 'Caprasimo', Georgia, serif;
+  --f-texto: 'Nunito Variable', 'Nunito', system-ui, sans-serif;
+
+  --larg: min(1200px, 100% - 40px);
+  --raio: 20px;
+  --mola: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1.004 83.8%, 1);
+  --sai: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --barra: 68px;
+}
+
+/* ---- padrões de fundo (uma cor de tinta por vez, em --pt) ---- */
+.pt-coracoes { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M14 20c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10zM42 48c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10z' fill='%23fff' fill-opacity='.07'/%3E%3C/svg%3E"); }
+.pt-coracoes-esc { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M14 20c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10zM42 48c-5-4-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 6-8 10z' fill='%237a1230' fill-opacity='.07'/%3E%3C/svg%3E"); }
+.pt-bolinhas { background-image: radial-gradient(circle, var(--pt, rgba(122, 18, 48, 0.1)) 22%, transparent 24%); background-size: 22px 22px; }
+.pt-listras { background-image: repeating-linear-gradient(-45deg, var(--pt, rgba(255, 255, 255, 0.1)) 0 14px, transparent 14px 28px); }
+.pt-vichy { background-image: linear-gradient(90deg, var(--pt, rgba(226, 69, 126, 0.13)) 50%, transparent 0), linear-gradient(var(--pt, rgba(226, 69, 126, 0.13)) 50%, transparent 0); background-size: 36px 36px; }
+.pt-xadrez { background-image: conic-gradient(var(--pt, var(--pastel)) 25%, transparent 0 50%, var(--pt, var(--pastel)) 0 75%, transparent 0); background-size: 34px 34px; }

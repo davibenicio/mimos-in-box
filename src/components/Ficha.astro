@@ -1,0 +1,92 @@
+---
+// Ficha da cesta (abre de qualquer botão com data-abre="NN").
+import { PRODUTOS } from '../data/catalogo';
+import { CATEGORIAS, LOJA } from '../data/loja';
+const NOMES = Object.fromEntries(CATEGORIAS.map((c) => [c.id, c.nome]));
+const dados = PRODUTOS.map((p) => ({ nn: p.nn, id: p.id, nome: p.nome, cat: NOMES[p.categoria], preco: p.preco, de: p.de, desc: p.descricao, fotos: p.fotos.length, dias: p.dias, corte: p.corte }));
+---
+<dialog class="pr" id="ficha" aria-labelledby="pr-nome">
+  <div class="pr-cx">
+    <button class="dlg-x" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg></button>
+    <div class="pr-gal pt-vichy">
+      <div class="pr-foto"><img alt="" width="900" height="1198" /></div>
+      <div class="pr-min"></div>
+    </div>
+    <div class="pr-inf">
+      <p class="pr-etq"><span class="chip" data-cat></span><span class="selo-promo" data-promo hidden>Promoção</span></p>
+      <h2 class="tit" id="pr-nome"></h2>
+      <p class="pr-preco"><s class="preco-de" data-de></s><b class="preco" data-preco></b></p>
+      <p class="pr-desc" data-desc></p>
+      <ul class="pr-reg">
+        <li data-prazo></li>
+        <li>{LOJA.regras.laco}</li>
+        <li>Retirada no {LOJA.bairro} ou entrega pela 99.</li>
+      </ul>
+      <div class="pr-bts">
+        <button class="bt" type="button" data-comprar>Comprar esta cesta</button>
+        <button class="bt bt--linha" type="button" data-personalizar>Personalizar esta</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+<script type="application/json" id="produtos" set:html={JSON.stringify(dados)} />
+
+<style is:global>
+  .pr { width: min(980px, 100% - 24px); max-height: calc(100dvh - 24px); margin: auto; overflow: visible; }
+  .pr-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 28px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja-esc); overflow: hidden; max-height: calc(100dvh - 24px); }
+  .pr-gal { background-color: var(--fundo); padding: 22px; display: grid; gap: 12px; align-content: center; }
+  .pr-foto { background: #fff; padding: 10px 10px 30px; box-shadow: 0 18px 30px -18px rgba(74, 19, 34, 0.6); rotate: -2deg; transition: rotate 0.5s var(--mola); }
+  .pr-foto:hover { rotate: 0deg; }
+  .pr-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; transition: opacity 0.25s; }
+  .pr-foto img.troca { opacity: 0; }
+  .pr-min { display: flex; gap: 8px; justify-content: center; }
+  .pr-min button { width: 58px; height: 58px; padding: 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--pastel); background: #fff; }
+  .pr-min button[aria-current='true'] { border-color: var(--cereja); box-shadow: 0 3px 0 var(--cereja); }
+  .pr-min img { width: 100%; height: 100%; object-fit: cover; }
+  .pr-inf { padding: clamp(22px, 3.4vw, 40px); display: grid; gap: 12px; align-content: center; overflow-y: auto; }
+  .pr-etq { display: flex; gap: 8px; align-items: center; }
+  .pr-inf .tit { font-size: clamp(32px, 4vw, 50px); padding-right: 40px; }
+  .pr-preco { display: flex; align-items: baseline; gap: 10px; font-size: 34px; }
+  .pr-desc { font-size: 16.5px; }
+  .pr-reg { display: grid; gap: 6px; padding: 12px 14px; border-radius: 16px; background: var(--clarinho); border: 2px dashed var(--pastel); font-size: 15px; font-weight: 700; }
+  .pr-reg li { display: flex; gap: 9px; align-items: baseline; }
+  .pr-reg li::before { content: ''; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--framboesa); }
+  .pr-bts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+  @media (max-width: 760px) {
+    .pr-cx { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+    .pr-gal { grid-template-columns: minmax(0, 150px) auto; padding: 16px; justify-content: center; align-items: center; }
+    .pr-min { flex-direction: column; }
+    .pr-inf { overflow: visible; }
+    .pr-bts .bt { width: 100%; }
+  }
+</style>
+
+<script>
+  const dlg = document.getElementById('ficha') as HTMLDialogElement;
+  const P: any[] = JSON.parse(document.getElementById('produtos')!.textContent!);
+  const $ = (s: string) => dlg.querySelector<HTMLElement>(s)!;
+  const foto = dlg.querySelector<HTMLImageElement>('.pr-foto img')!, mins = $('.pr-min');
+  const rs = (v: number) => 'R$ ' + v.toFixed(2).replace('.', ',');
+  let atual: any = null;
+  const mostraFoto = (k: number) => {
+    foto.classList.add('troca');
+    setTimeout(() => { foto.src = `/img/p/${atual.nn}-${k}.webp`; foto.onload = () => foto.classList.remove('troca'); }, 140);
+    mins.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', String(i + 1 === k)));
+  };
+  const abre = (nn: string) => {
+    const p = P.find((x) => x.nn === nn); if (!p) return; atual = p;
+    $('[data-cat]').textContent = p.cat; $('[data-promo]').hidden = !p.de; $('#pr-nome').textContent = p.nome;
+    $('[data-de]').textContent = p.de ? rs(p.de) : ''; $('[data-preco]').textContent = rs(p.preco); $('[data-desc]').textContent = p.desc;
+    $('[data-prazo]').textContent = p.dias > 1 ? 'Peça com 48h de antecedência.' : 'Pode pedir em qualquer dia da semana.';
+    foto.alt = p.nome; foto.src = `/img/p/${nn}-1.webp`; foto.classList.remove('troca');
+    mins.innerHTML = p.fotos > 1 ? Array.from({ length: p.fotos }, (_, i) => `<button type="button" aria-label="Foto ${i + 1}" aria-current="${i === 0}"><img src="/img/p/${nn}-${i + 1}-p.webp" alt="" loading="lazy"></button>`).join('') : '';
+    mins.hidden = p.fotos < 2;
+    if (!dlg.open) dlg.showModal(); document.documentElement.classList.add('modal');
+  };
+  mins.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest('button'); if (b) mostraFoto([...mins.children].indexOf(b) + 1); });
+  document.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('[data-abre]'); if (b) { e.preventDefault(); abre(b.dataset.abre!); } });
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).closest('[data-fecha]')) dlg.close(); });
+  dlg.addEventListener('close', () => { if (!document.querySelector('dialog[open]')) document.documentElement.classList.remove('modal'); });
+  $('[data-comprar]').addEventListener('click', () => { const p = atual; dlg.close(); window.dispatchEvent(new CustomEvent('mimos:pedido', { detail: { tipo: 'pronta', nome: p.nome, itens: [], total: p.preco, estimado: false, laco: '', base: '', dias: p.dias, foto: p.corte } })); });
+  $('[data-personalizar]').addEventListener('click', () => { const p = atual; dlg.close(); window.dispatchEvent(new CustomEvent('mimos:personalizar', { detail: { nome: p.nome } })); });
+</script>

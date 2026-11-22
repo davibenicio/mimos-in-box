@@ -1,0 +1,82 @@
+---
+// Faixa "Monte a sua" + três etiquetas de categoria penduradas na fita (balançam como etiqueta de presente).
+import { CATEGORIAS } from '../data/loja';
+import { porNN } from '../data/catalogo';
+import CestaReal from './CestaReal.astro';
+---
+<section class="ch pt-listras renda-b" id="monte-chamada">
+  <div class="cx ch-g">
+    <div class="ch-txt">
+      <p class="ch-p" data-rev="sobe">Não achou a cesta ideal?</p>
+      <h2 class="tit tit--claro" data-pal>Monte <em>a sua.</em></h2>
+      <p class="ch-s" data-rev="sobe" style="--i:2">Escolha o tamanho, a cor do laço e cada item. A cesta vai se enchendo na tela e o total aparece na hora.</p>
+      <a class="bt bt--claro ch-bt" href="#monte" data-rev="sobe" style="--i:3"><span>Montar minha cesta</span></a>
+    </div>
+    <div class="ch-arte" data-rev="pop" style="--i:2"><CestaReal itens={['buque', 'pelucia', 'suco', 'nutella', 'biscoitos', 'caneca']} embrulhada /></div>
+  </div>
+</section>
+
+<section class="ct" aria-label="Categorias">
+  <div class="ct-fita" aria-hidden="true"></div>
+  <ul class="cx ct-g">
+    {CATEGORIAS.map((c, i) => {
+      const p = porNN(c.destaque);
+      return (
+        <li class="ct-e" data-rev="sobe" style={`--i:${i};--b:${[-3.5, 2.5, -2][i]}deg;--d:${[4.2, 5, 4.6][i]}s`}>
+          <i class="ct-fio" aria-hidden="true"></i>
+          <div class="ct-card">
+            <span class="ct-furo" aria-hidden="true"></span>
+            <div class:list={['ct-foto', ['pt-bolinhas', 'pt-xadrez', 'pt-coracoes-esc'][i]]}><img src={p.corte} width={p.cw} height={p.ch} alt={p.nome} loading="lazy" /></div>
+            <h3 class="gorda">{c.nome}</h3>
+            <p>{c.frase}</p>
+            <a class="bt bt--linha" href="#cestas" data-filtro={c.id}>Ver cestas</a>
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+
+<style is:global>
+  .ch { position: relative; background-color: var(--rosa); color: #fff; padding-block: clamp(70px, 9vw, 110px) clamp(80px, 10vw, 130px); z-index: 2; }
+  .ch-g { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; gap: 30px; }
+  .ch-p { font-family: var(--f-gorda); font-size: clamp(20px, 2.4vw, 28px); }
+  .ch .tit { font-size: clamp(64px, 11vw, 150px); line-height: 0.9; }
+  .ch-s { margin-top: 18px; max-width: 42ch; font-size: clamp(17px, 1.6vw, 20px); font-weight: 600; }
+  .ch-bt { margin-top: 26px; min-height: 58px; padding: 0 34px; font-size: 18px; }
+  /* borda com feixe de luz */
+  @property --ch-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .ch-bt::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; padding: 3px; background: conic-gradient(from var(--ch-a), transparent 0 70%, #fff 82%, var(--framboesa) 90%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: ch-feixe 3.2s linear infinite; pointer-events: none; }
+  @keyframes ch-feixe { to { --ch-a: 360deg; } }
+  .ch-arte { justify-self: center; width: min(100%, 420px); animation: ch-balanco 5s ease-in-out infinite alternate; transform-origin: 50% 90%; }
+  @keyframes ch-balanco { from { rotate: -2deg; } to { rotate: 2deg; } }
+
+  .ct { position: relative; background: var(--cereja); padding: 0 0 clamp(50px, 7vw, 90px); }
+  .ct-fita { position: absolute; left: 0; right: 0; top: 30px; height: 10px; background: repeating-linear-gradient(90deg, var(--pastel) 0 18px, var(--rosa-cl) 18px 36px); z-index: 1; }
+  .ct-g { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 3vw, 40px); padding-top: 34px; }
+  .ct-e { position: relative; padding-top: 46px; transform-origin: 50% 0; }
+  html.js .ct-e.visto, html:not(.js) .ct-e { animation: ct-pendulo var(--d) ease-in-out infinite alternate; }
+  .ct-e:hover { animation-play-state: paused; }
+  @keyframes ct-pendulo { from { rotate: var(--b); } to { rotate: calc(var(--b) * -1); } }
+  .ct-fio { position: absolute; left: 50%; top: 0; width: 3px; height: 62px; margin-left: -1.5px; background: var(--pastel); }
+  .ct-card { position: relative; background: var(--creme); border-radius: 26px; padding: 34px 20px 24px; text-align: center; display: grid; justify-items: center; gap: 8px; clip-path: polygon(22% 0, 78% 0, 100% 12%, 100% 100%, 0 100%, 0 12%); box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6); }
+  .ct-furo { position: absolute; left: 50%; top: 12px; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: var(--cereja); box-shadow: 0 0 0 4px var(--pastel); }
+  .ct-foto { width: min(190px, 70%); aspect-ratio: 1; margin-top: 14px; border-radius: 50%; background-color: var(--pastel); display: grid; place-items: center; overflow: hidden; border: 3px solid var(--cereja); }
+  .ct-foto img { width: 82%; height: 82%; object-fit: contain; transition: scale 0.5s var(--mola), rotate 0.5s var(--mola); }
+  .ct-e:hover .ct-foto img { scale: 1.14; rotate: -5deg; }
+  .ct-card h3 { font-size: clamp(21px, 2.2vw, 27px); color: var(--cereja); line-height: 1.1; margin-top: 6px; }
+  .ct-card p { font-size: 15.5px; max-width: 24ch; line-height: 1.35; }
+  .ct-card .bt { margin-top: 8px; min-height: 46px; }
+  @media (max-width: 820px) {
+    .ch-g { grid-template-columns: minmax(0, 1fr); }
+    .ch-arte { order: -1; width: 240px; }
+    .ct-g { grid-template-columns: minmax(0, 1fr); gap: 10px; max-width: 400px; }
+    .ct-fita { display: none; }
+    .ct-e { padding-top: 34px; }
+    .ct-fio { height: 46px; }
+    .ct-card { grid-template-columns: 96px minmax(0, 1fr); justify-items: start; text-align: left; gap: 2px 14px; padding: 30px 16px 16px; clip-path: polygon(9% 0, 91% 0, 100% 20%, 100% 100%, 0 100%, 0 20%); }
+    .ct-foto { grid-row: 1 / 4; width: 96px; margin-top: 0; align-self: center; }
+    .ct-card h3 { margin-top: 0; }
+    .ct-card .bt { margin-top: 6px; min-height: 44px; padding: 0 18px; }
+  }
+</style>

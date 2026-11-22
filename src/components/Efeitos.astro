@@ -1,0 +1,51 @@
+---
+// Efeitos gerais: entradas ao rolar, títulos palavra a palavra, leitura que acende, marca do rodapé, cursor contextual.
+---
+<script>
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cada = (nome: string, fn: () => void) => { try { fn(); } catch (e) { console.warn('efeito', nome, e); } };
+
+  cada('titulos', () => {
+    document.querySelectorAll<HTMLElement>('.tit[data-pal]').forEach((t) => {
+      let i = 0;
+      const quebra = (no: Node) => {
+        [...no.childNodes].forEach((f) => {
+          if (f.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            (f.textContent ?? '').split(/(\s+)/).forEach((p) => { if (!p.trim()) { frag.append(p); return; } const s = document.createElement('span'); s.className = 'pl'; s.style.setProperty('--i', String(i++)); s.textContent = p; frag.append(s); });
+            f.replaceWith(frag);
+          } else if ((f as HTMLElement).tagName === 'EM') quebra(f);
+        });
+      };
+      quebra(t);
+    });
+  });
+
+  cada('entradas', () => {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visto'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    const liga = () => document.querySelectorAll('[data-rev], .tit[data-pal], [data-letras], .sb-v li').forEach((el) => io.observe(el));
+    if (document.documentElement.classList.contains('abriu')) liga(); else addEventListener('mimos:abriu', liga, { once: true });
+  });
+
+  cada('leitura', () => {
+    const p = document.querySelector<HTMLElement>('[data-ler]'); if (!p) return;
+    p.innerHTML = (p.textContent ?? '').split(/\s+/).map((w) => `<span class="lw${calmo ? ' ac' : ''}">${w}</span>`).join(' ');
+    if (calmo) return;
+    const ws = [...p.querySelectorAll('.lw')]; let tic = false, perto = false;
+    const at = () => { const r = p.getBoundingClientRect(), pr = Math.min(1, Math.max(0, (innerHeight * 0.86 - r.top) / (innerHeight * 0.5 + r.height))); const n = Math.round(pr * ws.length); ws.forEach((w, i) => w.classList.toggle('ac', i < n)); tic = false; };
+    new IntersectionObserver(([e]) => { perto = e.isIntersecting; if (perto) at(); }, { rootMargin: '100px' }).observe(p);
+    addEventListener('scroll', () => { if (perto && !tic) { tic = true; requestAnimationFrame(at); } }, { passive: true });
+  });
+
+  cada('cursor', () => {
+    if (calmo || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const c = document.querySelector<HTMLElement>('.cur')!; let x = 0, y = 0, cx = 0, cy = 0, on = false, rodando = false;
+    const anda = () => { cx += (x - cx) * 0.2; cy += (y - cy) * 0.2; c.style.transform = `translate(${cx}px, ${cy}px)`; if (on || Math.abs(x - cx) > 0.5) requestAnimationFrame(anda); else rodando = false; };
+    addEventListener('pointermove', (e) => {
+      x = e.clientX; y = e.clientY; const a = (e.target as HTMLElement).closest?.<HTMLElement>('[data-cur]');
+      on = !!a; if (a) c.textContent = a.dataset.cur!; c.classList.toggle('on', on);
+      if (on && !rodando) { rodando = true; if (!c.classList.contains('ja')) { cx = x; cy = y; c.classList.add('ja'); } requestAnimationFrame(anda); }
+    }, { passive: true });
+    addEventListener('pointerdown', () => c.classList.remove('on'));
+  });
+</script>

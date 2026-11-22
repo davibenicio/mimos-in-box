@@ -1,0 +1,124 @@
+---
+import { PRODUTOS, reais } from '../data/catalogo';
+import { CATEGORIAS } from '../data/loja';
+const FILTROS = [{ id: 'todas', nome: 'Todas' }, ...CATEGORIAS.map((c) => ({ id: c.id, nome: c.nome })), { id: 'promo', nome: 'Promoções' }];
+const NOMES = Object.fromEntries(CATEGORIAS.map((c) => [c.id, c.nome]));
+// ordem da vitrine: promoções e cestas de café primeiro, intercalando as categorias
+const ordem = [...PRODUTOS].sort((a, b) => (Number(!!b.de) - Number(!!a.de)) || a.nn.localeCompare(b.nn));
+const TONS = ['a', 'b', 'c', 'd'];
+const pil = PRODUTOS.find((p) => p.nn === '01')!;
+---
+<section class="sec vt pt-coracoes renda-t" id="cestas" data-vitrine data-filtro="todas">
+  <div class="cx">
+    <header class="vt-topo">
+      <h2 class="tit tit--claro" data-pal>Nossas <span class="vt-pil" aria-hidden="true"><img src={pil.corte} width={pil.cw} height={pil.ch} alt="" loading="lazy" /></span> <em>cestas</em></h2>
+      <div class="vt-fil" role="group" aria-label="Filtrar cestas">
+        <i class="vt-gota" aria-hidden="true"></i>
+        {FILTROS.map((f, i) => <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-f={f.id}>{f.nome}</button>)}
+      </div>
+    </header>
+    <ul class="vt-g">
+      {ordem.map((p, i) => (
+        <li class="vt-c" data-cat={p.categoria} data-promo={p.de ? '1' : undefined} style={`view-transition-name: vt-${p.nn}`}>
+          <button type="button" class="vt-b" data-abre={p.nn} data-cur="Abrir" aria-label={`${p.nome}, ${reais(p.preco)}`}>
+            <span class:list={['vt-arco', `vt-arco--${TONS[i % 4]}`]}></span>
+            <img class="vt-img" src={p.corte} width={p.cw} height={p.ch} alt="" loading="lazy" decoding="async" />
+            {p.de && <span class="selo-promo vt-selo">Promoção</span>}
+            <span class="vt-inf">
+              <small>{NOMES[p.categoria]}</small>
+              <strong>{p.nome}</strong>
+              <span class="vt-pr">{p.de && <s class="preco-de">{reais(p.de)}</s>}<b class="preco">{reais(p.preco)}</b></span>
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+    <p class="vt-vazio" hidden>Nenhuma cesta neste filtro por enquanto.</p>
+    <div class="vt-mais"><button class="bt bt--claro" type="button" data-mais>Mostrar mais cestas</button></div>
+  </div>
+</section>
+
+<style is:global>
+  .vt { background-color: var(--cereja); padding-top: clamp(70px, 9vw, 110px); }
+  .vt-topo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; margin-bottom: clamp(60px, 8vw, 96px); }
+  .vt-pil { display: inline-block; vertical-align: -0.12em; width: 0; height: 0.92em; border-radius: 99px; background: var(--rosa); overflow: hidden; transition: width 0.9s 0.5s var(--mola); }
+  .vt-pil img { height: 150%; width: auto; max-width: none; margin: -12% auto 0; }
+  .visto .vt-pil, html:not(.js) .vt-pil { width: 1.9em; }
+  .vt-fil { position: relative; display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; border-radius: 30px; background: var(--cereja-esc); width: max-content; max-width: 100%; }
+  .vt-fil button { position: relative; z-index: 1; min-height: 44px; padding: 0 18px; border: 0; border-radius: 99px; background: none; color: var(--pastel); font-weight: 800; font-size: 15.5px; white-space: nowrap; transition: color 0.25s; }
+  .vt-fil button[aria-pressed='true'] { color: var(--cereja); }
+  .vt-gota { position: absolute; top: 6px; left: 0; height: 44px; width: 0; border-radius: 99px; background: var(--creme); transition: left 0.5s var(--mola), width 0.42s var(--sai), top 0.4s var(--sai); }
+  .vt-g { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(64px, 7vw, 90px) clamp(14px, 2vw, 26px); }
+  .vt-c { perspective: 900px; }
+  .vt-c.oc, .vt-c.fora { display: none; }
+  .vt-b { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: var(--tinta); transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.5s var(--sai); }
+  .vt-b.mexe { transition: transform 0.08s linear; }
+  .vt-arco { display: block; aspect-ratio: 1 / 0.92; border-radius: 999px 999px 0 0; background-color: var(--pastel); border: 2px solid var(--cereja-esc); border-bottom: 0; overflow: hidden; position: relative; }
+  .vt-arco--a { background-color: var(--pastel); background-image: radial-gradient(circle, rgba(122, 18, 48, 0.12) 22%, transparent 24%); background-size: 20px 20px; }
+  .vt-arco--b { background-color: var(--creme); background-image: linear-gradient(90deg, rgba(226, 69, 126, 0.16) 50%, transparent 0), linear-gradient(rgba(226, 69, 126, 0.16) 50%, transparent 0); background-size: 30px 30px; }
+  .vt-arco--c { background-color: var(--rosa-cl); background-image: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.22) 0 12px, transparent 12px 24px); }
+  .vt-arco--d { background-color: var(--fundo); background-image: conic-gradient(var(--pastel) 25%, transparent 0 50%, var(--pastel) 0 75%, transparent 0); background-size: 30px 30px; }
+  .vt-arco::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.55) 48%, transparent 62%); translate: -110% 0; }
+  .vt-img { position: absolute; left: 7%; top: 0; width: 86%; aspect-ratio: 1; object-fit: contain; object-position: 50% 100%; translate: 0 -22%; filter: drop-shadow(0 12px 10px rgba(60, 0, 20, 0.35)); transition: translate 0.5s var(--mola), scale 0.5s var(--mola); }
+  .vt-selo { position: absolute; left: 6px; top: 8%; z-index: 2; transform: translateZ(60px) rotate(-8deg); }
+  .vt-inf { display: grid; gap: 3px; padding: 12px 14px 14px; background: var(--creme); border: 2px solid var(--cereja-esc); border-top: 0; border-radius: 0 0 var(--raio) var(--raio); min-height: 118px; align-content: start; }
+  .vt-inf small { font-size: 12.5px; font-weight: 800; color: var(--tinta-suave); }
+  .vt-inf strong { font-size: 16px; line-height: 1.2; }
+  .vt-pr { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; font-size: 21px; }
+  @media (hover: hover) {
+    .vt-b:hover .vt-img { translate: 0 -30%; scale: 1.08; }
+    .vt-b:hover .vt-arco::after { translate: 110% 0; transition: translate 0.8s var(--sai); }
+  }
+  html.js .vt-c.chega { animation: vt-chega 0.6s var(--mola) both; animation-delay: calc(var(--k, 0) * 45ms); }
+  @keyframes vt-chega { from { opacity: 0; transform: translateY(40px) scale(0.9); } }
+  .vt-vazio { color: var(--pastel); font-weight: 700; margin-top: 20px; }
+  .vt-mais { display: grid; justify-items: center; margin-top: 44px; }
+  .vt-mais[hidden] { display: none; }
+  @media (max-width: 1000px) { .vt-g { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 700px) {
+    .vt-g { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 58px 12px; }
+    .vt-inf { padding: 10px 10px 12px; min-height: 128px; } .vt-inf strong { font-size: 14.5px; } .vt-pr { font-size: 18px; flex-wrap: wrap; gap: 0 6px; }
+    .vt-fil { border-radius: 26px; } .vt-fil button { padding: 0 14px; font-size: 14.5px; }
+    .vt-selo { font-size: 11.5px; padding: 3px 8px; }
+  }
+</style>
+
+<script>
+  const sec = document.querySelector<HTMLElement>('[data-vitrine]')!;
+  const cards = [...sec.querySelectorAll<HTMLElement>('.vt-c')];
+  const bts = [...sec.querySelectorAll<HTMLButtonElement>('.vt-fil button')];
+  const gota = sec.querySelector<HTMLElement>('.vt-gota')!;
+  const mais = sec.querySelector<HTMLElement>('.vt-mais')!, vazio = sec.querySelector<HTMLElement>('.vt-vazio')!;
+  const PASSO = 12; let limite = PASSO, filtro = 'todas';
+  const casa = (c: HTMLElement) => filtro === 'todas' || (filtro === 'promo' ? !!c.dataset.promo : c.dataset.cat === filtro);
+  const poeGota = () => { const a = bts.find((b) => b.getAttribute('aria-pressed') === 'true')!; gota.style.left = a.offsetLeft + 'px'; gota.style.top = a.offsetTop + 'px'; gota.style.width = a.offsetWidth + 'px'; };
+  const aplica = (anima: boolean, desde = 0) => {
+    let n = 0;
+    cards.forEach((c) => {
+      const ok = casa(c); c.classList.toggle('fora', !ok);
+      if (!ok) { c.classList.remove('chega'); return; }
+      const some = n >= limite; c.classList.toggle('oc', some);
+      if (!some && anima && n >= desde) { c.style.setProperty('--k', String(n - desde)); c.classList.remove('chega'); void c.offsetWidth; c.classList.add('chega'); }
+      n++;
+    });
+    mais.hidden = n <= limite; vazio.hidden = n > 0;
+  };
+  const filtra = (id: string) => {
+    filtro = id; limite = PASSO; sec.dataset.filtro = id;
+    bts.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.f === id))); poeGota(); aplica(true);
+  };
+  bts.forEach((b) => b.addEventListener('click', () => filtra(b.dataset.f!)));
+  mais.querySelector('button')!.addEventListener('click', () => { const antes = limite; limite += PASSO; aplica(true, antes); });
+  // botões de categoria fora da vitrine
+  document.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest<HTMLElement>('[data-filtro]'); if (a && a !== sec) filtra(a.dataset.filtro!); });
+  addEventListener('resize', poeGota); document.fonts.ready.then(poeGota); aplica(false); poeGota();
+  // cartão inclinado com brilho (só com mouse)
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sec.addEventListener('pointermove', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLElement>('.vt-b'); if (!b) return;
+      const r = b.getBoundingClientRect(); b.classList.add('mexe');
+      b.style.setProperty('--ry', ((e.clientX - r.left) / r.width - 0.5) * 14 + 'deg'); b.style.setProperty('--rx', (0.5 - (e.clientY - r.top) / r.height) * 10 + 'deg');
+    });
+    sec.addEventListener('pointerout', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('.vt-b'); if (b && !b.contains(e.relatedTarget as Node)) { b.classList.remove('mexe'); b.style.setProperty('--ry', '0deg'); b.style.setProperty('--rx', '0deg'); } });
+  }
+</script>

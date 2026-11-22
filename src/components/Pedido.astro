@@ -1,0 +1,181 @@
+---
+// Fechar o pedido no site. Sem pagamento online por enquanto: o pedido pronto segue para a loja, que confirma.
+import { LOJA, LACOS } from '../data/loja';
+---
+<dialog class="pd" id="pedido" aria-labelledby="pd-tit">
+  <div class="pd-cx">
+    <button class="dlg-x" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg></button>
+    <aside class="pd-res pt-coracoes">
+      <img data-foto alt="" width="300" height="300" />
+      <div class="pd-cena" data-cena hidden></div>
+      <strong class="gorda" data-nome></strong>
+      <ul data-itens></ul>
+      <p class="pd-base" data-base hidden></p>
+      <p class="pd-tot"><span data-rot>Total</span><b class="gorda" data-total></b></p>
+    </aside>
+    <form class="pd-f" novalidate>
+      <h2 class="tit" id="pd-tit">Fechar o <em>pedido</em></h2>
+      <div class="pd-2">
+        <label class="pd-c"><span>Seu nome</span><input name="nome" id="pd-nome" autocomplete="name" required /></label>
+        <label class="pd-c"><span>Celular com DDD</span><input name="cel" id="pd-cel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(73) 9 0000-0000" required /></label>
+      </div>
+      <div class="pd-2">
+        <label class="pd-c"><span>Para qual dia</span><input name="data" id="pd-data" type="date" required /></label>
+        <label class="pd-c"><span>Período</span><select name="periodo" id="pd-periodo"><option>Manhã</option><option>Tarde</option></select></label>
+      </div>
+      <fieldset class="pd-op"><legend>Como prefere receber</legend>
+        <label><input type="radio" name="modo" value="retirada" checked /><span>Retirar na loja</span></label>
+        <label><input type="radio" name="modo" value="entrega" /><span>Receber pela 99</span></label>
+      </fieldset>
+      <label class="pd-c" data-end hidden><span>Endereço de entrega</span><textarea name="endereco" id="pd-end" rows="2" autocomplete="street-address"></textarea><small>A taxa da 99 depende do endereço. A loja informa na confirmação.</small></label>
+      <div class="pd-2">
+        <label class="pd-c"><span>Para quem é <i>(opcional)</i></span><input name="para" id="pd-para" /></label>
+        <label class="pd-c" data-laco><span>Cor do laço</span><select name="laco" id="pd-laco">{LACOS.map((l) => <option>{l.nome}</option>)}</select></label>
+      </div>
+      <label class="pd-c"><span>Mensagem do cartão <i>(opcional)</i></span><textarea name="msg" id="pd-msg" rows="2" maxlength="220"></textarea></label>
+      <label class="pd-ck"><input type="checkbox" name="balao" id="pd-balao" /><span>Quero um balão adicional <b>(a partir de R$ 25)</b></span></label>
+      <fieldset class="pd-op"><legend>Como prefere pagar</legend>
+        <label><input type="radio" name="pag" value="Pix" checked /><span>Pix</span></label>
+        <label><input type="radio" name="pag" value="Cartão" /><span>Cartão</span></label>
+        <label data-naloja><input type="radio" name="pag" value="Na loja" /><span>Na loja</span></label>
+      </fieldset>
+      <p class="pd-erro" role="alert" hidden></p>
+      <button class="bt bt--bloco" type="submit">Confirmar pedido</button>
+      <p class="pd-nota">Seus dados vão só para a {LOJA.nome}, junto com o pedido. O pagamento é combinado na confirmação.</p>
+    </form>
+    <div class="pd-ok" hidden>
+      <canvas class="pd-chuva" aria-hidden="true"></canvas>
+      <p class="chip">Pedido <b data-num></b></p>
+      <h2 class="tit">Pedido <em>montado!</em></h2>
+      <p>Falta só enviar para a loja. Toque no botão: o pedido vai pronto, com todos os detalhes, e a {LOJA.nome} confirma a data e o pagamento.</p>
+      <a class="bt bt--rosa" data-zap target="_blank" rel="noopener">Enviar pedido para a loja</a>
+      <button class="bt bt--linha" type="button" data-copia>Copiar o pedido</button>
+      <button class="pd-volta" type="button" data-fecha>Voltar ao site</button>
+    </div>
+  </div>
+</dialog>
+
+<style is:global>
+  .pd { width: min(960px, 100% - 20px); max-height: calc(100dvh - 20px); margin: auto; overflow: visible; }
+  .pd-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); background: var(--creme); border-radius: 28px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja-esc); overflow: hidden; max-height: calc(100dvh - 20px); }
+  .pd-res { background-color: var(--cereja); color: var(--creme); padding: 28px 22px; display: grid; gap: 10px; align-content: center; justify-items: center; text-align: center; }
+  .pd-res img { width: min(220px, 70%); height: auto; max-height: 240px; object-fit: contain; filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.4)); animation: hr-flutua 4s ease-in-out infinite alternate; }
+  .pd-cena { width: min(230px, 80%); }
+  .pd-res strong { font-size: 21px; line-height: 1.15; }
+  .pd-res ul { font-size: 14.5px; line-height: 1.4; color: var(--pastel); max-height: 150px; overflow-y: auto; }
+  .pd-base { font-size: 13.5px; color: var(--pastel); }
+  .pd-tot { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; margin-top: 6px; padding: 8px 18px; border-radius: 99px; background: var(--creme); color: var(--cereja); font-weight: 800; }
+  .pd-tot b { font-size: 24px; color: var(--framboesa); }
+  .pd-f, .pd-ok { padding: clamp(20px, 3vw, 34px); display: grid; gap: 12px; overflow-y: auto; align-content: start; }
+  .pd-f .tit, .pd-ok .tit { font-size: clamp(32px, 4vw, 46px); padding-right: 44px; }
+  .pd-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .pd-c { display: grid; gap: 4px; }
+  .pd-c > span, .pd-op legend { font-weight: 800; font-size: 14.5px; color: var(--cereja); padding: 0; }
+  .pd-c i { font-style: normal; font-weight: 600; color: var(--tinta-suave); }
+  .pd-c input, .pd-c select, .pd-c textarea { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 14px; border: 2px solid var(--pastel); background: #fff; font-size: 16px; resize: vertical; transition: border-color 0.2s, box-shadow 0.2s; }
+  .pd-c input:focus, .pd-c select:focus, .pd-c textarea:focus { outline: 0; border-color: var(--cereja); box-shadow: 0 4px 0 var(--pastel); }
+  .pd-c [aria-invalid='true'] { border-color: var(--framboesa); background: var(--clarinho); }
+  .pd-c small { font-size: 13px; color: var(--tinta-suave); }
+  .pd-op { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pd-op legend { width: 100%; margin-bottom: 4px; }
+  .pd-op input { position: absolute; opacity: 0; }
+  .pd-op span { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; border-radius: 99px; border: 2px solid var(--pastel); background: #fff; font-weight: 800; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.4s var(--mola); }
+  .pd-op input:checked + span { background: var(--cereja); border-color: var(--cereja); color: #fff; transform: scale(1.04); }
+  .pd-op input:focus-visible + span { outline: 3px solid var(--framboesa); outline-offset: 3px; }
+  .pd-ck { display: flex; gap: 10px; align-items: center; min-height: 44px; font-weight: 700; cursor: pointer; }
+  .pd-ck input { width: 24px; height: 24px; accent-color: var(--framboesa); }
+  .pd-ck b { color: var(--framboesa); }
+  .pd-erro { padding: 10px 14px; border-radius: 12px; background: var(--fundo); border: 2px solid var(--framboesa); font-weight: 700; font-size: 15px; }
+  .pd-nota { font-size: 13px; color: var(--tinta-suave); text-align: center; line-height: 1.35; }
+  .pd-ok { position: relative; justify-items: start; align-content: center; gap: 14px; }
+  .pd-ok[hidden], .pd-f[hidden] { display: none; }
+  .pd-chuva { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .pd-ok > :not(canvas) { position: relative; }
+  .pd-volta { min-height: 44px; border: 0; background: none; font-weight: 800; color: var(--cereja); text-decoration: underline; }
+  @media (max-width: 760px) {
+    .pd-cx { grid-template-columns: minmax(0, 1fr); overflow-y: auto; }
+    .pd-res { grid-template-columns: 84px minmax(0, 1fr); justify-items: start; text-align: left; padding: 16px 60px 16px 16px; gap: 2px 12px; }
+    .pd-res img, .pd-cena { grid-row: 1 / 4; width: 84px; max-height: 110px; }
+    .pd-res ul { display: none; } .pd-res strong { font-size: 17px; } .pd-tot { padding: 4px 12px; margin: 2px 0 0; font-size: 13.5px; gap: 6px; } .pd-tot b { font-size: 18px; }
+    .pd-f, .pd-ok { overflow: visible; }
+    .pd-2 { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  import { LOJA } from '../data/loja';
+  const dlg = document.getElementById('pedido') as HTMLDialogElement;
+  const f = dlg.querySelector('form')!, ok = dlg.querySelector<HTMLElement>('.pd-ok')!, erro = dlg.querySelector<HTMLElement>('.pd-erro')!;
+  const $ = (s: string) => dlg.querySelector<HTMLElement>(s)!;
+  const rs = (v: number) => 'R$ ' + v.toFixed(2).replace('.', ',');
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ped: any = null, texto = '';
+  const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  addEventListener('mimos:pedido', (e) => {
+    ped = (e as CustomEvent).detail;
+    const fo = dlg.querySelector('[data-foto]') as HTMLImageElement, ce = $('[data-cena]');
+    ce.replaceChildren(); ce.hidden = !ped.cena; fo.hidden = !!ped.cena; if (ped.cena) ce.append(ped.cena); else fo.src = ped.foto;
+    $('[data-nome]').textContent = ped.nome;
+    $('[data-itens]').innerHTML = ped.itens.map((i: string) => `<li>${i}</li>`).join('');
+    $('[data-base]').hidden = !ped.base; $('[data-base]').textContent = ped.base ? 'Inspirada em: ' + ped.base : '';
+    $('[data-rot]').textContent = ped.estimado ? 'Total estimado' : 'Total'; $('[data-total]').textContent = rs(ped.total);
+    $('[data-laco]').hidden = ped.tipo === 'montada';
+    const min = new Date(); min.setDate(min.getDate() + ped.dias); const d = f.elements.namedItem('data') as HTMLInputElement; d.min = iso(min); if (!d.value || d.value < d.min) d.value = d.min;
+    f.hidden = false; ok.hidden = true; erro.hidden = true; modo();
+    if (!dlg.open) dlg.showModal(); document.documentElement.classList.add('modal');
+  });
+  const modo = () => {
+    const ent = (f.elements.namedItem('modo') as RadioNodeList).value === 'entrega';
+    $('[data-end]').hidden = !ent; $('[data-naloja]').hidden = ent;
+    const pag = f.elements.namedItem('pag') as RadioNodeList; if (ent && pag.value === 'Na loja') pag.value = 'Pix';
+  };
+  f.addEventListener('change', modo);
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || (e.target as HTMLElement).closest('[data-fecha]')) dlg.close(); });
+  dlg.addEventListener('close', () => { if (!document.querySelector('dialog[open]')) document.documentElement.classList.remove('modal'); });
+
+  f.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = Object.fromEntries(new FormData(f)) as Record<string, string>;
+    const faltas: [string, string][] = [];
+    if (v.nome.trim().length < 2) faltas.push(['nome', 'seu nome']);
+    if (v.cel.replace(/\D/g, '').length < 10) faltas.push(['cel', 'um celular com DDD']);
+    const d = f.elements.namedItem('data') as HTMLInputElement; if (!v.data || v.data < d.min) faltas.push(['data', `uma data a partir de ${d.min.split('-').reverse().join('/')}`]);
+    if (v.modo === 'entrega' && v.endereco.trim().length < 8) faltas.push(['endereco', 'o endereço de entrega']);
+    f.querySelectorAll('[aria-invalid]').forEach((x) => x.removeAttribute('aria-invalid'));
+    if (faltas.length) {
+      faltas.forEach(([n]) => (f.elements.namedItem(n) as HTMLElement).setAttribute('aria-invalid', 'true'));
+      erro.textContent = 'Falta informar ' + faltas.map((x) => x[1]).join(', ') + '.'; erro.hidden = false; (f.elements.namedItem(faltas[0][0]) as HTMLElement).focus(); return;
+    }
+    const agora = new Date(), num = `MB${String(agora.getFullYear()).slice(2)}${String(agora.getMonth() + 1).padStart(2, '0')}${String(agora.getDate()).padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const L = [`*Pedido ${num}* (feito pelo site)`, '', `*${ped.nome}*`];
+    if (ped.itens.length) L.push(...ped.itens.map((i: string) => '• ' + i));
+    if (ped.base) L.push('Inspirada em: ' + ped.base);
+    L.push('Laço: ' + (ped.laco || v.laco)); if (v.balao) L.push('Balão adicional: sim');
+    L.push(`${ped.estimado ? 'Total estimado' : 'Total'}: ${rs(ped.total)}${v.balao ? ' + balão' : ''}`, '');
+    L.push(`Data: ${v.data.split('-').reverse().join('/')} (${v.periodo.toLowerCase()})`);
+    L.push(v.modo === 'entrega' ? 'Entrega pela 99: ' + v.endereco.trim() : 'Retirada na loja');
+    L.push('Pagamento: ' + v.pag); if (v.para.trim()) L.push('Para: ' + v.para.trim()); if (v.msg.trim()) L.push('Cartão: "' + v.msg.trim() + '"');
+    L.push('', `Nome: ${v.nome.trim()}`, `Celular: ${v.cel.trim()}`);
+    texto = L.join('\n');
+    $('[data-num]').textContent = num; (dlg.querySelector('[data-zap]') as HTMLAnchorElement).href = `https://wa.me/${LOJA.whatsappNumero}?text=${encodeURIComponent(texto)}`;
+    f.hidden = true; ok.hidden = false; (dlg.querySelector('[data-zap]') as HTMLElement).focus(); chuva();
+  });
+  $('[data-copia]').addEventListener('click', async (e) => { const b = e.currentTarget as HTMLElement; try { await navigator.clipboard.writeText(texto); b.textContent = 'Copiado'; } catch { b.textContent = 'Não deu para copiar'; } setTimeout(() => (b.textContent = 'Copiar o pedido'), 2200); });
+
+  /** Chuva de coraçõezinhos na confirmação. */
+  function chuva() {
+    if (calmo) return;
+    const c = dlg.querySelector<HTMLCanvasElement>('.pd-chuva')!, x = c.getContext('2d')!, r = c.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio);
+    c.width = r.width * dpr; c.height = r.height * dpr; x.scale(dpr, dpr);
+    const cores = ['#e2457e', '#f47aa3', '#bf0449', '#f6c1d6', '#d7263d'], cora = new Path2D('M12 21C5 15.5 2 12.6 2 8.6A5.2 5.2 0 0 1 12 6.4 5.2 5.2 0 0 1 22 8.6c0 4-3 6.9-10 12.4z');
+    const ps = Array.from({ length: 70 }, (_, i) => ({ x: Math.random() * r.width, y: -30 - Math.random() * r.height * 0.8, v: 1.6 + Math.random() * 2.6, s: 0.5 + Math.random() * 0.9, a: Math.random() * 6, w: (Math.random() - 0.5) * 0.08, c: cores[i % cores.length] }));
+    const t0 = performance.now();
+    const quadro = (t: number) => {
+      x.clearRect(0, 0, r.width, r.height); const fim = t - t0 > 4200;
+      ps.forEach((p) => { p.y += p.v; p.a += p.w; p.x += Math.sin(p.a) * 0.8; x.save(); x.translate(p.x, p.y); x.rotate(Math.sin(p.a) * 0.5); x.scale(p.s, p.s); x.globalAlpha = fim ? 0 : Math.min(1, (4200 - (t - t0)) / 600); x.fillStyle = p.c; x.fill(cora); x.restore(); });
+      if (!fim && !ok.hidden) requestAnimationFrame(quadro); else x.clearRect(0, 0, r.width, r.height);
+    };
+    requestAnimationFrame(quadro);
+  }
+</script>

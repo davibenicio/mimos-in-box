@@ -1,0 +1,185 @@
+---
+import { SLIDES } from '../data/loja';
+import { porNN, reais } from '../data/catalogo';
+import medidas from '../data/medidas.json';
+import { CORACAO, SELO_TXT } from '../data/arte';
+const M = medidas as Record<string, number[]>;
+const FLUT = [
+  [6, 22, 26, 'var(--rosa-cl)', 7], [44, 12, 16, 'var(--framboesa)', 9], [52, 74, 22, 'var(--chiclete)', 8],
+  [93, 30, 30, 'var(--rosa)', 10], [88, 82, 18, 'var(--framboesa)', 7], [30, 88, 14, 'var(--rosa-cl)', 11],
+];
+---
+<section class="hr" data-hero aria-roledescription="carrossel" aria-label="Cestas em destaque">
+  <div class="hr-raios" aria-hidden="true"></div>
+  <div class="hr-flut" aria-hidden="true">
+    {FLUT.map(([x, y, s, c, d], i) => (
+      <svg viewBox="0 0 24 24" style={`left:${x}%;top:${y}%;width:${s}px;color:${c};--d:${d}s;--a:${i % 2 ? -1 : 1}`}><path d={CORACAO} fill="currentColor" /></svg>
+    ))}
+    <svg class="hr-est" viewBox="0 0 24 24" style="left:38%;top:30%;width:22px;--d:6s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--cereja)" /></svg>
+    <svg class="hr-est" viewBox="0 0 24 24" style="left:70%;top:8%;width:16px;--d:8s"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="var(--framboesa)" /></svg>
+  </div>
+
+  <div class="hr-pilha cx">
+    {SLIDES.map((s, i) => {
+      const p = porNN(s.produto);
+      const [gw, gh] = M[s.produto + 'g'];
+      const T = i === 0 ? 'h1' : 'h2';
+      return (
+        <article class:list={['hr-s', i === 0 && 'on']} data-slide aria-hidden={i === 0 ? 'false' : 'true'} aria-label={`${i + 1} de ${SLIDES.length}`}>
+          <div class="hr-txt">
+            <T class="hr-t">{s.titulo.map((w, j) => <><span class="w" style={`--i:${j}`}>{w}</span>{' '}</>)}</T>
+            <p class="hr-p">{s.texto}</p>
+            <div class="hr-b">
+              <button class="bt" type="button" data-abre={p.nn}>Quero esta cesta</button>
+              <a class="bt bt--linha" href="#cestas">Ver todas</a>
+            </div>
+          </div>
+          <div class="hr-palco">
+            <div class:list={['hr-arco', `pt-${s.fundo}`, `hr-arco--${i}`]}></div>
+            <img class="hr-img" src={`/img/c/${p.nn}-g.webp`} srcset={`/img/c/${p.nn}.webp 560w, /img/c/${p.nn}-g.webp 800w`} sizes="(max-width: 900px) 70vw, 520px"
+              width={gw} height={gh} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" />
+            <button class="hr-adesivo" type="button" data-abre={p.nn} aria-label={`${p.nome}, ${reais(p.preco)}. Abrir`}>
+              {p.de ? <s>de {reais(p.de)}</s> : <small>por apenas</small>}
+              <b>{reais(p.preco).replace(',00', '')}</b>
+              <span>{p.de ? 'promoção' : 'ver cesta'}</span>
+            </button>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="hr-selo" aria-hidden="true">
+    <svg viewBox="0 0 200 200"><defs><path id="hr-c" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" /></defs>
+      <circle cx="100" cy="100" r="98" fill="var(--creme)" /><circle cx="100" cy="100" r="92" fill="none" stroke="var(--cereja)" stroke-width="2" stroke-dasharray="3 6" />
+      <text><textPath href="#hr-c">{SELO_TXT}</textPath></text>
+      <path d={CORACAO} fill="var(--framboesa)" transform="translate(70 72) scale(2.5)" />
+    </svg>
+  </div>
+
+  <div class="hr-ctl cx">
+    <button class="hr-seta" type="button" data-ant aria-label="Destaque anterior"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+    <div class="hr-pts">{SLIDES.map((_, i) => <button type="button" class:list={[i === 0 && 'on']} data-ir={i} aria-label={`Ir para o destaque ${i + 1}`}><i></i></button>)}</div>
+    <button class="hr-seta" type="button" data-prox aria-label="Próximo destaque"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+    <button class="hr-pausa" type="button" data-pausa aria-pressed="false" aria-label="Pausar a troca automática"><svg viewBox="0 0 24 24" width="18" height="18"><path class="p1" d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" /><path class="p2" d="M8 5l11 7-11 7z" fill="currentColor" /></svg></button>
+  </div>
+</section>
+
+<style is:global>
+  .hr { position: relative; background: var(--fundo); padding-top: calc(var(--barra) + 26px); min-height: min(100svh, 860px); display: flex; flex-direction: column; overflow: clip; }
+  .hr-raios { position: absolute; right: -12%; top: 50%; width: min(1100px, 150vw); aspect-ratio: 1; translate: 0 -46%; border-radius: 50%; background: repeating-conic-gradient(rgba(226, 69, 126, 0.13) 0 7deg, transparent 7deg 14deg); -webkit-mask: radial-gradient(closest-side, #000 30%, #0000 100%); mask: radial-gradient(closest-side, #000 30%, #0000 100%); animation: hr-gira 120s linear infinite; }
+  @keyframes hr-gira { to { rotate: 360deg; } }
+  .hr-flut { position: absolute; inset: 0; translate: calc(var(--mx, 0) * -26px) calc(var(--my, 0) * -18px); transition: translate 0.6s var(--sai); }
+  .hr-pilha { translate: calc(var(--mx, 0) * 8px) 0; transition: translate 0.8s var(--sai); }
+  .hr-flut svg { position: absolute; animation: hr-boia var(--d) ease-in-out infinite alternate; }
+  .hr-flut .hr-est { animation: hr-pisca var(--d) ease-in-out infinite; }
+  @keyframes hr-boia { from { transform: translateY(-10px) rotate(calc(var(--a, 1) * -10deg)); } to { transform: translateY(12px) rotate(calc(var(--a, 1) * 12deg)); } }
+  @keyframes hr-pisca { 0%, 100% { transform: scale(0.5) rotate(0); opacity: 0.4; } 50% { transform: scale(1.1) rotate(90deg); opacity: 1; } }
+
+  .hr-pilha { position: relative; flex: 1; display: grid; z-index: 2; }
+  .hr-s { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: center; gap: 24px; visibility: hidden; opacity: 0; transition: opacity 0.35s, visibility 0s 0.35s; }
+  .hr-s.on { visibility: visible; opacity: 1; transition: opacity 0.2s; }
+  html.abrindo:not(.abriu) .hr-s { visibility: hidden; }
+  .hr-txt { padding-bottom: 70px; }
+  .hr-t { font-family: var(--f-script); font-weight: 700; font-size: clamp(40px, 6.9vw, 100px); line-height: 0.98; color: var(--cereja); text-wrap: balance; max-width: 11ch; }
+  .hr-t .w { display: inline-block; }
+  .hr-p { margin-top: 18px; font-size: clamp(16px, 1.5vw, 20px); max-width: 40ch; }
+  .hr-b { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .hr-palco { position: relative; align-self: stretch; min-height: 420px; }
+  .hr-arco { position: absolute; left: 50%; bottom: 0; width: min(100%, 500px); height: 84%; translate: -50% 0; border-radius: 999px 999px 0 0; background-color: var(--cereja); box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.07); animation: hr-pt 40s linear infinite; }
+  .hr-arco--1 { background-color: var(--rosa); --pt: rgba(255, 255, 255, 0.22); }
+  .hr-arco--2 { background-color: var(--framboesa); --pt: rgba(255, 255, 255, 0.13); }
+  @keyframes hr-pt { to { background-position: 224px 224px; } }
+  .hr-img { position: absolute; left: 50%; bottom: 3%; height: 96%; width: auto; max-width: 112%; object-fit: contain; object-position: 50% 100%; translate: -50% 0; filter: drop-shadow(0 26px 20px rgba(60, 0, 20, 0.4)); }
+  .hr-adesivo { position: absolute; left: max(-8px, 50% - 300px); bottom: 12%; width: 138px; height: 138px; border-radius: 50%; border: 0; background: var(--chiclete); color: #fff; display: grid; place-content: center; justify-items: center; gap: 1px; rotate: -10deg; box-shadow: 0 0 0 5px var(--chiclete), inset 0 0 0 2px rgba(255, 255, 255, 0.7), 0 14px 24px -10px rgba(60, 0, 20, 0.6); transition: scale 0.4s var(--mola), rotate 0.4s var(--mola); }
+  .hr-adesivo s, .hr-adesivo small { font-size: 13px; font-weight: 700; opacity: 0.95; }
+  .hr-adesivo b { font-family: var(--f-gorda); font-weight: 400; font-size: 27px; line-height: 1; }
+  .hr-adesivo span { font-size: 12px; font-weight: 800; background: var(--cereja); padding: 2px 9px; border-radius: 99px; margin-top: 3px; }
+  .hr-adesivo:hover { scale: 1.08; rotate: 4deg; }
+  .hr-selo { position: absolute; z-index: 3; right: max(14px, 50% - 620px); top: calc(var(--barra) + 34px); width: clamp(88px, 10vw, 138px); animation: hr-gira 24s linear infinite; }
+  .hr-selo text { font: 800 15px var(--f-texto); letter-spacing: 2px; fill: var(--cereja); }
+
+  /* entradas a cada slide, só depois da abertura */
+  html.abriu .hr-s.on .w { animation: hr-w 0.8s var(--mola) both; animation-delay: calc(0.08s + var(--i) * 75ms); }
+  html.abriu .hr-s.on .hr-p, html.abriu .hr-s.on .hr-b { animation: hr-sobe 0.7s 0.5s var(--sai) both; }
+  html.abriu .hr-s.on .hr-b { animation-delay: 0.62s; }
+  html.abriu .hr-s.on .hr-arco { animation: hr-arco 0.8s 0.1s var(--sai) both, hr-pt 40s linear infinite; }
+  html.abriu .hr-s.on .hr-img { animation: hr-prod 0.95s 0.28s var(--mola) both, hr-flutua 5.5s 1.4s ease-in-out infinite alternate; }
+  html.abriu .hr-s.on .hr-adesivo { animation: hr-ade 0.8s 0.75s var(--mola) both; }
+  @keyframes hr-w { from { opacity: 0; transform: translateY(0.6em) rotate(6deg); filter: blur(8px); } }
+  @keyframes hr-sobe { from { opacity: 0; transform: translateY(22px); } }
+  @keyframes hr-arco { from { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); } to { clip-path: inset(0 0 0 0 round 999px 999px 0 0); } }
+  @keyframes hr-prod { from { opacity: 0; transform: translateY(70px) scale(0.78) rotate(7deg); } }
+  @keyframes hr-flutua { to { transform: translateY(-10px) rotate(-1.2deg); } }
+  @keyframes hr-ade { from { opacity: 0; scale: 0; rotate: -160deg; } }
+
+  .hr-ctl { position: absolute; left: 50%; translate: -50% 0; bottom: 26px; z-index: 4; display: flex; align-items: center; gap: 10px; pointer-events: none; }
+  .hr-ctl > * { pointer-events: auto; }
+  .hr-seta, .hr-pausa { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--cereja); background: var(--creme); color: var(--cereja); display: grid; place-items: center; box-shadow: 0 3px 0 var(--cereja); transition: transform 0.15s; }
+  .hr-seta:active, .hr-pausa:active { transform: translateY(3px); box-shadow: none; }
+  .hr-pausa .p2, .hr-pausa[aria-pressed='true'] .p1 { display: none; }
+  .hr-pausa[aria-pressed='true'] .p2 { display: block; }
+  .hr-pts { display: flex; gap: 6px; padding: 0 4px; }
+  .hr-pts button { width: 44px; height: 44px; border: 0; background: none; display: grid; place-items: center; padding: 0; }
+  .hr-pts i { display: block; width: 14px; height: 14px; border-radius: 99px; background: var(--pastel); box-shadow: inset 0 0 0 2px var(--cereja); overflow: hidden; transition: width 0.4s var(--mola); position: relative; }
+  .hr-pts .on i { width: 40px; }
+  .hr-pts .on i::after { content: ''; position: absolute; inset: 0; background: var(--cereja); transform-origin: 0 50%; transform: scaleX(0); }
+  html.abriu .hr.roda .hr-pts .on i::after { animation: hr-prog 6.5s linear forwards; }
+  .hr.pausa .hr-pts .on i::after, .hr.fora .hr-pts .on i::after { animation-play-state: paused !important; }
+  @keyframes hr-prog { to { transform: scaleX(1); } }
+
+  @media (max-width: 900px) {
+    .hr { padding-top: calc(var(--barra) + 40px); min-height: min(100svh, 780px); }
+    .hr-s { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 8px; align-items: start; }
+    .hr-txt { padding-bottom: 0; }
+    .hr-t { font-size: clamp(38px, 11vw, 52px); max-width: 100%; }
+    .hr-p { margin-top: 10px; font-size: 16px; line-height: 1.4; }
+    .hr-b { margin-top: 14px; gap: 10px; }
+    .hr-b .bt { padding: 0 20px; min-height: 48px; font-size: 15.5px; }
+    .hr-palco { min-height: 290px; }
+    .hr-arco { width: min(84%, 340px); height: 80%; }
+    .hr-adesivo { width: 104px; height: 104px; left: auto; right: 0; bottom: auto; top: 0; }
+    .hr-adesivo b { font-size: 21px; } .hr-adesivo s, .hr-adesivo small { font-size: 11px; } .hr-adesivo span { font-size: 10.5px; }
+    .hr-selo { display: none; }
+    .hr-ctl { left: 0; translate: none; bottom: 12px; padding-left: 0; gap: 6px; width: auto; margin-left: 12px; }
+    .hr-seta { display: none; }
+    .hr-pausa { width: 44px; height: 44px; }
+    .hr-raios { right: -60%; top: 68%; }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]')!;
+  const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+  const pts = [...hero.querySelectorAll<HTMLElement>('[data-ir]')];
+  const pausa = hero.querySelector<HTMLButtonElement>('[data-pausa]')!;
+  let atual = 0, parado = false;
+  const ir = (n: number) => {
+    const novo = (n + slides.length) % slides.length; if (novo === atual) return;
+    slides[atual].classList.remove('on'); slides[atual].setAttribute('aria-hidden', 'true');
+    pts[atual].classList.remove('on');
+    atual = novo;
+    slides[atual].classList.add('on'); slides[atual].setAttribute('aria-hidden', 'false');
+    pts[atual].classList.add('on');
+  };
+  hero.querySelector('[data-ant]')!.addEventListener('click', () => ir(atual - 1));
+  hero.querySelector('[data-prox]')!.addEventListener('click', () => ir(atual + 1));
+  pts.forEach((b, i) => b.addEventListener('click', () => ir(i)));
+  // o próprio preenchimento da bolinha é o relógio
+  hero.addEventListener('animationend', (e) => { if ((e as AnimationEvent).animationName === 'hr-prog') ir(atual + 1); });
+  const marca = () => { hero.classList.toggle('pausa', parado || hero.matches(':hover, :focus-within')); };
+  pausa.addEventListener('click', () => { parado = !parado; pausa.setAttribute('aria-pressed', String(parado)); pausa.setAttribute('aria-label', parado ? 'Retomar a troca automática' : 'Pausar a troca automática'); marca(); });
+  ['mouseenter', 'mouseleave', 'focusin', 'focusout'].forEach((ev) => hero.addEventListener(ev, () => setTimeout(marca)));
+  new IntersectionObserver(([e]) => { hero.classList.toggle('fora', !e.isIntersecting); document.documentElement.classList.toggle('no-hero', e.isIntersecting); }, { threshold: 0.25 }).observe(hero);
+  const liga = () => hero.classList.add('roda');
+  if (document.documentElement.classList.contains('abriu')) liga(); else addEventListener('mimos:abriu', liga, { once: true });
+  // arrastar no celular
+  let x0 = 0, y0 = 0;
+  hero.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  hero.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) ir(atual + (dx < 0 ? 1 : -1)); }, { passive: true });
+  // profundidade: corações e selo acompanham o mouse de leve
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let tq = false; hero.addEventListener('pointermove', (e) => { if (tq) return; tq = true; requestAnimationFrame(() => { const r = hero.getBoundingClientRect(); hero.style.setProperty('--mx', String((e.clientX - r.left) / r.width - 0.5)); hero.style.setProperty('--my', String((e.clientY - r.top) / r.height - 0.5)); tq = false; }); });
+  }
+  hero.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') ir(atual - 1); if (e.key === 'ArrowRight') ir(atual + 1); });
+</script>
