@@ -69,6 +69,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
 
   /* texto à esquerda, embaixo da palavra (mock) */
   .hr-txt { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: calc(var(--F) * 1.12 + 56px); padding-bottom: clamp(18px, 3.5vh, 40px); }
+  .hr-txt { pointer-events: none; } .hr-txt > * { pointer-events: auto; }   /* a caixa do texto não pode tapar a cesta e os pontos */
   .hr-t { max-width: 10em; font-family: var(--f-serif); font-weight: 600; font-size: clamp(34px, min(4.2vw, 7.4vh), 66px); line-height: 1.04; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
   .hr-t span { display: block; }
   .hr-p { margin-top: 18px; max-width: min(40%, 32ch); font-size: clamp(17px, min(1.75vw, 3vh), 27px); line-height: 1.4; color: var(--tinta); }

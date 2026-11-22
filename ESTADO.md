@@ -6,6 +6,12 @@ Atualizado em 21/11/2026, 22h (v2 publicada como prévia: mais sóbria, sem bran
 Site de vendas da Mimos in Box (cestas e presentes personalizados, Pontal, Ilhéus-BA). O cliente vê o catálogo, monta uma cesta e fecha o pedido no site. WhatsApp fica para dúvidas e para a loja receber o pedido pronto.
 Cliente fechado. Ação nº 1: pedir uma cesta (pronta ou montada).
 
+## v3.3 (22/11, 01h): cestas do topo em vídeo de verdade
+- Vídeos Kling das 3 cestas ampliados no Topaz (2x, 1920 px, 60 qps, 540 créditos cada) e recortados no Magnific (`video_remove_background`, qualidade "high"; "maximum" falha no download).
+- `tools/giro-video.py`: tira o suporte branco que o Kling inventa (abaixo da última parte não branca de cada coluna), vai e volta com freio suave, MP4 empilhado (cor em cima, transparência embaixo) em AV1 e H.264, PC 1080 px e celular 600 px. O WebGL do topo junta as metades; sem WebGL, economia de dados ou vídeo bloqueado, volta o giro em quadros.
+- Vídeo só baixa depois da página carregada, só a cesta da vez toca e pausa fora da tela.
+- Selo com o logo mínimo (`LogoMini.astro`) pelo site e na frente da cesta do montador. Textos de fundo mais rápidos. Troca de cor em 1,3 s. Seções fora da tela pausam as animações.
+
 ## v3.2 (22/11, 00h15)
 - Fundo de cada seção em degradê (bege em cima → off-white), deslizando devagar (classe `.grad` em `tokens.css`, cores `--g1/--g2` registradas para a troca ser suave). Off-white mais quente e, depois, um tom mais claro a pedido.
 - Rolagem: "Em promoção" no meio da tela pinta tudo de rosa claro (`html.rosa`, motor `rosa` em `Efeitos.astro`). Depois dela: vinho no tema claro (`data-inverte` em Sobre, Cestas, Camadas, Como pedir, Contato); no escuro, a promoção também fica rosa claro (`data-inverte-escuro`) e o resto clareia.

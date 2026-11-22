@@ -29,7 +29,7 @@ def limpa(rgb, a):
     al = cv2.resize(a, (h, h), interpolation=cv2.INTER_AREA)
     mx, mn = r.max(2), r.min(2)
     sat = (mx - mn) / np.maximum(mx, 1e-3)
-    suporte = (sat < 0.12) & (mx > 0.45)          # branco/cinza neutro do suporte (a bandeja é rosa, madeira ou preta)
+    suporte = (sat < 0.12) & (mx > 0.30)          # branco/cinza neutro do suporte (a bandeja é rosa, madeira ou preta)
     tem = ((al > 128) & ~suporte).astype(np.uint8)
     tem = cv2.morphologyEx(tem, cv2.MORPH_OPEN, np.ones((5, 5), np.uint8))
     fundo = np.full(h, -1.0)
