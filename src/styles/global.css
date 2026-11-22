@@ -55,7 +55,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---- troca de tema: só cor, sem pulo ---- */
 html.trocando *, html.trocando *::before, html.trocando *::after { transition: background-color var(--troca), color var(--troca), border-color var(--troca), box-shadow var(--troca), fill var(--troca), stroke var(--troca), -webkit-text-stroke-color var(--troca), --g1 var(--troca), --g2 var(--troca) !important; }
-:root { --troca: 1.3s cubic-bezier(0.45, 0, 0.2, 1); }
+:root { --troca: 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 body { transition: background-color 0.7s; }
 
 /* ---- pausa geral e movimento reduzido ---- */
