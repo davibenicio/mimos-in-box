@@ -1,8 +1,7 @@
 ---
 // Topo (mock do Davi): "PRESENTES" gigante e rosa atrás, a cesta girando num pedestal (quadros do vídeo gerado
 // a partir da foto real da cesta), título em serifa marrom, fitas de cetim nas bordas e brilhos de quatro pontas.
-// Composição centrada (pedido do Davi, 21/11 23h30): palavra no alto, cesta girando sem parar no meio, título e
-// botões embaixo. Carrossel de três cestas: troca sozinho com barra de tempo, pausa visível, toque/arraste e teclado.
+// Composição do mock (texto à esquerda, cesta à direita), com os botões embaixo, no lugar da faixa de três ideias. Carrossel de três cestas: troca sozinho com barra de tempo, pausa visível, toque/arraste e teclado.
 import { SLIDES } from '../data/loja';
 import Fita from './Fita.astro';
 import { porNN, reais } from '../data/catalogo';
@@ -10,9 +9,9 @@ import med from '../data/medidas-v3.json';
 const M = med as Record<string, number[]>;
 const ESTRELA = 'M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z';
 const GIG = 'PRESENTES';
-const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro' + p.nn]; return { p, fw: g[0], fh: g[1], w0: g[2], h0: g[3] }; });
+const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro' + p.nn]; return { p, fw: g[0], fh: g[1], w0: g[2], h0: g[3], n: g[4], cols: g[5] }; });
 ---
-<section class="hr" data-hero data-gruda aria-roledescription="carrossel" aria-label="Cestas em destaque">
+<section class="hr grad" data-hero data-gruda aria-roledescription="carrossel" aria-label="Cestas em destaque">
   <Fita v={1} class="hr-f1" />
   <Fita v={2} class="hr-f2" />
   <span class="brilho hr-b1" style="--t:38px;--d:5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={ESTRELA} /></svg></span>
@@ -25,12 +24,12 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   <div class="hr-palco" data-palco>
     <span class="hr-luz" aria-hidden="true"></span>
     <span class="hr-ped" aria-hidden="true"></span>
-    {slides.map(({ p, fw, fh, w0, h0 }, i) => (
-      <figure class:list={['hr-c', i === 0 && 'on']} data-slide data-nn={p.nn} aria-hidden={i === 0 ? 'false' : 'true'} style={`--ar:${fw}/${fh}`}>
+    {slides.map(({ p, fw, fh, w0, h0, n, cols }, i) => (
+      <figure class:list={['hr-c', i === 0 && 'on']} data-slide data-nn={p.nn} data-n={n} data-cols={cols} aria-hidden={i === 0 ? 'false' : 'true'} style={`--ar:${fw}/${fh};--cols:${cols};--rows:${Math.ceil(n / cols)}`}>
         <span class="hr-cx">
         <img src={`/img/giro/${p.nn}-0.webp`} srcset={`/img/giro/${p.nn}-0p.webp 420w, /img/giro/${p.nn}-0.webp ${w0}w`} sizes="(max-width: 900px) 64vw, 520px"
           width={w0} height={h0} alt={p.nome} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} decoding="async" data-abre={p.nn} data-cur="ver" />
-        <span class="hr-gira" data-gira={`/img/giro/${p.nn}.webp`} aria-hidden="true"></span>
+        <span class="hr-gira" data-gira={`/img/giro/${p.nn}.webp`} aria-hidden="true"></span><span class="hr-gira hr-gira-b" aria-hidden="true"></span>
         </span>
       </figure>
     ))}
@@ -52,37 +51,49 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
 </section>
 
 <style is:global>
-  /* altura da palavra: cabe na largura e na altura da tela */
-  .hr { --F: min(18.5vw, 29vh); position: relative; z-index: 0; min-height: max(100svh, 640px); display: flex; flex-direction: column; align-items: center; padding: calc(var(--barra) + 10px) 0 clamp(18px, 3.4vh, 36px); background: var(--papel); overflow: clip; }
+  /* altura da palavra: cabe na largura e na altura da tela (antes quebrava em telas baixas) */
+  .hr { --F: min(19.2vw, 30vh); position: relative; z-index: 0; min-height: max(100svh, 640px); display: flex; flex-direction: column; padding-top: calc(var(--barra) + 10px); overflow: clip; }
   .hr-f1 { left: -46px; top: -10px; width: clamp(200px, 24vw, 400px); }
-  .hr-f2 { right: -40px; bottom: 6%; width: clamp(240px, 30vw, 500px); }
-  .hr-b1 { right: 7%; top: 24%; } .hr-b2 { left: 6%; top: 54%; } .hr-b3 { right: 9%; bottom: 14%; } .hr-b4 { left: 16%; bottom: 18%; }
+  .hr-f2 { right: -40px; bottom: 12%; width: clamp(240px, 30vw, 500px); }
+  .hr-b1 { right: 7%; top: 24%; } .hr-b2 { left: 5%; top: 52%; } .hr-b3 { right: 5%; bottom: 20%; } .hr-b4 { left: 40%; bottom: 24%; }
 
-  /* a palavra gigante (Anton esticada, como no mock): letras sobem na chegada e depois ondulam sem parar */
-  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 4px); z-index: 1; translate: -50% 0; scale: 1 1.42; transform-origin: 50% 0; font-size: var(--F); }
-  .hr-gig .lt { display: inline-block; overflow: hidden; padding: 0.06em 0 0.05em; margin: -0.06em 0 -0.05em; }
-  .hr-gig b { display: inline-block; font-weight: 400; animation: hr-onda 4.8s calc(var(--i) * -0.42s) ease-in-out infinite alternate; }
+  /* "PRESENTES" (Anton esticada, como no mock; o Davi testou uma fina e preferiu esta) com degradê rosa → claro; as letras ondulam sem parar */
+  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 42px); z-index: 1; translate: -50% 0; scale: 1 1.42; transform-origin: 50% 0; font-size: var(--F); }
+  .hr-gig .lt { display: inline-block; overflow: hidden; padding: 0.1em 0 0.06em; margin: -0.1em 0 -0.06em; }
+  .hr-gig b { display: inline-block; font-weight: 400; background: var(--grad-gig); background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: hr-onda 4.8s calc(var(--i) * -0.42s) ease-in-out infinite alternate, grad-sobe 9s calc(var(--i) * -0.6s) ease-in-out infinite alternate; }
   html.js:not(.intro-viu):not(.abriu) .hr-gig b { transform: translateY(105%); }
-  html.abriu:not(.intro-viu) .hr-gig b { animation: hr-letra 1.1s var(--sai) both, hr-onda 4.8s calc(1.2s + var(--i) * -0.42s) ease-in-out infinite alternate; animation-delay: calc(0.05s + var(--i) * 55ms), calc(1.2s + var(--i) * -0.42s); }
+  html.abriu:not(.intro-viu) .hr-gig b { animation: hr-letra 1.1s var(--sai) both, hr-onda 4.8s ease-in-out infinite alternate, grad-sobe 9s ease-in-out infinite alternate; animation-delay: calc(0.05s + var(--i) * 55ms), calc(1.2s + var(--i) * -0.42s), calc(var(--i) * -0.6s); }
   @keyframes hr-letra { from { transform: translateY(105%); } to { transform: none; } }
   @keyframes hr-onda { from { transform: translateY(-2.5%); } to { transform: translateY(2.5%); } }
 
-  /* palco centrado: luz, pedestal redondo e a cesta saindo de trás da palavra */
-  .hr-palco { position: relative; z-index: 2; width: min(92vw, 860px); height: clamp(230px, 45vh, 540px); margin-top: calc(var(--F) * 0.6); flex: none; }
-  .hr-luz { position: absolute; left: 14%; right: 14%; top: 4%; bottom: 10%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 85%, transparent), transparent); animation: hr-respira 6s ease-in-out infinite alternate; }
+  /* texto à esquerda, embaixo da palavra (mock) */
+  .hr-txt { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: calc(var(--F) * 1.12 + 24px); padding-bottom: clamp(18px, 3.5vh, 40px); }
+  .hr-t { max-width: 10em; font-family: var(--f-serif); font-weight: 600; font-size: clamp(34px, min(4.2vw, 7.4vh), 66px); line-height: 1.04; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
+  .hr-t span { display: block; }
+  .hr-p { margin-top: 18px; max-width: min(40%, 32ch); font-size: clamp(17px, min(1.75vw, 3vh), 27px); line-height: 1.4; color: var(--tinta); }
+  html.js:not(.intro-viu) .hr-txt, html.js:not(.intro-viu) .hr-b { opacity: 0; }
+  html.abriu:not(.intro-viu) .hr-txt, html.abriu:not(.intro-viu) .hr-b { animation: hr-sobe 0.9s 0.4s var(--sai) both; }
+  html.abriu:not(.intro-viu) .hr-b { animation-delay: 0.55s; }
+  @keyframes hr-sobe { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+  /* palco à direita (mock): luz, pedestal redondo e a cesta saindo de trás da palavra */
+  .hr-palco { position: absolute; z-index: 2; left: max(41%, calc(50% - 40px)); right: 3%; top: calc(var(--barra) + var(--F) * 0.42 + 24px); bottom: calc(clamp(18px, 3vh, 30px) * 2 + 54px + 2px); }
+  .hr-luz { position: absolute; left: 6%; right: 6%; top: 4%; bottom: 10%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 80%, transparent), transparent); animation: hr-respira 6s ease-in-out infinite alternate; }
   @keyframes hr-respira { to { scale: 1.08; opacity: 0.7; } }
-  .hr-ped { position: absolute; left: 50%; bottom: -1%; width: min(84%, 660px); height: 13%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
+  .hr-ped { position: absolute; left: 50%; bottom: -1%; width: min(96%, 720px); height: 13%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
   .hr-ped::before { content: ''; position: absolute; left: 0; right: 0; top: -38%; height: 76%; border-radius: 50%; background: radial-gradient(60% 70% at 50% 40%, var(--creme), var(--pedestal-1)); }
-  .hr-cx { position: absolute; left: 50%; bottom: 8%; height: 98%; max-width: 92%; aspect-ratio: var(--ar); translate: -50% 0; }
+  .hr-cx { position: absolute; left: 50%; bottom: 7%; height: 100%; max-width: 100%; aspect-ratio: var(--ar); translate: -50% 0; }
   .hr-c { position: absolute; inset: 0; margin: 0; pointer-events: none; opacity: 0; visibility: hidden; transform: translateX(10%) scale(0.94); transition: opacity 0.5s, transform 0.8s var(--sai), visibility 0s 0.8s; }
   .hr-c.on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.6s 0.15s, transform 0.9s 0.1s var(--sai), visibility 0s; }
   .hr-c.sai { transform: translateX(-10%) scale(0.94); }
   .hr-c.on img { pointer-events: auto; }
-  .hr-c img, .hr-gira { animation: hr-paira 4.5s ease-in-out infinite alternate; }
-  @keyframes hr-paira { from { translate: 0 0; } to { translate: 0 -10px; } }
+  .hr-cx { animation: hr-paira 4.5s ease-in-out infinite alternate; }
+  @keyframes hr-paira { from { margin-bottom: 0; } to { margin-bottom: 10px; } }
   .hr-c img { width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 24px 18px rgba(110, 45, 55, 0.28)); cursor: pointer; }
-  .hr-gira { position: absolute; inset: 0; background-repeat: no-repeat; background-size: 400% 400%; background-position: 0 0; filter: drop-shadow(0 24px 18px rgba(110, 45, 55, 0.28)); opacity: 0; pointer-events: none; }
-  .hr-c.gira-ok .hr-gira { opacity: 1; }
+  /* duas camadas de quadros: a segunda mostra o quadro seguinte e aparece aos poucos (giro fluido) */
+  .hr-gira { position: absolute; inset: 0; background-repeat: no-repeat; background-size: calc(var(--cols) * 100%) calc(var(--rows) * 100%); background-position: 0 0; opacity: 0; pointer-events: none; }
+  .hr-gira:not(.hr-gira-b) { filter: drop-shadow(0 24px 18px rgba(110, 45, 55, 0.28)); }
+  .hr-c.gira-ok .hr-gira:not(.hr-gira-b) { opacity: 1; }
   .hr-c.gira-ok img { opacity: 0; }
   .hr-ctl { position: absolute; right: 0; bottom: 2%; z-index: 3; display: flex; align-items: center; gap: 2px; }
   .hr-pts { display: flex; }
@@ -95,29 +106,21 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   .hr-pausa .p2, .hr-pausa[aria-pressed='true'] .p1 { display: none; }
   .hr-pausa[aria-pressed='true'] .p2 { display: block; }
 
-  /* texto centrado embaixo da cesta */
-  .hr-txt { position: relative; z-index: 3; margin-top: clamp(10px, 2vh, 22px); text-align: center; }
-  .hr-t { font-family: var(--f-serif); font-weight: 600; font-size: clamp(30px, min(3.8vw, 6.4vh), 62px); line-height: 1.05; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
-  .hr-t span { display: inline; }
-  .hr-p { margin: 10px auto 0; font-size: clamp(16px, min(1.4vw, 2.5vh), 22px); line-height: 1.4; max-width: 62ch; color: var(--tinta); }
-  /* os botões ficam onde estava a faixa de baixo (pedido do Davi) */
-  .hr-b { position: relative; z-index: 3; margin-top: clamp(16px, 3vh, 30px); display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-  .hr-b .bt { min-width: 240px; }
-  html.js:not(.intro-viu) .hr-txt, html.js:not(.intro-viu) .hr-b { opacity: 0; }
-  html.abriu:not(.intro-viu) .hr-txt, html.abriu:not(.intro-viu) .hr-b { animation: hr-sobe 0.9s 0.4s var(--sai) both; }
-  html.abriu:not(.intro-viu) .hr-b { animation-delay: 0.55s; }
-  @keyframes hr-sobe { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  /* botões no lugar da faixa de baixo do mock: linha em cima, centrados */
+  .hr-b { position: relative; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; padding-block: clamp(18px, 3vh, 30px); border-top: 1px solid var(--linha); }
+  .hr-b .bt { min-width: 250px; }
 
   @media (max-width: 900px) {
-    .hr { --F: 21.4vw; min-height: auto; padding-bottom: 26px; }
-    .hr-gig { top: calc(var(--barra) + 8px); scale: 1 1.36; }
-    .hr-palco { width: 100%; height: min(68vw, 320px); margin-top: 22vw; }
-    .hr-ctl { right: 10px; bottom: -4px; }
+    .hr { --F: 21.4vw; min-height: auto; padding-bottom: 6px; }
+    .hr-gig { top: calc(var(--barra) + 20px); scale: 1 1.36; }
+    .hr-palco { position: relative; left: auto; right: auto; top: auto; bottom: auto; height: min(82vw, 380px); margin-top: calc(18vw + 12px); order: -1; }
+    .hr-txt { order: 0; padding: 30px 0 22px; text-align: center; align-items: center; }
+    .hr-t, .hr-p { max-width: 100%; }
     .hr-t { font-size: clamp(30px, 8.6vw, 40px); }
-    .hr-t span { display: block; }
     .hr-p { font-size: 15px; max-width: 30ch; }
-    .hr-b { flex-direction: column; align-items: stretch; width: 100%; padding-inline: 20px; }
+    .hr-b { flex-direction: column; align-items: stretch; border-top: 0; padding: 0 0 20px; }
     .hr-b .bt { width: 100%; min-height: 54px; }
+    .hr-ctl { right: 10px; bottom: -4px; }
     .hr-f1 { left: -60px; top: 30px; width: 170px; } .hr-f2 { right: -70px; bottom: auto; top: 46%; width: 210px; }
     .hr-b1 { right: 4%; top: 36%; } .hr-b2, .hr-b4 { display: none; }
   }
@@ -138,17 +141,20 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     if (g.dataset.ok || calmo) return;
     g.dataset.ok = '1';
     const im = new Image(); im.decoding = 'async'; im.src = g.dataset.gira!;
-    im.decode().then(() => { g.style.backgroundImage = `url(${im.src})`; f.classList.add('gira-ok'); }).catch(() => {});
+    im.decode().then(() => { f.querySelectorAll<HTMLElement>('.hr-gira').forEach((x) => (x.style.backgroundImage = `url(${im.src})`)); f.classList.add('gira-ok'); }).catch(() => {});
   };
+  const pos = (f: HTMLElement, i: number) => { const c = +f.dataset.cols!, r = Math.ceil(+f.dataset.n! / c); return `${((i % c) / (c - 1)) * 100}% ${(Math.floor(i / c) / Math.max(1, r - 1)) * 100}%`; };
   const quadro = (f: HTMLElement, k: number) => {
-    const i = Math.max(0, Math.min(15, Math.round(k)));
-    f.querySelector<HTMLElement>('[data-gira]')!.style.backgroundPosition = `${(i % 4) * 33.3333}% ${Math.floor(i / 4) * 33.3333}%`;
+    const n = +f.dataset.n!, i = Math.max(0, Math.min(n - 1, Math.floor(k))), j = Math.min(n - 1, i + 1), fr = k - i;
+    const [a, b] = f.querySelectorAll<HTMLElement>('.hr-gira');
+    a.style.backgroundPosition = pos(f, i); b.style.backgroundPosition = pos(f, j); b.style.opacity = fr.toFixed(3);
   };
   // vai e volta devagar, como numa vitrine que gira; o mouse assume quando passa por cima
   let mouse = -1, mouseAte = 0;
   const vitrine = (t: number) => {
     // vai e volta sem parar (pedido do Davi: animação das cestas constante)
-    return 7.5 - 7.5 * Math.cos((t / 4200) * Math.PI);
+    const n = +slides[atual].dataset.n! - 1;
+    return n / 2 - (n / 2) * Math.cos((t / 4600) * Math.PI);
   };
 
   const ir = (n: number) => {

@@ -3,18 +3,21 @@
    (enquadramento do produto, faixa rosa com cápsulas de vidro) e o anúncio do notebook com laço (abertura).
    Dois temas. Claro (padrão): creme, rosa e marrom. Escuro: cacau profundo com o mesmo rosa. */
 :root {
-  --papel: #fef4e5;          /* fundo da página: o off-white do mock do Davi (nunca branco puro) */
-  --creme: #fffaf1;          /* cartões, texto sobre rosa */
-  --campo: #fffbf3;          /* campos de formulário */
-  --clarinho: #fdeedd;       /* seção alternada (a faixa de baixo do mock) */
-  --fundo: #fbe7d6;          /* seção alternada, um tom acima */
+  --papel: #fdf0de;          /* off-white quente e encorpado (pedido do Davi: mais quente e saturado que o do mock) */
+  --g1: #f8e2c4;             /* degradê das seções: em cima, bege */
+  --g2: #fef4e4;             /* embaixo, off-white quente */
+  --creme: #fff7ea;          /* cartões, texto sobre rosa */
+  --campo: #fffaf0;          /* campos de formulário */
+  --clarinho: #fcebd6;       /* seção alternada */
+  --fundo: #f9e5cd;          /* seção alternada, um tom acima */
   --gigante: #f9afb4;        /* as letras gigantes e as fitas ("PRESENTES" do mock) */
-  --fita-1: #f7a7ae;
-  --fita-2: #fcc6c8;
+  --fita-1: #f28aa8;
+  --fita-2: #ffe1e8;
+  --grad-gig: linear-gradient(180deg, #ef7a9b 0%, #f493ad 40%, #f9b9c8 72%, #f493ad 100%);
   --faixa: #f8b3b8;          /* a faixa rosa (cápsulas) */
   --faixa-2: #fcd0d0;
   --pastel: #fde0dc;         /* realce suave */
-  --rosa-cl: #f4a5ae;
+  --rosa-cl: #f09aa8;
   --chiclete: #ee6d7e;       /* o rosa do botão do mock (só em detalhe: sem contraste para texto) */
   --rosa: #c9405a;           /* botão de ação: o rosa do mock escurecido até o contraste AA com o creme */
   --framboesa: #b8364f;      /* preço e destaque em texto */
@@ -31,8 +34,8 @@
   --vidro-borda: rgba(255, 255, 255, 0.75);
   --sombra: 0 24px 50px -30px rgba(120, 50, 60, 0.45);
   --sombra-2: 0 40px 80px -40px rgba(120, 50, 60, 0.5);
-  --pedestal-1: #fbebdb;     /* pedestal redondo da cesta */
-  --pedestal-2: #efd6c3;
+  --pedestal-1: #fbe4c8;     /* pedestal redondo da cesta */
+  --pedestal-2: #edcca9;
 
   /* não mudam com o tema */
   --fixo-claro: #fffaf1;
@@ -58,13 +61,16 @@
 
 :root[data-theme='dark'], :root.invertido:not([data-theme='dark']) {
   --papel: #1e1114;
+  --g1: #30171e;
+  --g2: #1b0e12;
   --creme: #2b181c;
   --campo: #24141a;
   --clarinho: #22131a;
   --fundo: #28161c;
   --gigante: #4a2431;
-  --fita-1: #5a2434;
-  --fita-2: #74304a;
+  --fita-1: #6a2a40;
+  --fita-2: #b35473;
+  --grad-gig: linear-gradient(180deg, #8a3653 0%, #5c2738 45%, #3a1a24 78%, #5c2738 100%);
   --faixa: #4c1d2b;
   --faixa-2: #5c2536;
   --pastel: #3d1f29;
@@ -91,18 +97,21 @@
 }
 /* faixa invertida: no tema escuro, as seções marcadas ficam claras */
 :root[data-theme='dark'].invertido {
-  --papel: #fef4e5;          /* fundo da página: o off-white do mock do Davi (nunca branco puro) */
-  --creme: #fffaf1;          /* cartões, texto sobre rosa */
-  --campo: #fffbf3;          /* campos de formulário */
-  --clarinho: #fdeedd;       /* seção alternada (a faixa de baixo do mock) */
-  --fundo: #fbe7d6;          /* seção alternada, um tom acima */
+  --g1: #f8e2c4;
+  --g2: #fef4e4;
+  --fita-1: #f28aa8;
+  --fita-2: #ffe1e8;
+  --grad-gig: linear-gradient(180deg, #ef7a9b 0%, #f493ad 40%, #f9b9c8 72%, #f493ad 100%);
+  --papel: #fdf0de;          /* fundo da página: o off-white do mock do Davi (nunca branco puro) */
+  --creme: #fff7ea;          /* cartões, texto sobre rosa */
+  --campo: #fffaf0;          /* campos de formulário */
+  --clarinho: #fcebd6;       /* seção alternada (a faixa de baixo do mock) */
+  --fundo: #f9e5cd;          /* seção alternada, um tom acima */
   --gigante: #f9afb4;        /* as letras gigantes e as fitas ("PRESENTES" do mock) */
-  --fita-1: #f7a7ae;
-  --fita-2: #fcc6c8;
   --faixa: #f8b3b8;          /* a faixa rosa (cápsulas) */
   --faixa-2: #fcd0d0;
   --pastel: #fde0dc;         /* realce suave */
-  --rosa-cl: #f4a5ae;
+  --rosa-cl: #f09aa8;
   --chiclete: #ee6d7e;       /* o rosa do botão do mock (só em detalhe: sem contraste para texto) */
   --rosa: #c9405a;           /* botão de ação: o rosa do mock escurecido até o contraste AA com o creme */
   --framboesa: #b8364f;      /* preço e destaque em texto */
@@ -119,12 +128,12 @@
   --vidro-borda: rgba(255, 255, 255, 0.75);
   --sombra: 0 24px 50px -30px rgba(120, 50, 60, 0.45);
   --sombra-2: 0 40px 80px -40px rgba(120, 50, 60, 0.5);
-  --pedestal-1: #fbebdb;     /* pedestal redondo da cesta */
-  --pedestal-2: #efd6c3;
+  --pedestal-1: #fbe4c8;     /* pedestal redondo da cesta */
+  --pedestal-2: #edcca9;
   color-scheme: light;
 }
 /* no escuro o texto dos botões rosa fica escuro (o rosa clareou) */
-:root[data-theme='dark']:not(.invertido) .bt, :root.invertido:not([data-theme='dark']) .bt { --fg: #2a1519; }
+:root[data-theme='dark']:not(.invertido) .bt:not(.bt--linha), :root.invertido:not([data-theme='dark']) .bt:not(.bt--linha) { --fg: #2a1519; }
 
 /* ---- materiais de fundo ---- */
 .pt-coracoes { background-image: radial-gradient(120% 75% at 15% 0%, rgba(255, 250, 244, 0.12), transparent 60%), radial-gradient(90% 80% at 100% 100%, rgba(20, 0, 8, 0.25), transparent 62%), var(--escama-clara); }
@@ -168,3 +177,20 @@ html.ve .pd-res, html.ve .pd-res ul, html.ve .mt-cont, html.ve .mt-cont b { colo
 @keyframes gig-anda { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
 .flutua { animation: flutua var(--fd2, 5s) ease-in-out infinite alternate; }
 @keyframes flutua { from { translate: 0 -8px; rotate: -1.5deg; } to { translate: 0 10px; rotate: 1.5deg; } }
+
+/* ---- degradês que se movem (pedido do Davi, ref. deck rosa): cada seção vai do bege (em cima) ao off-white,
+   e o degradê desliza devagar, sem parar. --g1/--g2 registradas para a troca de cor (rosa, invertido) ser suave. ---- */
+@property --g1 { syntax: '<color>'; inherits: true; initial-value: #f8e2c4; }
+@property --g2 { syntax: '<color>'; inherits: true; initial-value: #fef4e4; }
+.grad { background-color: var(--g2); background-image: linear-gradient(180deg, var(--g1) 0%, var(--g2) 50%, var(--g1) 100%); background-size: 100% 200%; animation: grad-desliza 16s ease-in-out infinite alternate; transition: --g1 0.9s, --g2 0.9s; }
+.grad--inv { animation-direction: alternate-reverse; }
+@keyframes grad-desliza { from { background-position: 50% 0%; } to { background-position: 50% 70%; } }
+@keyframes grad-sobe { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
+/* rosa da promoção: a tela inteira fica rosa claro enquanto "Em promoção" está no meio da tela */
+:root.rosa { --g1: #f4a2b8; --g2: #fcd6de; }
+:root.rosa[data-theme='dark'] { --g1: #5e2438; --g2: #3a1826; }
+body { background-color: var(--g2); transition: --g1 0.9s, --g2 0.9s, background-color 0.7s; }
+@media (prefers-reduced-motion: reduce) { .grad, .gig.gig-anda:not(.cm-r1) { animation: none; } }
+/* palavras gigantes das seções com o mesmo degradê do "PRESENTES" */
+.gig:not(.cm-r1):not(.hr-gig) { background: var(--grad-gig); background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.gig.gig-anda:not(.cm-r1) { animation: gig-anda 18s ease-in-out infinite alternate, grad-sobe 9s ease-in-out infinite alternate; }

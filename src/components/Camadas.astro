@@ -6,7 +6,7 @@ import { porNN } from '../data/catalogo';
 import { LOJA } from '../data/loja';
 const C = ['08', '31', '24'].map(porNN);
 ---
-<section class="cm" aria-labelledby="cm-t" data-inverte>
+<section class="cm grad grad--inv" aria-labelledby="cm-t" data-inverte>
   <div class="cm-pal" aria-hidden="true">
     <p class="gig gig-anda cm-r1">Café da manhã · Kits presente · Bebê · Café da manhã · Kits presente ·</p>
     <p class="gig gig-anda cm-r2">Feito com carinho · Feito com carinho · Feito com carinho ·</p>
@@ -26,7 +26,7 @@ const C = ['08', '31', '24'].map(porNN);
 </section>
 
 <style is:global>
-  .cm { position: relative; overflow: clip; isolation: isolate; min-height: min(100svh, 860px); display: grid; align-items: center; background: radial-gradient(60% 50% at 50% 50%, var(--creme), transparent 70%), var(--clarinho); padding-block: 90px; }
+  .cm { position: relative; overflow: clip; isolation: isolate; min-height: min(100svh, 860px); display: grid; align-items: center; padding-block: 90px; }
   .cm-pal { position: absolute; inset: 0; z-index: -2; display: grid; align-content: space-between; padding-block: 5% 4%; pointer-events: none; }
   .cm-pal p { margin: 0; font-size: clamp(80px, 15vw, 230px); }
   .cm-r1 { translate: calc(-14% + var(--px, 0px)) 0; color: transparent; -webkit-text-stroke: 1.5px var(--rosa-cl); }

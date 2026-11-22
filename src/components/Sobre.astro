@@ -13,7 +13,7 @@ const VANTAGENS = [
   ['Retirada ou entrega', 'M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'],
 ];
 ---
-<section class="sec sb" id="loja">
+<section class="sec sb grad grad--inv" id="loja" data-inverte>
   <Fita v={1} style="left:-70px;top:4%;width:clamp(180px,18vw,300px)" />
   <div class="cx sb-g">
     <div class="sb-txt">
@@ -46,7 +46,7 @@ const VANTAGENS = [
 </section>
 
 <style is:global>
-  .sb { background: var(--papel); overflow: clip; padding-bottom: 0; }
+  .sb { overflow: clip; padding-bottom: 0; }
   .sb-g { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); gap: clamp(28px, 6vw, 90px); align-items: center; }
   .sb-txt { text-align: center; display: grid; justify-items: center; }
   .sb-ler { margin-top: 22px; font-size: clamp(18px, 1.8vw, 23px); line-height: 1.45; font-weight: 500; color: var(--tit); max-width: 34ch; }
@@ -64,7 +64,7 @@ const VANTAGENS = [
   .sb-n1 { left: 0; top: 0; width: 60%; aspect-ratio: 3 / 4; }
   .sb-n1 .sb-arco { background: radial-gradient(70% 50% at 50% 35%, var(--faixa-2), transparent 75%), var(--faixa); }
   .sb-n2 { right: 0; bottom: 0; width: 50%; aspect-ratio: 3 / 3.6; z-index: 2; }
-  .sb-n2 .sb-arco { background: radial-gradient(70% 50% at 50% 35%, var(--creme), transparent 75%), var(--clarinho); box-shadow: 0 0 0 8px var(--papel), var(--sombra); }
+  .sb-n2 .sb-arco { background: radial-gradient(70% 50% at 50% 35%, var(--creme), transparent 75%), var(--clarinho); box-shadow: 0 0 0 8px var(--g2), var(--sombra); }
   .sb-fita { width: 44%; right: 30%; top: 34%; z-index: 3; }
   .sb { position: relative; }
   .sb-b { right: 4%; top: 6%; }

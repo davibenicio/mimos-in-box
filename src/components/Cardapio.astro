@@ -6,7 +6,7 @@ import { CATEGORIAS } from '../data/loja';
 const ABAS = [...CATEGORIAS.map((c) => ({ id: c.id, nome: c.nome })), { id: 'promo', nome: 'Promoções' }];
 const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 ---
-<section class="sec cd" id="cestas" data-cardapio data-aba={ABAS[0].id}>
+<section class="sec cd grad" id="cestas" data-inverte data-cardapio data-aba={ABAS[0].id}>
   <Fita v={2} style="right:-60px;top:2%;width:clamp(200px,22vw,360px)" />
   <p class="gig gig-anda cd-fantasma" aria-hidden="true">Cestas</p>
   <Fita v={4} style="left:-90px;bottom:6%;width:clamp(180px,18vw,280px)" />
@@ -50,7 +50,7 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 </section>
 
 <style is:global>
-  .cd { background: radial-gradient(50% 40% at 100% 0%, color-mix(in srgb, var(--faixa) 24%, transparent), transparent 70%), var(--clarinho); overflow: clip; }
+  .cd { overflow: clip; }
   .cd-fantasma { position: absolute; right: -1vw; top: 0; font-size: clamp(110px, 20vw, 320px); translate: var(--px, 0px) 0; opacity: 0.6; }
   .cd-topo { position: relative; display: grid; gap: 14px; justify-items: center; text-align: center; margin-bottom: clamp(26px, 4vw, 46px); }
   .cd-topo .sub { margin-inline: auto; }

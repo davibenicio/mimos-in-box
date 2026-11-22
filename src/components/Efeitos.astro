@@ -41,6 +41,16 @@
     if (!calmo) addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
   });
 
+  // rosa da promoção (pedido do Davi, ref. deck rosa): com "Em promoção" no meio da tela, o fundo inteiro vira rosa claro
+  cada('rosa', () => {
+    const h = document.documentElement, po = document.getElementById('promocoes');
+    if (!po) return;
+    let raf = 0;
+    const pinta = () => { raf = 0; const r = po.getBoundingClientRect(), m = innerHeight * 0.5; h.classList.toggle('rosa', r.top < m && r.bottom > m); };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
+    pinta();
+  });
+
   // faixa invertida: quando o meio da tela está numa seção [data-inverte], troca as cores (claro vira escuro e vice-versa)
   cada('inverte', () => {
     const h = document.documentElement;

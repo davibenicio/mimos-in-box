@@ -58,6 +58,7 @@ const ld = {
         window.__ve();
         if (t === 'dark') { var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = '#1e1114'; }
         var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (calmo) addEventListener('DOMContentLoaded', function () { var a = document.getElementById('fita-anda'); if (a) a.remove(); });
         var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}
         window.__abre = function () { if (h.classList.contains('abriu')) return; h.classList.remove('abrindo'); h.classList.add('abriu'); window.dispatchEvent(new Event('mimos:abriu')); };
         // abertura só com movimento liberado; rede de segurança: o site abre sozinho se algo falhar
@@ -69,7 +70,7 @@ const ld = {
     </script>
   </head>
   <body>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="fita-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--fita-1)" /><stop offset=".5" style="stop-color:var(--fita-2)" /><stop offset="1" style="stop-color:var(--fita-1)" /></linearGradient></defs></svg>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="fita-grad" x1="0" y1="0" x2=".6" y2=".6" spreadMethod="reflect"><stop offset="0" style="stop-color:var(--fita-1)" /><stop offset=".55" style="stop-color:var(--fita-2)" /><stop offset="1" style="stop-color:var(--fita-1)" /><animateTransform id="fita-anda" attributeName="gradientTransform" type="translate" values="0 0;.6 .6;0 0" dur="14s" repeatCount="indefinite" /></linearGradient></defs></svg>
     <IntroPresente />
     <Barra />
     <main id="topo"><slot /></main>
