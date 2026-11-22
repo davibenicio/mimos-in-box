@@ -18,7 +18,7 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
           <i class="cd-gota" aria-hidden="true"></i>
           {ABAS.map((a, i) => <button type="button" role="tab" id={`cd-aba-${a.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls="cd-lista" data-aba={a.id}>{a.nome}</button>)}
         </div>
-        <ul class="cd-lista" id="cd-lista" role="tabpanel" aria-labelledby={`cd-aba-${ABAS[0].id}`}>
+        <div id="cd-lista" role="tabpanel" aria-labelledby={`cd-aba-${ABAS[0].id}`}><ul class="cd-lista">
           {PRODUTOS.map((p) => (
             <li data-cat={p.categoria} data-promo={p.de ? '1' : undefined}>
               <button type="button" class="cd-it" data-nn={p.nn} data-nome={p.nome} data-preco={reais(p.preco)} data-de={p.de ? reais(p.de) : undefined} data-w={p.cw} data-h={p.ch}>
@@ -27,7 +27,7 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
               </button>
             </li>
           ))}
-        </ul>
+        </ul></div>
       </div>
       <div class="cd-palco" aria-live="polite">
         <div class="cd-raios" aria-hidden="true"></div>
@@ -63,6 +63,7 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
   .cd-p { display: inline-flex; align-items: baseline; gap: 7px; }
   .cd-it:hover, .cd-it:focus-visible, .cd-it.on { background: var(--pastel); padding-left: 18px; }
   .cd-it.on i { border-color: var(--framboesa); }
+  .cd-it:hover .preco, .cd-it:focus-visible .preco, .cd-it.on .preco { color: var(--cereja); }
   .cd-palco { position: sticky; top: 96px; height: min(560px, 74vh); border-radius: 280px 280px 28px 28px; background: var(--fundo); overflow: hidden; border: 2px solid var(--cereja); box-shadow: 0 6px 0 var(--cereja); }
   .cd-raios { position: absolute; left: 50%; top: 42%; width: 150%; aspect-ratio: 1; translate: -50% -50%; background: repeating-conic-gradient(rgba(226, 69, 126, 0.16) 0 9deg, transparent 9deg 18deg); border-radius: 50%; animation: hr-gira 90s linear infinite; }
   .cd-mesa { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background-color: var(--rosa); --pt: rgba(255, 255, 255, 0.16); border-top: 3px solid var(--cereja); }
