@@ -81,6 +81,10 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   /* palco à direita (mock): luz, pedestal redondo e a cesta saindo de trás da palavra */
   .hr-palco { position: absolute; z-index: 2; left: max(41%, calc(50% - 40px)); right: 3%; top: calc(var(--barra) + var(--F) * 0.42 + 56px); bottom: calc(clamp(18px, 3vh, 30px) * 2 + 54px + 2px); }
   .hr-luz { position: absolute; left: 6%; right: 6%; top: 4%; bottom: 10%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 80%, transparent), transparent); animation: hr-respira 6s ease-in-out infinite alternate; }
+  /* tema escuro: luz rosada atrás da cesta para ela se destacar do fundo vinho */
+  html.ve .hr-luz { left: -4%; right: -4%; top: -6%; bottom: 2%; background: radial-gradient(closest-side, rgba(255, 214, 226, 0.62), rgba(244, 150, 180, 0.3) 52%, rgba(200, 90, 130, 0.08) 78%, transparent); filter: blur(6px); }
+  html.ve .hr-ped { background: linear-gradient(180deg, #6b3346, #43202d); }
+  html.ve .hr-ped::before { background: radial-gradient(60% 70% at 50% 40%, #8a4a60, #5a2a3b); }
   @keyframes hr-respira { to { scale: 1.08; opacity: 0.7; } }
   .hr-ped { position: absolute; left: 50%; bottom: -1%; width: min(96%, 720px); height: 13%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
   .hr-ped::before { content: ''; position: absolute; left: 0; right: 0; top: -38%; height: 76%; border-radius: 50%; background: radial-gradient(60% 70% at 50% 40%, var(--creme), var(--pedestal-1)); }
@@ -142,13 +146,15 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   let atual = 0, parado = calmo, segura = false, fora = false, gasto = 0, t0 = performance.now(), pronto = false;
 
   // ---- vídeo da cesta: MP4 com a cor em cima e a transparência embaixo; o WebGL junta as duas metades ----
-  type Vid = { v: HTMLVideoElement; gl: WebGLRenderingContext; tx: WebGLTexture; ok: boolean };
+  type Vid = { v: HTMLVideoElement; gl: WebGLRenderingContext; tx: WebGLTexture; ue: WebGLUniformLocation | null; ok: boolean };
+  const raiz = document.documentElement;
   const vids = new Map<HTMLElement, Vid>();
   const celular = matchMedia('(max-width: 900px)').matches;
   const economia = (navigator as any).connection?.saveData === true;
   const av1 = (() => { try { return document.createElement('video').canPlayType('video/mp4; codecs="av01.0.08M.08"') === 'probably'; } catch { return false; } })();
   const VS = 'attribute vec2 p;varying vec2 u;void main(){u=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
-  const FS = 'precision mediump float;varying vec2 u;uniform sampler2D t;void main(){vec3 c=texture2D(t,vec2(u.x,u.y*.5)).rgb;float a=smoothstep(.04,.96,texture2D(t,vec2(u.x,.5+u.y*.5)).r);gl_FragColor=vec4(c*a,a);}';
+  // no tema escuro o celofane (perto da cor do fundo do vídeo, B) fica um tom mais frio, sem perder opacidade
+  const FS = 'precision mediump float;varying vec2 u;uniform sampler2D t;uniform float e;const vec3 B=vec3(.976,.957,.929);void main(){vec3 c=texture2D(t,vec2(u.x,u.y*.5)).rgb;float a=smoothstep(.04,.96,texture2D(t,vec2(u.x,.5+u.y*.5)).r);vec3 f=mix(c,c*vec3(.97,.95,.96),e*(1.-smoothstep(.03,.2,distance(c,B))));gl_FragColor=vec4(f*a,a);}';
   const montaGL = (cv: HTMLCanvasElement) => {
     const gl = cv.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false }) as WebGLRenderingContext | null;
     if (!gl) return null;
@@ -162,13 +168,14 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((k) => gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE));
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.clearColor(0, 0, 0, 0);
-    return { gl, tx };
+    return { gl, tx, ue: gl.getUniformLocation(pr, 'e') };
   };
   const pinta = (f: HTMLElement, d: Vid) => {
     const { v, gl, tx } = d;
     if (v.readyState < 2) return;
     gl.bindTexture(gl.TEXTURE_2D, tx);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v);
+    gl.uniform1f(d.ue, raiz.classList.contains('ve') ? 1 : 0);
     gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     if (!d.ok) { d.ok = true; f.classList.add('vid-ok'); }
   };
@@ -187,7 +194,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
     const v = document.createElement('video');
     v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
     v.src = `/video/${cv.dataset.vid}-${celular ? 'p' : 'g'}${av1 ? '-av1' : ''}.mp4`;
-    const d: Vid = { v, gl: g.gl, tx: g.tx, ok: false };
+    const d: Vid = { v, gl: g.gl, tx: g.tx, ue: g.ue, ok: false };
     vids.set(f, d);
     v.addEventListener('error', () => { f.classList.remove('vid-ok'); vids.delete(f); carregaQuadros(f); }, { once: true });
     laco(f, d); toca();
