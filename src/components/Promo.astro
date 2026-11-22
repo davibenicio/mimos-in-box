@@ -1,5 +1,6 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 // Faixa rosa "Em promoção" (ref. HUSH "New arrivals"): cápsulas de vidro com a cesta saindo por cima, em carrossel.
 // A do meio fica na frente; as vizinhas atrás, menores e desfocadas. Troca sozinha com barra de tempo e pausa visível;
 // setas coladas, toque e arraste trocam (RP-43). Só cestas com preço "de/por" no catálogo (dado real).
@@ -8,6 +9,7 @@ const itens = PRODUTOS.filter((p) => p.de).map((p) => ({ ...p, off: Math.round((
 ---
 <section class="po grad" id="promocoes" data-inverte-escuro data-po aria-roledescription="carrossel" aria-labelledby="po-t">
   <Fita v={4} style="right:-30px;top:-40px;width:clamp(150px,14vw,240px);z-index:3" />
+  <LogoMini style="left:3%;top:3%;z-index:3" />
   <Fita v={1} style="left:-40px;bottom:-60px;width:clamp(150px,14vw,240px);z-index:3" />
   <div class="po-faixa">
     <Fita v={3} style="left:-80px;top:10px;width:clamp(300px,34vw,520px);opacity:.55" />

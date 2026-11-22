@@ -1,5 +1,6 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 // Monte a sua cesta: cesta de vime real em camadas, itens reais que caem dentro, total ao vivo e, no fim, a cesta sendo embrulhada.
 import { ITENS, TAMANHOS, LACOS } from '../data/loja';
 import { reais } from '../data/catalogo';
@@ -10,6 +11,7 @@ const dados = { itens: ITENS.flatMap((g) => g.itens), tamanhos: TAMANHOS, lacos:
 <section class="sec mt camada grad grad--inv" id="monte" data-montador>
   <p class="gig gig-anda mt-gig" aria-hidden="true">Monte a sua</p>
   <Fita v={1} style="left:-60px;top:22%;width:clamp(200px,22vw,340px)" />
+  <LogoMini style="right:5%;top:120px" />
   <Fita v={2} style="right:-50px;bottom:4%;width:clamp(220px,26vw,400px)" />
   <span class="brilho" style="--t:32px;left:4%;top:12%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <span class="brilho" style="--t:24px;right:6%;bottom:30%;--d:6s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
@@ -85,7 +87,8 @@ const dados = { itens: ITENS.flatMap((g) => g.itens), tamanhos: TAMANHOS, lacos:
 
 <style is:global>
   .mt { overflow: clip; }
-  .mt-gig { position: absolute; right: -2vw; top: 18px; font-size: clamp(90px, 15vw, 230px); translate: var(--px, 0px) 0; opacity: 0.55; }
+  .mt-gig { position: absolute; left: 50%; top: 18px; font-size: clamp(90px, 15vw, 230px); translate: -50% 0; opacity: 0.55; }
+  .mt .mt-gig.gig.gig-anda { animation-duration: 5s, 4s; }
   .mt > .cx { position: relative; }
   .mt-topo { display: grid; gap: 14px; justify-items: center; text-align: center; margin-bottom: clamp(26px, 4vw, 46px); }
   .mt-topo .sub { margin-inline: auto; }

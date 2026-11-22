@@ -1,5 +1,6 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 // Catálogo único: lista de nomes e preços; a cesta aparece no nicho ao passar o mouse, focar ou tocar. Clique abre a ficha.
 import { PRODUTOS, reais } from '../data/catalogo';
 import { CATEGORIAS } from '../data/loja';
@@ -8,6 +9,7 @@ const prim = PRODUTOS.find((p) => p.categoria === ABAS[0].id)!;
 ---
 <section class="sec cd grad" id="cestas" data-inverte data-cardapio data-aba={ABAS[0].id}>
   <Fita v={2} style="right:-60px;top:2%;width:clamp(200px,22vw,360px)" />
+  <LogoMini style="left:4%;top:7%" />
   <p class="gig gig-anda cd-fantasma" aria-hidden="true">Cestas</p>
   <Fita v={4} style="left:-90px;bottom:6%;width:clamp(180px,18vw,280px)" />
   <span class="brilho" style="--t:28px;left:42%;top:10%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>

@@ -1,0 +1,16 @@
+---
+// Logo da Mimos in Box em versão mínima (traço de uma cor): aro duplo, "Mimos / In Box" e o coração do logo.
+// Selo decorativo espalhado pelo site e na cesta do montador. Cor = currentColor.
+interface Props { class?: string; style?: string; gira?: boolean }
+const { class: cls = '', style = '', gira = true } = Astro.props;
+---
+<svg class:list={['selo', gira && 'selo--gira', cls]} style={style} viewBox="0 0 200 200" aria-hidden="true">
+  <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="2.4" />
+  <circle cx="100" cy="100" r="86" fill="none" stroke="currentColor" stroke-width="1.2" />
+  <g class="selo-txt" fill="currentColor" text-anchor="middle">
+    <text x="96" y="94" font-size="46">Mimos</text>
+    <text x="90" y="134" font-size="40">In Box</text>
+  </g>
+  <path d="M140 122c-4-7-14-5-13 3 1 6 9 10 13 15 4-5 12-9 13-15 1-8-9-10-13-3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+  <g fill="currentColor"><path d="M80 158c-1.6-2.8-5.6-2-5.2 1.2.3 2.4 3.6 4 5.2 6 1.6-2 4.9-3.6 5.2-6 .4-3.2-3.6-4-5.2-1.2z" /><path d="M100 160c-1.6-2.8-5.6-2-5.2 1.2.3 2.4 3.6 4 5.2 6 1.6-2 4.9-3.6 5.2-6 .4-3.2-3.6-4-5.2-1.2z" /><path d="M120 158c-1.6-2.8-5.6-2-5.2 1.2.3 2.4 3.6 4 5.2 6 1.6-2 4.9-3.6 5.2-6 .4-3.2-3.6-4-5.2-1.2z" /></g>
+</svg>

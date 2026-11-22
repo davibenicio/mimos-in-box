@@ -173,8 +173,8 @@ html.ve .pd-res, html.ve .pd-res ul, html.ve .mt-cont, html.ve .mt-cont b { colo
 @keyframes fx-balanca { from { rotate: -3deg; translate: 0 -8px; } to { rotate: 3deg; translate: 0 10px; } }
 @keyframes fx-corre { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
 /* palavras gigantes das seções andam devagar, sem parar */
-.gig-anda { animation: gig-anda 18s ease-in-out infinite alternate; }
-@keyframes gig-anda { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
+.gig-anda { animation: gig-anda 7s ease-in-out infinite alternate; }
+@keyframes gig-anda { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
 .flutua { animation: flutua var(--fd2, 5s) ease-in-out infinite alternate; }
 @keyframes flutua { from { translate: 0 -8px; rotate: -1.5deg; } to { translate: 0 10px; rotate: 1.5deg; } }
 
@@ -195,4 +195,10 @@ body { background-color: var(--g2); transition: --g1 0.9s, --g2 0.9s, background
 @media (prefers-reduced-motion: reduce) { .grad, .gig.gig-anda:not(.cm-r1) { animation: none; } }
 /* palavras gigantes das seções com o mesmo degradê do "PRESENTES" */
 .gig:not(.cm-r1):not(.hr-gig) { padding-block: 0.12em; margin-block: -0.12em; background: var(--grad-gig); background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; color: transparent; }
-.gig.gig-anda:not(.cm-r1) { animation: gig-anda 18s ease-in-out infinite alternate, grad-sobe 9s ease-in-out infinite alternate; }
+.gig.gig-anda:not(.cm-r1) { animation: gig-anda 7s ease-in-out infinite alternate, grad-sobe 5s ease-in-out infinite alternate; }
+/* selo com o logo mínimo (LogoMini.astro): espalhado pelo site, gira devagar */
+.selo { position: absolute; z-index: 1; width: clamp(74px, 8vw, 124px); height: auto; color: var(--rosa-cl); opacity: 0.55; pointer-events: none; overflow: visible; }
+.selo-txt { font-family: var(--f-serif); font-style: italic; font-weight: 600; letter-spacing: -0.01em; }
+.selo--gira { animation: selo-gira 26s linear infinite; }
+@keyframes selo-gira { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .selo--gira { animation: none; } }

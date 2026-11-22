@@ -1,9 +1,11 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 import { LOJA } from '../data/loja';
 ---
 <section class="sec ctt grad grad--inv" id="contato" data-inverte>
   <Fita v={3} style="left:-60px;bottom:-30px;width:clamp(280px,32vw,520px)" />
+  <LogoMini style="right:5%;top:6%" />
   <span class="brilho" style="--t:30px;right:7%;top:16%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <div class="cx">
     <div class="ctt-bilhete" data-rev="sobe">

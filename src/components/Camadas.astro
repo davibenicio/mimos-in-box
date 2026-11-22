@@ -1,5 +1,6 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 // Faixa de camadas (RP-56): cada camada anda numa velocidade com a rolagem. Fundo: palavras gigantes em sentidos
 // opostos. Meio: fitas de cetim e cestas recortadas em profundidades diferentes. Frente: a frase e o botão.
 import { porNN } from '../data/catalogo';
@@ -12,6 +13,7 @@ const C = ['08', '31', '24'].map(porNN);
     <p class="gig gig-anda cm-r2">Feito com carinho · Feito com carinho · Feito com carinho ·</p>
   </div>
   <Fita v={1} class="cm-f1" />
+  <LogoMini style="right:7%;bottom:9%" />
   <Fita v={2} class="cm-f2" />
   <span class="brilho" style="--t:34px;left:22%;top:20%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <span class="brilho" style="--t:26px;right:24%;bottom:22%;--d:6.5s" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>

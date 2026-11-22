@@ -1,5 +1,6 @@
 ---
 import Fita from './Fita.astro';
+import LogoMini from './LogoMini.astro';
 // Sobre nós (ref. HUSH, 3ª dobra): texto à esquerda com a marca gigante e rosa embaixo, colagem à direita com duas
 // cestas recortadas em arcos e uma fita de cetim na frente, cada peça numa profundidade da rolagem.
 import { LOJA } from '../data/loja';
@@ -15,6 +16,7 @@ const VANTAGENS = [
 ---
 <section class="sec sb grad grad--inv" id="loja" data-inverte>
   <Fita v={1} style="left:-70px;top:4%;width:clamp(180px,18vw,300px)" />
+  <LogoMini style="right:4%;top:5%" />
   <div class="cx sb-g">
     <div class="sb-txt">
       <h2 class="tit" data-pal>Feito com carinho, <em>do seu jeito.</em></h2>
