@@ -10,6 +10,7 @@ Cliente fechado. Ação nº 1: pedir uma cesta (pronta ou montada).
 - Vídeos Kling das 3 cestas ampliados no Topaz (2x, 1920 px, 60 qps, 540 créditos cada) e recortados no Magnific (`video_remove_background`, qualidade "high"; "maximum" falha no download).
 - `tools/giro-video.py`: tira o suporte branco que o Kling inventa (abaixo da última parte não branca de cada coluna), vai e volta com freio suave, MP4 empilhado (cor em cima, transparência embaixo) em AV1 e H.264, PC 1080 px e celular 600 px. O WebGL do topo junta as metades; sem WebGL, economia de dados ou vídeo bloqueado, volta o giro em quadros.
 - Vídeo só baixa depois da página carregada, só a cesta da vez toca e pausa fora da tela.
+- Abertura roda a cada carregamento da página (pedido do Davi, 22/11, 3h15). Não roda com movimento reduzido nem ao voltar pelo histórico.
 - Recorte refeito (22/11, 3h): alfa = maior entre 'Heavy' e 'Matting' (celofane fino sem cortes retos); suporte cortado por cor (35: `SAT=0.22`; 19: padrão) ou pela cor do fundo (29: `SUPORTE=placa`); giro só até antes do suporte aparecer (35: 185, 19: 88, 29: 165 quadros de 300). Comando: `RECORTE2=<heavy.webm> python3 tools/giro-video.py <nn> <ampliado.mp4> <matting.webm> <último>`.
 - Selo com o logo mínimo (`LogoMini.astro`) pelo site e na frente da cesta do montador. Textos de fundo mais rápidos. Troca de cor em 1,3 s. Seções fora da tela pausam as animações.
 
