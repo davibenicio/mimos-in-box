@@ -41,9 +41,9 @@ Padrões da casa que saíram, com motivo:
 - Pedido: chuva de corações na confirmação.
 - Botão "Pausar animações" no rodapé. Movimento reduzido: tudo parado, conteúdo inteiro visível.
 
-## Medido no publicado (21/11, https://mimos-in-box.vercel.app)
-Portão de qualidade aprovado: LCP no celular 2,46 s (4G lento, CPU 4×), CLS 0, JS 8 KB, 607 KB no 1º acesso, sem rolagem lateral de 320 a 1280, sem erro de console, axe sem falha grave.
-Conferido em tela: 1440 e 390, todas as seções; fluxo montar → embrulhar → pedido → confirmação no celular e no PC.
+## Medido no publicado (21/11, 22h20, v2, https://mimos-in-box.vercel.app)
+Portão de qualidade aprovado: LCP no celular 1,30 s (4G lento, CPU 4×; era 2,46 s na v1), CLS 0, JS 8 KB, 529 KB no 1º acesso, sem rolagem lateral de 320 a 1280, sem erro de console, axe sem falha grave.
+Conferido em tela no publicado: 1440 e 390, todas as seções; abas do catálogo, ficha, link de categoria do rodapé; fluxo montar → embrulhar → pedido → confirmação e cesta pronta → pedido no celular. Topo do celular cabe em 390×700.
 Ainda não conferido: percurso só com teclado, percurso com movimento reduzido, GIF de rolagem.
 
 ## Onde mexer
