@@ -1,7 +1,10 @@
 ---
+import Fita from './Fita.astro';
 import { LOJA } from '../data/loja';
 ---
-<section class="sec ctt pt-vichy" id="contato">
+<section class="sec ctt" id="contato">
+  <Fita v={3} style="left:-60px;bottom:-30px;width:clamp(280px,32vw,520px)" par={0.4} />
+  <span class="brilho" style="--t:30px;right:7%;top:16%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <div class="cx">
     <div class="ctt-bilhete" data-rev="sobe">
       <div class="ctt-a">
@@ -27,21 +30,22 @@ import { LOJA } from '../data/loja';
 </section>
 
 <style is:global>
-  .ctt { background-color: var(--fundo); }
-  .ctt-bilhete { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 26px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja); }
+  .ctt { background-color: var(--clarinho); overflow: clip; }
+  .ctt > .cx { position: relative; z-index: 1; }
+  .ctt-bilhete { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 30px; box-shadow: var(--sombra-2), inset 0 0 0 1px var(--linha); }
   .ctt-a, .ctt-b { padding: clamp(24px, 4vw, 48px); display: grid; gap: 20px; align-content: center; justify-items: start; }
-  .ctt-a { border-right: 3px dashed var(--pastel); position: relative; }
-  .ctt-a::before, .ctt-a::after { content: ''; position: absolute; right: -15px; width: 26px; height: 26px; border-radius: 50%; background: var(--fundo); border: 2px solid var(--cereja); }
+  .ctt-a { border-right: 2px dashed var(--rosa-cl); position: relative; }
+  .ctt-a::before, .ctt-a::after { content: ''; position: absolute; right: -15px; width: 26px; height: 26px; border-radius: 50%; background: var(--fundo); }
   .ctt-a::before { top: -15px; clip-path: inset(50% 0 0 0); } .ctt-a::after { bottom: -15px; clip-path: inset(0 0 50% 0); }
   .ctt address { font-style: normal; font-size: clamp(18px, 1.8vw, 21px); line-height: 1.45; }
-  .ctt address strong { font-family: var(--f-gorda); font-weight: 700; color: var(--cereja); font-size: 1.15em; }
+  .ctt address strong { font-family: var(--f-serif); font-weight: 600; color: var(--tit); font-size: 1.15em; }
   .ctt-r { display: grid; gap: 10px; }
   .ctt-r li { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; line-height: 1.35; }
   .ctt-r svg { flex: none; margin-top: 2px; }
   .ctt-bts { display: flex; flex-wrap: wrap; gap: 12px; }
   @media (max-width: 800px) {
     .ctt-bilhete { grid-template-columns: minmax(0, 1fr); }
-    .ctt-a { border-right: 0; border-bottom: 3px dashed var(--pastel); }
+    .ctt-a { border-right: 0; border-bottom: 2px dashed var(--rosa-cl); }
     .ctt-a::before, .ctt-a::after { right: auto; bottom: -15px; top: auto; clip-path: none; }
     .ctt-a::before { left: -15px; clip-path: inset(0 0 0 50%); } .ctt-a::after { right: -15px; clip-path: inset(0 50% 0 0); }
     .ctt-bts .bt { width: 100%; }

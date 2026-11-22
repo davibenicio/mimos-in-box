@@ -5,7 +5,7 @@ import { LOJA, LACOS } from '../data/loja';
 <dialog class="pd" id="pedido" aria-labelledby="pd-tit">
   <div class="pd-cx">
     <button class="dlg-x" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg></button>
-    <aside class="pd-res pt-coracoes">
+    <aside class="pd-res">
       <img data-foto alt="" width="300" height="300" />
       <div class="pd-cena" data-cena hidden></div>
       <strong class="gorda" data-nome></strong>
@@ -57,12 +57,13 @@ import { LOJA, LACOS } from '../data/loja';
 
 <style is:global>
   .pd { width: min(960px, 100% - 20px); max-height: calc(100dvh - 20px); margin: auto; overflow: visible; }
-  .pd-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); background: var(--creme); border-radius: 28px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja-esc); overflow: hidden; max-height: calc(100dvh - 20px); }
-  .pd-res { background-color: var(--cereja); color: var(--creme); padding: 28px 22px; display: grid; gap: 10px; align-content: center; justify-items: center; text-align: center; }
-  .pd-res img { width: min(220px, 70%); height: auto; max-height: 240px; object-fit: contain; filter: drop-shadow(0 14px 12px rgba(0, 0, 0, 0.4)); animation: hr-flutua 4s ease-in-out infinite alternate; }
+  .pd-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); background: var(--creme); border-radius: 30px; box-shadow: var(--sombra-2); overflow: hidden; max-height: calc(100dvh - 20px); }
+  .pd-res { background: radial-gradient(70% 50% at 50% 30%, var(--faixa-2), transparent 75%), var(--faixa); color: var(--fixo-escuro); padding: 28px 22px; display: grid; gap: 10px; align-content: center; justify-items: center; text-align: center; }
+  .pd-res img { width: min(220px, 70%); height: auto; max-height: 240px; object-fit: contain; filter: drop-shadow(0 14px 12px rgba(110, 30, 50, 0.35)); animation: pd-flutua 4s ease-in-out infinite alternate; }
   .pd-cena { width: min(230px, 80%); }
+  @keyframes pd-flutua { to { transform: translateY(-8px); } }
   .pd-res strong { font-size: 21px; line-height: 1.15; }
-  .pd-res ul { font-size: 14.5px; line-height: 1.4; color: var(--pastel); max-height: 150px; overflow-y: auto; }
+  .pd-res ul { font-size: 14.5px; line-height: 1.4; color: color-mix(in srgb, var(--fixo-escuro) 80%, transparent); max-height: 150px; overflow-y: auto; }
   .pd-base { font-size: 13.5px; color: var(--pastel); }
   .pd-tot { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; margin-top: 6px; padding: 8px 18px; border-radius: 99px; background: var(--creme); color: var(--cereja); font-weight: 800; }
   .pd-tot b { font-size: 24px; color: var(--framboesa); }

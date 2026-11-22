@@ -6,6 +6,15 @@ Atualizado em 21/11/2026, 22h (v2 publicada como prévia: mais sóbria, sem bran
 Site de vendas da Mimos in Box (cestas e presentes personalizados, Pontal, Ilhéus-BA). O cliente vê o catálogo, monta uma cesta e fecha o pedido no site. WhatsApp fica para dúvidas e para a loja receber o pedido pronto.
 Cliente fechado. Ação nº 1: pedir uma cesta (pronta ou montada).
 
+## v3 (21/11, noite): mock do Davi
+- Topo: cópia do mock dele ("PRESENTES" gigante rosa em Anton esticada, título Fraunces marrom, botão rosa, link sublinhado, fitas chapadas, brilhos, faixa de três ideias). Só o cabeçalho é diferente (logo real, menu, tema, Instagram).
+- Cesta no pedestal girando: quadros de vídeo (Kling 2.5 no Magnific, a partir da foto real) sem fundo, num sprite 4x4 (`tools/giro.py`). Três cestas de uma cor só: 35, 19, 29.
+- Off-white do mock: #fef4e5. Rosa das letras e fitas: #f9afb4. Botão: o rosa do mock escurecido até o AA (#c9405a).
+- Abertura nova (`IntroPresente`): notebook ou celular com a tela embrulhada em fita e laço; o laço desata e a tela vira o site. Tela = captura do topo (`node tools/capturas-intro.cjs http://localhost:4391`, rodar de novo sempre que o topo mudar). 1ª visita da sessão; Pular.
+- Ordem: Topo (gruda) → Monte a sua (desliza por cima) → Em promoção (faixa rosa, cápsulas de vidro em carrossel) → Sobre nós → Nossas cestas (lista com prévia) → Camadas → Do clique ao laço → Contato → Rodapé.
+- Tema claro e escuro (botão no cabeçalho). Vidro no cabeçalho, na barra de abas do celular e no resumo do montador. Fitas chapadas do mock em todas as seções (`Fita.astro`).
+- Magnific nesta rodada: 3 vídeos (420) + fitas (75) + recortes (15) = ~510 créditos.
+
 ## Decisões
 - Direção de arte **C, Cereja** (escolha do Davi em 21/11). O prompt original proibia vinho; o Davi liberou.
 - **v2 (pedido do Davi, 21/11 à noite): mais profissional e séria.** Paleta: bordô `#6a1029`, rosé nude `#f5e4e1`, off-white `#fbf6f0` no lugar do branco (não há branco puro em superfície), ouro fosco do logo só em fio. Tudo em `src/styles/tokens.css`.

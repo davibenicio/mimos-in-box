@@ -1,0 +1,63 @@
+---
+// Celular: barra de abas de vidro (efeito 26 da casa) com a gota que desliza em mola até a aba.
+// Refração real só no Chrome/Android; fosco nos outros. No PC não aparece (o cabeçalho tem tudo).
+const ABAS = [
+  ['#topo', 'Início', 'topo', 'M4 11.500 12 4l8 7.500V20h-5.500v-5h-5v5H4z'],
+  ['#monte', 'Monte', 'monte', 'M4 10h16l-1.600 9.500H5.600zM8.500 10c0-3.200 1.400-5.500 3.500-5.500s3.500 2.300 3.500 5.500'],
+  ['#cestas', 'Cestas', 'cestas', 'M4 8h16v12H4zM4 12h16M12 8v12M12 8C9 8 7.500 6.500 8 5s3 0 4 3c1-3 3.500-4.500 4-3s-1 3-4 3z'],
+  ['#contato', 'Contato', 'contato', 'M12 21s-6.500-5.800-6.500-10.800a6.500 6.500 0 0 1 13 0C18.500 15.200 12 21 12 21zM12 12.500a2.300 2.300 0 1 0 0-4.600 2.300 2.300 0 0 0 0 4.600z'],
+];
+---
+<nav class="abas" aria-label="Navegação rápida" data-abas>
+  <span class="abas-gota" aria-hidden="true"></span>
+  {ABAS.map(([h, t, id, d], i) => (
+    <a href={h} class:list={['aba', i === 0 && 'on']} data-sec={id}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} /></svg><span>{t}</span>
+    </a>
+  ))}
+</nav>
+
+<style is:global>
+  .abas { display: none; }
+  @media (max-width: 900px) {
+    .abas { position: fixed; z-index: 48; left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(12px + 70px + env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); max-width: 400px; height: 60px; border-radius: 30px; display: flex; align-items: center; padding: 0 4px;
+      color: var(--tit); background: var(--vidro); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6);
+      box-shadow: 0 14px 30px -10px rgba(43, 12, 21, 0.45), inset 0 1px 0 var(--vidro-borda), inset 0 0 0 1px var(--linha); transition: translate 0.45s var(--sai), opacity 0.3s; }
+    html.abrindo .abas, html.no-hero .abas, html.menu-on .abas, html.modal .abas, html.no-monte .abas, html.no-cardapio .abas { translate: 0 150%; opacity: 0; }
+  }
+  .aba { position: relative; z-index: 2; flex: 1; min-width: 0; height: 52px; display: grid; place-items: center; align-content: center; gap: 1px; color: var(--tit); text-decoration: none; font-weight: 750; font-size: 10.5px; }
+  .aba svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .aba.on { color: var(--framboesa); }
+  .abas-gota { position: absolute; left: 0; top: 4px; width: 76px; height: 52px; border-radius: 26px; z-index: 1; pointer-events: none; background: color-mix(in srgb, var(--faixa) 46%, transparent); box-shadow: inset 0 1px 0 var(--vidro-borda), 0 4px 14px rgba(43, 12, 21, 0.14); }
+</style>
+
+<script>
+  import { VG, CROMO } from '../scripts/vidro.js';
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try {
+    const bar = document.querySelector<HTMLElement>('[data-abas]');
+    if (bar && getComputedStyle(bar).display !== 'none') {
+      const gota = bar.querySelector<HTMLElement>('.abas-gota')!, abas = [...bar.querySelectorAll<HTMLElement>('.aba')];
+      if (CROMO) VG.aplica(bar, { esp: 24, desfoque: 0.8, brilho: 0.9, sat: 1.6, bez: 18, extra: 'blur(10px) saturate(1.6)' });
+      let x = 0, vx = 0, alvo = 0, rod = false, atual = 0;
+      const mola = () => {
+        const f = (alvo - x) * 0.16; vx = vx * 0.72 + f; x += vx; const est = Math.min(0.45, Math.abs(vx) / 40);
+        gota.style.transform = `translateX(${x.toFixed(2)}px) scale(${(1 + est).toFixed(3)},${(1 - est * 0.45).toFixed(3)})`;
+        if (Math.abs(alvo - x) < 0.3 && Math.abs(vx) < 0.3) { x = alvo; gota.style.transform = `translateX(${x}px)`; rod = false; return; }
+        requestAnimationFrame(mola);
+      };
+      const vai = (i: number, pula = false) => {
+        atual = i; abas.forEach((a, k) => a.classList.toggle('on', k === i));
+        gota.style.width = abas[0].offsetWidth - 4 + 'px'; alvo = abas[i].offsetLeft + 2;
+        if (pula || reduz) { x = alvo; gota.style.transform = `translateX(${x}px)`; return; }
+        if (!rod) { rod = true; requestAnimationFrame(mola); }
+      };
+      requestAnimationFrame(() => vai(0, true));
+      abas.forEach((a, i) => a.addEventListener('pointerdown', () => vai(i)));
+      addEventListener('resize', () => vai(atual, true));
+      // acompanha a rolagem: "A loja" e "Como pedir" não têm aba, ficam na mais próxima
+      const MAPA: Record<string, number> = { topo: 0, monte: 1, cestas: 2, loja: 2, 'como-pedir': 3, contato: 3 };
+      addEventListener('mimos:secao', (e) => { const i = MAPA[(e as CustomEvent).detail]; if (i !== undefined && i !== atual) vai(i); });
+    }
+  } catch (e) {}
+</script>

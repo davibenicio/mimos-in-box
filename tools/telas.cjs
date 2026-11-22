@@ -1,7 +1,7 @@
 // Tira telas do site por seção, com rolagem natural. Uso: node tools/telas.cjs <url> <largura> <altura> <pasta>
 const { chromium } = require('playwright');
 const [url, w = '1440', h = '900', pasta = '/tmp/telas'] = process.argv.slice(2);
-const SECOES = ['.hr', '.fx', '#loja', '#cestas', '#monte', '#como-pedir', '#contato', '.rd'];
+const SECOES = ['.hr', '#monte', '#promocoes', '#loja', '#cestas', '.cm', '#como-pedir', '#contato', '.rd'];
 (async () => {
   require('fs').mkdirSync(pasta, { recursive: true });
   const b = await chromium.launch();

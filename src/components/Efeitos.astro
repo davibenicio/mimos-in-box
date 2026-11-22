@@ -48,4 +48,43 @@
     }, { passive: true });
     addEventListener('pointerdown', () => c.classList.remove('on'));
   });
+
+  // camadas no scroll (parallax): [data-par="k"] recebe --py e [data-parx="k"] recebe --px, proporcionais à distância
+  // do centro da tela. Cada peça decide como usar a variável. Só calcula o que está visível; um rAF por rolagem.
+  cada('camadas', () => {
+    if (calmo) return;
+    const els = [...document.querySelectorAll<HTMLElement>('[data-par], [data-parx]')];
+    const vis = new Set<HTMLElement>();
+    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? vis.add(e.target as HTMLElement) : vis.delete(e.target as HTMLElement))), { rootMargin: '25% 0px' });
+    els.forEach((e) => io.observe(e));
+    let raf = 0;
+    const pinta = () => {
+      raf = 0; const vh = innerHeight;
+      vis.forEach((el) => {
+        const host = el.closest<HTMLElement>('section') || el, r = host.getBoundingClientRect();
+        const d = (r.top + r.height / 2 - vh / 2) / vh;
+        if (el.dataset.par) el.style.setProperty('--py', `${(d * Number(el.dataset.par) * 100).toFixed(1)}px`);
+        if (el.dataset.parx) el.style.setProperty('--px', `${(d * Number(el.dataset.parx) * 100).toFixed(1)}px`);
+      });
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
+    addEventListener('resize', pinta); pinta();
+  });
+
+  // seções que grudam (RP-42, no máximo três): a de trás fica parada quando o fim dela chega ao fim da tela,
+  // a seguinte desliza por cima e a de trás escurece de leve (--cobre de 0 a 1)
+  cada('gruda', () => {
+    const gs = [...document.querySelectorAll<HTMLElement>('[data-gruda]')];
+    if (!gs.length) return;
+    const mede = () => gs.forEach((g) => g.style.setProperty('--gruda-top', `${Math.min(0, innerHeight - g.offsetHeight)}px`));
+    let raf = 0;
+    const pinta = () => {
+      raf = 0;
+      gs.forEach((g) => { let prox = g.nextElementSibling as HTMLElement | null; while (prox && /^(SCRIPT|STYLE)$/.test(prox.tagName)) prox = prox.nextElementSibling as HTMLElement | null; if (!prox) return; const r = prox.getBoundingClientRect(); const c = Math.max(0, Math.min(1, 1 - r.top / innerHeight)); g.style.setProperty('--cobre', c.toFixed(3)); });
+    };
+    mede(); pinta();
+    addEventListener('resize', () => { mede(); pinta(); });
+    addEventListener('load', mede);
+    if (!calmo) addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
+  });
 </script>

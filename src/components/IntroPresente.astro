@@ -1,0 +1,164 @@
+---
+// Abertura (pedido do Davi, ref. "website is now live" com o notebook embrulhado): o notebook (PC) ou o celular entra,
+// a tela mostra o site embrulhado com fita e laço de cetim, o laço desata, as fitas saem e a tela cresce até virar
+// o site de verdade. Junta a abertura temática (RP-07) e o "voo sobre o site" (RP-55).
+// A tela é uma captura do topo (tools/capturas-intro.cjs) desenhada num <canvas>, que não conta como LCP.
+// Só na 1ª visita da sessão; botão Pular; toque, rolagem e tecla pulam; nada com movimento reduzido.
+---
+<div class="ip" data-intro aria-hidden="true">
+  <p class="ip-fundo">presentes</p>
+  <p class="ip-tit"><em>Abra o seu</em><b>PRESENTE</b></p>
+  <img class="ip-fl ip-fl1" src="/img/f/fita-3.webp" width="560" height="503" alt="" decoding="async" />
+  <img class="ip-fl ip-fl2" src="/img/f/fita-1.webp" width="560" height="438" alt="" decoding="async" />
+  <div class="ip-cena">
+    <div class="ip-disp" data-disp>
+      <div class="ip-tampa" data-tampa>
+        <span class="ip-cam"></span>
+        <div class="ip-tela" data-tela>
+          <canvas class="ip-cv" data-cv></canvas>
+          <span class="ip-reflexo"></span>
+          <span class="ip-fx ip-fx-e" data-fx="e"></span><span class="ip-fx ip-fx-d" data-fx="d"></span>
+          <span class="ip-fy ip-fy-c" data-fy="c"></span><span class="ip-fy ip-fy-b" data-fy="b"></span>
+          <img class="ip-laco" data-laco src="/img/f/laco-a.webp" width="560" height="282" alt="" decoding="async" />
+        </div>
+      </div>
+      <div class="ip-base" data-base><span></span></div>
+    </div>
+  </div>
+  <span class="ip-prog"><i data-prog></i></span>
+  <button type="button" class="ip-pular" data-pular>Pular</button>
+</div>
+
+<style is:global>
+  .ip { display: none; }
+  html.abrindo .ip { display: block; position: fixed; inset: 0; z-index: 200; overflow: hidden; background: radial-gradient(70% 60% at 50% 45%, #fbe3e9, #f3c2cf 70%, #eeb2c2); color: #4b2a22; }
+  [data-theme='dark'] .ip { background: radial-gradient(70% 60% at 50% 45%, #3a1a24, #2a1219 70%, #1e1114); color: #f8e7dc; }
+  html.abrindo { overflow: hidden; }
+  .ip-fundo { position: absolute; left: 50%; top: 56%; translate: -50% -50%; margin: 0; font-family: var(--f-serif); font-style: italic; font-weight: 300; font-size: min(30vw, 460px); line-height: 1; letter-spacing: -0.04em; color: rgba(255, 255, 255, 0.34); white-space: nowrap; }
+  [data-theme='dark'] .ip-fundo { color: rgba(255, 255, 255, 0.05); }
+  .ip-tit { position: absolute; left: 0; right: 0; top: max(5vh, 34px); margin: 0; display: grid; justify-items: center; text-align: center; line-height: 0.9; }
+  .ip-tit em { font-family: var(--f-serif); font-weight: 400; font-size: clamp(30px, 5vw, 70px); letter-spacing: -0.03em; }
+  .ip-tit b { font-family: var(--f-gigante); font-weight: 400; font-size: clamp(58px, 10vw, 150px); letter-spacing: 0.01em; color: #fffaf4; text-shadow: 0 10px 30px rgba(180, 60, 90, 0.25); }
+  [data-theme='dark'] .ip-tit b { color: #f5b3c1; }
+  .ip-fl { position: absolute; width: clamp(160px, 22vw, 320px); height: auto; opacity: 0; filter: drop-shadow(0 20px 20px rgba(150, 60, 80, 0.2)); }
+  .ip-cena { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 42%; }
+  .ip-disp { position: absolute; transform-style: preserve-3d; will-change: transform; }
+  .ip-tampa { position: absolute; inset: 0; transform-origin: 50% 100%; transform-style: preserve-3d; border-radius: var(--r-tampa); background: #16161a; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.14), 0 50px 90px -40px rgba(90, 20, 40, 0.55); }
+  .ip-cam { position: absolute; left: 50%; translate: -50% 0; z-index: 3; background: #000; }
+  .ip-tela { position: absolute; overflow: hidden; border-radius: var(--r-tela); background: #fbf3ea; }
+  .ip-cv { position: absolute; left: 0; top: 0; }
+  .ip-reflexo { position: absolute; inset: 0; z-index: 4; background: linear-gradient(115deg, rgba(255, 255, 255, 0.18) 0 16%, transparent 32%); pointer-events: none; }
+  /* fita de cetim: faixa rosa com brilho; cada fita tem duas metades, que saem para lados opostos ao desatar */
+  .ip-fx, .ip-fy { position: absolute; z-index: 2; background: linear-gradient(var(--dir), #e9869f 0%, #f7b9c8 22%, #f48aa5 46%, #d9617f 70%, #f2a5b8 100%); box-shadow: 0 6px 14px rgba(120, 30, 55, 0.25); }
+  .ip-fx { --dir: 180deg; top: 50%; height: var(--fl); margin-top: calc(var(--fl) / -2); width: 50%; }
+  .ip-fx-e { left: 0; transform-origin: 0 50%; } .ip-fx-d { right: 0; transform-origin: 100% 50%; }
+  .ip-fy { --dir: 90deg; left: 50%; width: var(--fl); margin-left: calc(var(--fl) / -2); height: 50%; }
+  .ip-fy-c { top: 0; transform-origin: 50% 0; } .ip-fy-b { bottom: 0; transform-origin: 50% 100%; }
+  .ip-laco { position: absolute; z-index: 3; left: 50%; top: 50%; width: var(--lw); height: auto; margin: calc(var(--lw) * -0.3) 0 0 calc(var(--lw) / -2); filter: drop-shadow(0 10px 12px rgba(120, 30, 55, 0.35)); }
+  .ip-base { position: absolute; transform-origin: 50% 0; border-radius: 0 0 20px 20px; background: linear-gradient(180deg, #d9d9de, #b9b9c1); box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5); }
+  .ip-base span { position: absolute; left: 9%; right: 9%; top: 8%; height: 46%; border-radius: 8px; background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.16) 0 7.4%, transparent 7.4% 8.33%), rgba(0, 0, 0, 0.07); -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 17%, transparent 17% 20%); mask-image: repeating-linear-gradient(180deg, #000 0 17%, transparent 17% 20%); }
+  .cel .ip-base { display: none; }
+  .ip-prog { position: absolute; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom, 0px)); translate: -50% 0; width: min(200px, 40vw); height: 3px; border-radius: 3px; background: rgba(120, 30, 55, 0.15); overflow: hidden; }
+  .ip-prog i { display: block; height: 100%; background: #c94468; transform-origin: left; transform: scaleX(0); }
+  .ip-pular { position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 3; padding: 11px 20px; border: 0; border-radius: 999px; font: 700 14px var(--f-texto); color: #4b2a22; background: rgba(255, 250, 244, 0.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(75, 42, 34, 0.15); }
+  [data-theme='dark'] .ip-pular { color: #f8e7dc; background: rgba(43, 24, 28, 0.6); }
+</style>
+
+<script>
+  const h = document.documentElement;
+  const ov = document.querySelector<HTMLElement>('[data-intro]');
+  const abre = () => (window as any).__abre?.();
+  if (ov && h.classList.contains('abrindo')) {
+    const cel = matchMedia('(max-width: 900px)').matches;
+    const escuro = h.dataset.theme === 'dark';
+    const img = new Image(); img.decoding = 'async';
+    img.src = `/img/intro/${cel ? 'cel' : 'pc'}-${escuro ? 'escuro' : 'claro'}.webp`;
+    const fontes = Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]);
+    const cap = Promise.race([img.decode().then(() => true).catch(() => false), new Promise<boolean>((r) => setTimeout(() => r(false), 2200))]);
+    Promise.all([cap, fontes]).then(([ok]) => {
+      if (!ok || !img.naturalWidth) { abre(); return; }
+      try { sessionStorage.setItem('mimos-intro', '1'); } catch (e) {}
+      roda();
+    });
+
+    function roda() {
+      const W = innerWidth, vh = innerHeight, px = (n: number) => `${n.toFixed(1)}px`;
+      // a janela tem a proporção da tela real, para encaixar no fim
+      const sw = cel ? Math.min(W * 0.64, 270) : Math.min(W * 0.54, 820), sh = (sw * vh) / W;
+      const b = cel ? sw * 0.05 : sw * 0.024, bt = cel ? b : b * 1.5, bb = cel ? b : b * 1.6;
+      const ow = sw + 2 * b, oh = sh + bt + bb;
+      const $ = (s: string) => ov!.querySelector<HTMLElement>(s)!;
+      const disp = $('[data-disp]'), tampa = $('[data-tampa]'), tela = $('[data-tela]'), base = $('[data-base]'), cam = $('.ip-cam');
+      if (cel) disp.classList.add('cel');
+      const cy = vh * (cel ? 0.56 : 0.58);
+      Object.assign(disp.style, { width: px(ow), height: px(oh), left: px(W / 2 - b - sw / 2), top: px(cy - bt - sh / 2), transformOrigin: `${px(b + sw / 2)} ${px(bt + sh / 2)}` });
+      disp.style.setProperty('--r-tampa', px(cel ? sw * 0.16 : b * 1.4));
+      disp.style.setProperty('--r-tela', px(cel ? sw * 0.12 : 4));
+      disp.style.setProperty('--fl', px(cel ? sw * 0.13 : sw * 0.07));
+      disp.style.setProperty("--lw", px(cel ? sw * 0.9 : sw * 0.56));
+      Object.assign(tela.style, { left: px(b), top: px(bt), width: px(sw), height: px(sh) });
+      Object.assign(cam.style, cel ? { top: px(bt + sw * 0.03), width: px(sw * 0.3), height: px(sw * 0.085), borderRadius: px(sw * 0.05) } : { top: px(bt * 0.32), width: px(b * 0.35), height: px(b * 0.35), borderRadius: '50%', background: '#2b2b33' });
+      if (!cel) Object.assign(base.style, { width: px(ow * 1.14), height: px(ow * 0.62), left: px(-ow * 0.07), top: px(oh), transform: 'rotateX(90deg)' });
+      const cv = $('[data-cv]') as unknown as HTMLCanvasElement;
+      const k = sw / img.naturalWidth;
+      cv.width = img.naturalWidth; cv.height = Math.round(Math.min(img.naturalHeight, sh / k));
+      cv.style.width = px(sw); cv.style.height = px(cv.height * k);
+      cv.getContext('2d')!.drawImage(img, 0, 0);
+
+      const T = cel ? 4200 : 4800, suave = 'cubic-bezier(0.5, 0, 0.2, 1)';
+      const A: Animation[] = [];
+      const an = (el: Element, kf: Keyframe[], o: KeyframeAnimationOptions = {}) => { const a = el.animate(kf, { duration: T, fill: 'forwards', ...o }); A.push(a); return a; };
+      const fimK = W / sw;
+      const d = (y: number, rx: number, ry: number, k: number) => `translateY(${px(y)}) rotateX(${rx}deg) rotateY(${ry}deg) scale(${k.toFixed(4)})`;
+      const dy = vh / 2 - cy; // no fim a tela vai para o centro da janela
+      const mov = an(disp, (cel ? [
+        [0, d(vh * 0.6, 26, -40, 0.7)], [0.16, d(0, 6, -16, 1)], [0.36, d(-vh * 0.01, 4, 10, 1)], [0.56, d(0, 2, -4, 1.02)], [0.66, d(0, 0, 0, 1.04)], [0.92, d(dy, 0, 0, fimK)], [1, d(dy, 0, 0, fimK)],
+      ] : [
+        [0, d(vh * 0.55, 32, -34, 0.6)], [0.16, d(vh * 0.02, 16, -20, 0.92)], [0.36, d(0, 12, 14, 0.95)], [0.56, d(0, 8, -6, 0.97)], [0.66, d(0, 4, 0, 1)], [0.92, d(dy, 0, 0, fimK)], [1, d(dy, 0, 0, fimK)],
+      ] as [number, string][]).map(([offset, transform]) => ({ offset, transform, easing: suave })));
+      if (!cel) {
+        an(tampa, [{ offset: 0, transform: 'rotateX(-92deg)' }, { offset: 0.05, transform: 'rotateX(-92deg)', easing: 'cubic-bezier(.3,0,.15,1)' }, { offset: 0.2, transform: 'rotateX(0deg)' }, { offset: 1, transform: 'rotateX(0deg)' }]);
+        an(base, [{ opacity: 1 }, { opacity: 1, offset: 0.7 }, { opacity: 0, offset: 0.8 }, { opacity: 0 }]);
+      }
+      an(tampa, [{ backgroundColor: '#16161a' }, { offset: 0.86, backgroundColor: '#16161a' }, { offset: 0.92, backgroundColor: 'transparent', boxShadow: 'none' }, { backgroundColor: 'transparent', boxShadow: 'none' }], { composite: 'replace' });
+      an(cam, [{ opacity: 1 }, { opacity: 1, offset: 0.8 }, { opacity: 0, offset: 0.88 }, { opacity: 0 }]);
+      // fitas cruzam a tela e o laço pousa
+      const out = 'cubic-bezier(.6,0,.85,.4)';
+      ov!.querySelectorAll<HTMLElement>('[data-fx]').forEach((f) => {
+        const s = f.dataset.fx === 'e' ? -1 : 1;
+        an(f, [{ offset: 0, transform: 'scaleX(0)' }, { offset: 0.14, transform: 'scaleX(0)', easing: 'cubic-bezier(.2,.8,.2,1)' }, { offset: 0.26, transform: 'scaleX(1)' }, { offset: 0.54, transform: 'none', easing: out }, { offset: 0.66, transform: `translateX(${s * 110}%) rotate(${s * 6}deg)`, opacity: 0.9 }, { offset: 1, transform: `translateX(${s * 110}%)`, opacity: 0 }]);
+      });
+      ov!.querySelectorAll<HTMLElement>('[data-fy]').forEach((f) => {
+        const s = f.dataset.fy === 'c' ? -1 : 1;
+        an(f, [{ offset: 0, transform: 'scaleY(0)' }, { offset: 0.18, transform: 'scaleY(0)', easing: 'cubic-bezier(.2,.8,.2,1)' }, { offset: 0.3, transform: 'scaleY(1)' }, { offset: 0.55, transform: 'none', easing: out }, { offset: 0.67, transform: `translateY(${s * 110}%)`, opacity: 0.9 }, { offset: 1, transform: `translateY(${s * 110}%)`, opacity: 0 }]);
+      });
+      an($('[data-laco]'), [
+        { offset: 0, transform: 'scale(0) rotate(-40deg)', opacity: 0 }, { offset: 0.27, transform: 'scale(0) rotate(-40deg)', opacity: 0, easing: 'cubic-bezier(.2,1.5,.4,1)' },
+        { offset: 0.38, transform: 'none', opacity: 1 }, { offset: 0.5, transform: 'scale(1.04) rotate(2deg)', opacity: 1, easing: 'cubic-bezier(.5,-0.4,.7,.3)' },
+        { offset: 0.6, transform: 'translateY(-180%) scale(0.6) rotate(-18deg)', opacity: 0 }, { offset: 1, transform: 'translateY(-180%) scale(0.6)', opacity: 0 },
+      ]);
+      // título, fundo e fitas soltas saem antes do encaixe
+      [$('.ip-tit'), $('.ip-fundo'), $('.ip-prog'), $('.ip-pular')].forEach((el) => an(el, [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.58 }, { opacity: 0, offset: 0.7 }, { opacity: 0 }]));
+      an($('.ip-tit'), [{ transform: 'translateY(24px)', offset: 0 }, { transform: 'none', offset: 0.16, easing: 'ease-out' }, { transform: 'translateY(-30px)', offset: 0.7 }, { transform: 'translateY(-30px)' }], { composite: 'add' });
+      ([[$('.ip-fl1'), cel ? -0.2 : 0.06, 0.16, -1], [$('.ip-fl2'), cel ? 0.62 : 0.74, 0.62, 1]] as [HTMLElement, number, number, number][]).forEach(([el, x, y, s]) => {
+        el.style.left = px(W * x); el.style.top = px(vh * y);
+        an(el, [{ opacity: 0, transform: `translateY(80px) rotate(${s * 30}deg)` }, { opacity: 0, offset: 0.08 }, { opacity: 1, offset: 0.22 }, { opacity: 1, offset: 0.56, transform: `translateY(-20px) rotate(${s * 6}deg)` }, { opacity: 0, offset: 0.7, transform: `translateY(-160px) rotate(${-s * 20}deg)` }, { opacity: 0, transform: `translateY(-160px)` }], { easing: 'linear' });
+      });
+      an($('[data-prog]'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { easing: 'linear' });
+      let saiu = false;
+      const sai = (rapido = false) => {
+        if (saiu) return; saiu = true;
+        removeEventListener('wheel', pula); removeEventListener('touchstart', pula); removeEventListener('keydown', pula);
+        h.classList.add('intro-viu');
+        const f = ov!.animate([{ opacity: 1 }, { opacity: 0 }], { duration: rapido ? 280 : 420, easing: 'ease-out', fill: 'forwards' });
+        abre();
+        f.finished.then(() => { A.forEach((x) => x.cancel()); ov!.remove(); });
+      };
+      const pula = () => sai(true);
+      mov.finished.then(() => sai()).catch(() => {});
+      setTimeout(() => sai(), T + 800);
+      $('[data-pular]').addEventListener('click', pula);
+      addEventListener('wheel', pula, { passive: true }); addEventListener('touchstart', pula, { passive: true }); addEventListener('keydown', pula);
+    }
+  } else if (ov) ov.remove();
+</script>

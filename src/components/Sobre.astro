@@ -1,8 +1,10 @@
 ---
+import Fita from './Fita.astro';
+// Sobre nós (ref. HUSH, 3ª dobra): texto à esquerda com a marca gigante e rosa embaixo, colagem à direita com duas
+// cestas recortadas em arcos e uma fita de cetim na frente, cada peça numa profundidade da rolagem.
 import { LOJA } from '../data/loja';
 import { porNN } from '../data/catalogo';
-// duas cestas sem fundo, cada uma no seu nicho: clara sobre bordô, escura sobre rosé
-const N1 = porNN('29'), N2 = porNN('19');
+const N1 = porNN('31'), N2 = porNN('09');
 const FRASE = `Somos uma loja de cestas e presentes personalizados no ${LOJA.bairro}, em ${LOJA.cidade}. Montamos café da manhã, kits para aniversário e datas comemorativas, com a cor do laço e do balão que você escolher.`;
 const VANTAGENS = [
   ['Cestas adulto e infantil', 'M4 10h16l-1.6 9H5.6zM8 10c0-3 1.6-5 4-5s4 2 4 5'],
@@ -12,69 +14,61 @@ const VANTAGENS = [
 ];
 ---
 <section class="sec sb" id="loja">
-  <div class="sb-aneis aneis" aria-hidden="true"></div>
+  <Fita v={1} style="left:-70px;top:4%;width:clamp(180px,18vw,300px)" par={-0.5} />
   <div class="cx sb-g">
-    <div class="sb-fotos">
-      <i class="sb-fio" aria-hidden="true"></i>
-      <figure class="sb-n sb-n1" data-rev="sobe">
-        <i class="sb-arco"></i>
-        <img src={N1.corteG} srcset={`${N1.corte} 560w, ${N1.corteG} 800w`} sizes="(max-width: 860px) 60vw, 340px" alt={N1.nome} width={N1.gw} height={N1.gh} loading="lazy" data-abre={N1.nn} data-cur="ver" />
-      </figure>
-      <figure class="sb-n sb-n2" data-rev="sobe" style="--i:3">
-        <i class="sb-arco"></i>
-        <img src={N2.corte} alt={N2.nome} width={N2.cw} height={N2.ch} loading="lazy" data-abre={N2.nn} data-cur="ver" />
-      </figure>
-    </div>
     <div class="sb-txt">
-      <h2 class="tit" data-pal>A Mimos <em>in Box</em></h2>
+      <h2 class="tit" data-pal>Feito com carinho, <em>do seu jeito.</em></h2>
       <p class="sb-ler" data-ler>{FRASE}</p>
       <ul class="sb-v">
         {VANTAGENS.map(([t, d], i) => (
           <li data-rev="sobe" style={`--i:${i}`}>
-            <span class="sb-ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={d} pathLength="1" /></svg></span>
+            <span class="sb-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={d} pathLength="1" /></svg></span>
             {t}
           </li>
         ))}
       </ul>
-      <a class="bt" href="#cestas" data-rev="sobe" style="--i:4">Ver as cestas</a>
+      <a class="bt" href="#cestas" data-rev="sobe" style="--i:4">Ver as cestas <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+    </div>
+    <div class="sb-col">
+      <figure class="sb-n sb-n1" data-rev="sobe" data-par="-0.35">
+        <i class="sb-arco"></i>
+        <img src={N1.corte} alt={N1.nome} width={N1.cw} height={N1.ch} loading="lazy" data-abre={N1.nn} data-cur="ver" />
+      </figure>
+      <figure class="sb-n sb-n2" data-rev="sobe" style="--i:3" data-par="0.45">
+        <i class="sb-arco"></i>
+        <img src={N2.corte} alt={N2.nome} width={N2.cw} height={N2.ch} loading="lazy" data-abre={N2.nn} data-cur="ver" />
+      </figure>
+      <Fita v={4} class="sb-fita" par={-0.8} />
+      <span class="brilho sb-b" style="--t:30px" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
     </div>
   </div>
+  <p class="gig sb-gig" aria-hidden="true" data-parx="0.8">Mimos in Box</p>
 </section>
 
 <style is:global>
-  .sb { background: radial-gradient(46% 44% at 0% 0%, rgba(239, 201, 207, 0.45), transparent 70%), var(--creme); padding-top: clamp(100px, 12vw, 160px); overflow: clip; }
-  .sb-aneis { right: -260px; bottom: -300px; width: 760px; }
-  .sb-g { position: relative; display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(28px, 6vw, 90px); align-items: center; }
-  /* dois nichos em arco (o mesmo do topo), com a cesta recortada na frente e um fio dourado deslocado */
-  .sb-fotos { position: relative; aspect-ratio: 1 / 1.12; max-width: 500px; width: 100%; justify-self: center; }
-  .sb-n { position: absolute; margin: 0; }
-  .sb-arco { position: absolute; inset: 0; border-radius: 999px 999px 16px 16px; }
-  .sb-n img { position: absolute; left: -5%; bottom: 5%; width: 110%; height: 86%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 20px 16px rgba(40, 0, 14, 0.4)); cursor: pointer; transition: translate 0.6s var(--sai); }
-  .sb-n:hover img { translate: 0 -6px; }
-  .sb-n1, .sb-fio { left: 0; top: 0; width: 68%; aspect-ratio: 3 / 4.1; }
-  .sb-fio { position: absolute; margin: -14px 0 0 -14px; border: 1px solid var(--ouro); border-radius: 999px 999px 16px 16px; }
-  .sb-n1 .sb-arco { background: radial-gradient(90% 55% at 32% 4%, rgba(251, 246, 240, 0.2), transparent 62%), var(--escama-clara), linear-gradient(180deg, var(--cereja), var(--cereja-esc)); }
-  .sb-n1 .sb-arco::after { content: ''; position: absolute; inset: 11px; border-radius: 999px 999px 8px 8px; border: 1px solid rgba(216, 189, 140, 0.55); }
-  .sb-n2 { right: 0; bottom: 0; width: 46%; aspect-ratio: 4 / 5.2; z-index: 2; }
-  .sb-n2 .sb-arco { background: radial-gradient(80% 50% at 50% 30%, var(--campo), transparent 75%), linear-gradient(180deg, var(--pastel), var(--fundo)); box-shadow: 0 0 0 8px var(--creme), 0 0 0 9px var(--rosa-cl); }
-  .sb-n2 img { height: 78%; bottom: 7%; }
-  /* o arco sobe como cortina e a cesta chega logo depois */
-  html.js .sb-n1 .sb-arco { clip-path: inset(100% 0 0 0); transition: clip-path 1.1s var(--sai); }
-  html.js .sb-n1.visto .sb-arco { clip-path: inset(0 0 0 0); }
-  html.js .sb-n img { opacity: 0; transform: translateY(30px); transition: opacity 0.6s 0.35s, transform 0.9s 0.35s var(--sai), translate 0.6s var(--sai); }
-  html.js .sb-n.visto img { opacity: 1; transform: none; }
-  html.js .sb-n[data-rev] { opacity: 1; transform: none; }
-  html.js .sb-n2 .sb-arco { opacity: 0; transition: opacity 0.8s 0.2s; }
-  html.js .sb-n2.visto .sb-arco { opacity: 1; }
-  .sb-ler { margin-top: 22px; font-size: clamp(20px, 2.3vw, 30px); line-height: 1.32; font-weight: 700; color: var(--cereja); max-width: 26ch; }
+  .sb { background: var(--papel); overflow: clip; padding-bottom: 0; }
+  .sb-g { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); gap: clamp(28px, 6vw, 90px); align-items: center; }
+  .sb-ler { margin-top: 22px; font-size: clamp(18px, 1.8vw, 23px); line-height: 1.45; font-weight: 500; color: var(--tit); max-width: 34ch; }
   .sb-ler .lw { opacity: 0.22; transition: opacity 0.35s; }
   .sb-ler .lw.ac { opacity: 1; }
   .sb-v { margin: 30px 0 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; }
-  .sb-v li { display: flex; align-items: center; gap: 12px; font-weight: 800; line-height: 1.2; }
-  .sb-ic { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--rosa-cl); background: var(--clarinho); color: var(--cereja); display: grid; place-items: center; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
-  .sb-v li:hover .sb-ic { background: var(--cereja); border-color: var(--cereja); color: var(--creme); }
+  .sb-v li { display: flex; align-items: center; gap: 12px; font-weight: 700; line-height: 1.2; color: var(--tit); }
+  .sb-ic { flex: none; width: 50px; height: 50px; border-radius: 50%; background: var(--pastel); color: var(--rosa); display: grid; place-items: center; transition: background-color 0.3s, color 0.3s; }
+  .sb-v li:hover .sb-ic { background: var(--rosa); color: var(--creme); }
   html.js .sb-ic path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.3s 0.3s var(--sai); }
   html.js .visto .sb-ic path { stroke-dashoffset: 0; }
-  @media (max-width: 860px) { .sb-g { grid-template-columns: minmax(0, 1fr); } .sb-fotos { max-width: 360px; margin-left: 14px; width: calc(100% - 14px); } .sb-aneis { width: 520px; right: -220px; bottom: -220px; } }
+  .sb-col { position: relative; aspect-ratio: 1 / 1.05; max-width: 520px; width: 100%; justify-self: center; }
+  .sb-n { position: absolute; margin: 0; translate: 0 var(--py, 0px); }
+  .sb-arco { position: absolute; inset: 0; border-radius: 999px 999px 26px 26px; }
+  .sb-n img { position: absolute; left: -4%; bottom: 5%; width: 108%; height: 84%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 20px 16px rgba(110, 40, 55, 0.3)); cursor: pointer; }
+  .sb-n1 { left: 0; top: 0; width: 60%; aspect-ratio: 3 / 4; }
+  .sb-n1 .sb-arco { background: radial-gradient(70% 50% at 50% 35%, var(--faixa-2), transparent 75%), var(--faixa); }
+  .sb-n2 { right: 0; bottom: 0; width: 50%; aspect-ratio: 3 / 3.6; z-index: 2; }
+  .sb-n2 .sb-arco { background: radial-gradient(70% 50% at 50% 35%, var(--creme), transparent 75%), var(--clarinho); box-shadow: 0 0 0 8px var(--papel), var(--sombra); }
+  .sb-fita { width: 44%; right: 30%; top: 34%; z-index: 3; }
+  .sb { position: relative; }
+  .sb-b { right: 4%; top: 6%; }
+  .sb-gig { position: relative; z-index: 1; margin: clamp(20px, 3vw, 40px) 0 -0.12em; font-size: clamp(92px, 16.5vw, 270px); translate: calc(-3% + var(--px, 0px)) 0; }
+  @media (max-width: 860px) { .sb-g { grid-template-columns: minmax(0, 1fr); } .sb-col { max-width: 400px; order: -1; } }
   @media (max-width: 460px) { .sb-v { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -1,21 +1,26 @@
 ---
+// Cabeçalho: logo no centro, links à esquerda (em coluna no alto da página, como na referência; em linha ao rolar),
+// tema claro/escuro, Instagram e "Monte a sua" à direita. Ao rolar vira pílula de vidro (efeitos 01/24 da casa:
+// refração real no Chrome do PC, fosco nos outros). Celular: menu de tela cheia que nasce do botão.
 import { LOJA } from '../data/loja';
-const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cestas', 'Cestas'], ['#como-pedir', 'Como pedir'], ['#contato', 'Contato']];
+const LINKS = [['#topo', 'Início'], ['#monte', 'Monte a sua'], ['#cestas', 'Cestas'], ['#loja', 'Sobre nós'], ['#contato', 'Contato']];
 ---
 <header class="br" data-barra>
-  <div class="br-in">
-    <a class="br-logo" href="#topo" aria-label="Mimos in Box, início">
-      <img src="/img/logo-192.webp" alt="" width="96" height="96" />
-    </a>
+  <div class="br-pil" data-pilula>
+    <a class="br-logo" href="#topo" aria-label="Mimos in Box, início"><img src="/img/logo-192.webp" alt="" width="96" height="96" /></a>
     <nav class="br-nav" aria-label="Principal">
-      {LINKS.map(([h, t]) => <a href={h} class="br-l"><span data-t={t}>{t}</span></a>)}
+      {LINKS.map(([h, t], i) => <a href={h} class:list={['br-l', i === 0 && 'on']} data-sec={h.slice(1)}>{t}</a>)}
     </nav>
     <div class="br-dir">
-      <a class="br-ig" href={LOJA.instagramLink} target="_blank" rel="noopener" aria-label="Instagram da Mimos in Box">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.5" /><circle cx="12" cy="12" r="4.2" /><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" /></svg>
+      <button type="button" class="br-r" data-tema aria-label="Trocar tema claro e escuro">
+        <svg class="br-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7" /></svg>
+        <svg class="br-lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.2 8.2 0 1 0 20 14.5z" /></svg>
+      </button>
+      <a class="br-r br-ig" href={LOJA.instagramLink} target="_blank" rel="noopener" aria-label="Instagram da Mimos in Box">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" /></svg>
       </a>
-      <a class="bt bt--rosa br-cta" href="#monte">Monte a sua</a>
-      <button class="br-ham" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><i></i><i></i><i></i></button>
+      <a class="bt br-cta" href="#monte">Monte seu presente</a>
+      <button class="br-r br-ham" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><i></i><i></i><i></i></button>
     </div>
   </div>
 </header>
@@ -23,7 +28,7 @@ const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cestas', 'Cestas'],
 <div class="mn pt-coracoes" id="menu" aria-hidden="true">
   <nav aria-label="Menu">
     {LINKS.map(([h, t], i) => <a href={h} style={`--i:${i}`}>{t}</a>)}
-    <a href="#monte" style={`--i:${LINKS.length}`}><em>Monte a sua</em></a>
+    <a href="#como-pedir" style={`--i:${LINKS.length}`}>Como pedir</a>
   </nav>
   <div class="mn-pe">
     <a class="bt bt--claro" href={LOJA.whatsappLink} target="_blank" rel="noopener">Tirar dúvidas no WhatsApp</a>
@@ -32,69 +37,113 @@ const LINKS = [['#topo', 'Início'], ['#loja', 'A loja'], ['#cestas', 'Cestas'],
 </div>
 
 <style is:global>
-  .br { position: fixed; inset: 0 0 auto; z-index: 60; height: var(--barra); transition: transform 0.45s var(--sai), background-color 0.3s, box-shadow 0.3s; }
-  .br.some { transform: translateY(-130%); }
-  .br.solida { background: var(--creme); box-shadow: 0 1px 0 var(--pastel), 0 14px 30px -22px rgba(71, 9, 27, 0.5); }
-  .br-in { width: var(--larg); height: 100%; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-  .br-logo { position: relative; flex: none; width: 88px; height: 88px; margin-top: 30px; border-radius: 50%; background: var(--creme); box-shadow: 0 0 0 3px var(--creme), 0 0 0 4px var(--cereja), 0 12px 22px -12px rgba(71, 9, 27, 0.7); transition: transform 0.5s var(--mola), width 0.3s, height 0.3s, margin 0.3s; }
+  .br { position: fixed; inset: 0 0 auto; z-index: 60; padding: calc(10px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px)); pointer-events: none; transition: translate 0.45s var(--sai); }
+  .br.some { translate: 0 -130%; }
+  .br-pil { pointer-events: auto; position: relative; width: min(1320px, 100%); margin-inline: auto; height: 66px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px; padding: 0 8px 0 14px; border-radius: 33px; transition: background-color 0.35s, box-shadow 0.35s; }
+  .br.rolou .br-pil { background: var(--vidro); -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5); box-shadow: inset 0 1px 0 var(--vidro-borda), inset 0 0 0 1px var(--linha), 0 18px 36px -24px rgba(120, 50, 60, 0.5); }
+  .br.real .br-pil { background: color-mix(in srgb, var(--papel) 34%, transparent); }
+  .br-logo { justify-self: start; width: 58px; height: 58px; border-radius: 50%; background: var(--fixo-claro); box-shadow: 0 0 0 2px var(--fixo-claro), 0 10px 20px -12px rgba(120, 50, 60, 0.6); transition: transform 0.5s var(--mola), width 0.3s, height 0.3s; }
   .br-logo img { width: 100%; height: 100%; border-radius: 50%; mix-blend-mode: multiply; }
-  .br-logo:hover { transform: scale(1.05); }
-  .br.solida .br-logo { width: 62px; height: 62px; margin-top: 14px; }
-  .br-nav { display: flex; gap: clamp(14px, 2.2vw, 30px); }
-  .br-l { position: relative; display: block; overflow: hidden; height: 1.5em; font-weight: 800; font-size: 16px; color: var(--cereja); text-decoration: none; }
-  .br-l span { display: block; transition: transform 0.4s var(--sai); }
-  .br-l span::after { content: attr(data-t); display: block; color: var(--framboesa); }
-  .br-l:hover span { transform: translateY(-50%); }
-  .br-dir { display: flex; align-items: center; gap: 12px; }
-  .br-ig { width: 44px; height: 44px; display: grid; place-items: center; color: var(--cereja); border-radius: 50%; transition: transform 0.4s var(--mola), background-color 0.2s; }
-  .br-ig:hover { transform: scale(1.08); background: var(--pastel); }
-  .br-cta { min-height: 44px; padding: 0 20px; font-size: 15px; box-shadow: 0 4px 0 var(--bd); }
-  .br-ham { display: none; position: relative; width: 48px; height: 48px; border: 1.5px solid var(--cereja); border-radius: 50%; background: var(--creme); z-index: 80; }
-  .br-ham i { position: absolute; left: 12px; right: 12px; height: 2.5px; border-radius: 2px; background: var(--cereja); transition: transform 0.4s var(--mola), opacity 0.2s, top 0.3s; }
-  .br-ham i:nth-child(1) { top: 15px; } .br-ham i:nth-child(2) { top: 21px; } .br-ham i:nth-child(3) { top: 27px; }
-  .br-ham[aria-expanded='true'] i:nth-child(1) { top: 21px; transform: rotate(45deg); }
+  .br-logo:hover { transform: rotate(-8deg) scale(1.05); }
+  .br.rolou .br-logo { width: 50px; height: 50px; }
+  .br-nav { display: flex; gap: clamp(14px, 2.6vw, 44px); }
+  .br-l { position: relative; padding-block: 8px; font-weight: 600; font-size: 16px; color: var(--tit); text-decoration: none; white-space: nowrap; transition: color 0.2s; }
+  .br-l::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 2px; border-radius: 2px; background: var(--rosa); scale: 0 1; transform-origin: left; transition: scale 0.4s var(--sai); }
+  .br-l.on { color: var(--rosa); }
+  .br-l.on::after, .br-l:hover::after { scale: 1 1; }
+  .br-dir { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+  .br-r { display: grid; place-items: center; width: 46px; height: 46px; border: 0; border-radius: 50%; background: transparent; color: var(--tit); transition: background-color 0.2s, transform 0.4s var(--mola); }
+  .br-r:hover { background: var(--pastel); transform: scale(1.06); }
+  .br-r svg { grid-area: 1 / 1; width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: rotate 0.5s var(--sai), scale 0.5s var(--sai), opacity 0.3s; }
+  .br-lua { opacity: 0; rotate: -90deg; scale: 0.5; }
+  [data-theme='dark'] .br-sol { opacity: 0; rotate: 90deg; scale: 0.5; }
+  [data-theme='dark'] .br-lua { opacity: 1; rotate: 0deg; scale: 1; }
+  .br-cta { min-height: 48px; padding: 0 24px; font-size: 13.5px; margin-left: 6px; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 700; }
+  .br-ham { display: none; position: relative; z-index: 80; }
+  .br-ham i { position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.4s var(--mola), opacity 0.2s, top 0.3s; }
+  .br-ham i:nth-child(1) { top: 16px; } .br-ham i:nth-child(2) { top: 22px; } .br-ham i:nth-child(3) { top: 28px; }
+  .br-ham[aria-expanded='true'] i:nth-child(1) { top: 22px; transform: rotate(45deg); }
   .br-ham[aria-expanded='true'] i:nth-child(2) { opacity: 0; }
-  .br-ham[aria-expanded='true'] i:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+  .br-ham[aria-expanded='true'] i:nth-child(3) { top: 22px; transform: rotate(-45deg); }
+  .br-ham[aria-expanded='true'] { color: var(--fixo-claro); }
+  @media (max-width: 1080px) { .br-nav { gap: 18px; } .br-l { font-size: 15px; } .br-ig { display: none; } }
 
-  /* menu que nasce do botão */
-  .mn { position: fixed; inset: 0; z-index: 55; background-color: var(--cereja); color: var(--creme); display: flex; flex-direction: column; justify-content: space-between; padding: 110px 28px 34px; visibility: hidden; clip-path: circle(0 at calc(100% - 44px) 34px); transition: clip-path 0.6s var(--sai), visibility 0s 0.6s; max-height: 100dvh; overflow-y: auto; }
-  .mn.on { visibility: visible; clip-path: circle(150% at calc(100% - 44px) 34px); transition: clip-path 0.7s var(--sai), visibility 0s; }
-  .mn nav { display: grid; gap: 4px; }
-  .mn nav a { font-family: var(--f-script); font-size: clamp(38px, 11vw, 54px); line-height: 1.15; text-decoration: none; opacity: 0; transform: translateY(26px); transition: opacity 0.4s, transform 0.7s var(--sai); }
-  .mn nav a em { font-style: normal; color: var(--pastel); }
+  /* menu do celular: nasce do botão */
+  .mn { position: fixed; inset: 0; z-index: 55; background-color: var(--veludo-1); color: var(--fixo-claro); display: flex; flex-direction: column; justify-content: space-between; padding: 118px 28px 34px; visibility: hidden; clip-path: circle(0 at calc(100% - 44px) 42px); transition: clip-path 0.6s var(--sai), visibility 0s 0.6s; max-height: 100dvh; overflow-y: auto; }
+  .mn.on { visibility: visible; clip-path: circle(150% at calc(100% - 44px) 42px); transition: clip-path 0.7s var(--sai), visibility 0s; }
+  .mn nav { display: grid; gap: 2px; }
+  .mn nav a { font-family: var(--f-serif); font-weight: 500; font-size: clamp(34px, 10vw, 48px); letter-spacing: -0.03em; line-height: 1.2; text-decoration: none; opacity: 0; transform: translateY(26px); transition: opacity 0.4s, transform 0.7s var(--sai); }
   .mn.on nav a { opacity: 1; transform: none; transition-delay: calc(0.18s + var(--i) * 60ms); }
   .mn-pe { display: grid; gap: 14px; justify-items: start; }
-  .mn-ig { font-weight: 800; color: var(--pastel); }
+  .mn-ig { font-weight: 800; color: #f4d6db; }
 
   @media (max-width: 900px) {
+    .br-pil { padding: 0 6px 0 10px; height: 62px; }
     .br-nav, .br-cta, .br-ig { display: none; }
-    .br-ham { display: block; }
-    .br-logo { width: 74px; height: 74px; margin-top: 22px; }
-    .br.solida .br-logo { width: 54px; height: 54px; margin-top: 8px; }
+    .br-ham { display: grid; }
+    .br-logo { width: 52px; height: 52px; }
+    .br-dir { grid-column: 3; }
   }
   @media (min-width: 901px) { .mn { display: none; } }
 </style>
 
 <script>
+  import { VG, CROMO } from '../scripts/vidro.js';
+  const d = document.documentElement;
   const barra = document.querySelector<HTMLElement>('[data-barra]')!;
+  const pil = barra.querySelector<HTMLElement>('[data-pilula]')!;
   const ham = barra.querySelector<HTMLButtonElement>('.br-ham')!;
   const menu = document.getElementById('menu')!;
-  let ult = 0, tic = false;
+  let ult = 0, tic = false, vidro = false, refaz: null | (() => void) = null;
   const aoRolar = () => {
-    const y = scrollY;
-    barra.classList.toggle('solida', y > 40);
-    if (!menu.classList.contains('on')) { if (y > 420 && y > ult + 4) barra.classList.add('some'); else if (y < ult - 4 || y <= 420) barra.classList.remove('some'); }
+    const y = scrollY, rolou = y > 30;
+    barra.classList.toggle('rolou', rolou);
+    if (!menu.classList.contains('on')) { if (y > 520 && y > ult + 4) barra.classList.add('some'); else if (y < ult - 4 || y <= 520) barra.classList.remove('some'); }
+    // vidro com refração só no Chrome do PC (os outros ficam com o fosco do CSS)
+    const quer = false && rolou && CROMO && innerWidth > 900; // refração desligada: sobre letras gigantes rosa virava mancha
+    if (quer !== vidro) {
+      vidro = quer;
+      try { if (quer) { refaz ? refaz() : (refaz = VG.aplica(pil, { esp: 18, desfoque: 1, brilho: 0.9, sat: 1.4, bez: 14, extra: 'blur(10px) saturate(1.4)' })); barra.classList.add('real'); } else { VG.solta(pil); refaz = null; barra.classList.remove('real'); } } catch (e) {}
+    }
     ult = y; tic = false;
   };
   addEventListener('scroll', () => { if (!tic) { tic = true; requestAnimationFrame(aoRolar); } }, { passive: true });
   aoRolar();
+
+  // tema claro e escuro: troca com transição de página quando o navegador tem, senão só anima as cores
+  barra.querySelector('[data-tema]')!.addEventListener('click', () => {
+    const novo = d.dataset.theme === 'dark' ? 'light' : 'dark';
+    const troca = () => {
+      d.dataset.theme = novo; try { localStorage.setItem('mimos-tema', novo); } catch (e) {}
+      document.querySelector<HTMLMetaElement>('meta[name=theme-color]')?.setAttribute('content', novo === 'dark' ? '#170810' : '#fbf6f0');
+      window.dispatchEvent(new Event('mimos:tema'));
+    };
+    const vt = (document as any).startViewTransition;
+    if (vt && !matchMedia('(prefers-reduced-motion: reduce)').matches) vt.call(document, troca);
+    else { d.classList.add('trocando'); troca(); setTimeout(() => d.classList.remove('trocando'), 500); }
+  });
+
+  // menu do celular
   const abre = (on: boolean) => {
     menu.classList.toggle('on', on); menu.setAttribute('aria-hidden', String(!on));
     ham.setAttribute('aria-expanded', String(on)); ham.setAttribute('aria-label', on ? 'Fechar menu' : 'Abrir menu');
-    document.documentElement.style.overflow = on ? 'hidden' : '';
+    d.style.overflow = on ? 'hidden' : ''; d.classList.toggle('menu-on', on);
     if (on) barra.classList.remove('some');
   };
   ham.addEventListener('click', () => abre(!menu.classList.contains('on')));
   menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) abre(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.classList.contains('on')) { abre(false); ham.focus(); } });
+
+  // onde a pessoa está: marca o link (bolinha rosa, como na referência) e avisa a barra de abas do celular
+  const secs = ['topo', 'monte', 'cestas', 'loja', 'como-pedir', 'contato'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+  const links = [...barra.querySelectorAll<HTMLElement>('.br-l')];
+  let atual = 'topo';
+  const marca = () => {
+    const meio = innerHeight * 0.42; let id = 'topo';
+    for (const s of secs) { if (s.id === 'topo') continue; const r = s.getBoundingClientRect(); if (r.top <= meio && r.bottom > meio) id = s.id; }
+    if (id === atual) return; atual = id;
+    links.forEach((l) => l.classList.toggle('on', l.dataset.sec === id));
+    window.dispatchEvent(new CustomEvent('mimos:secao', { detail: id }));
+  };
+  let tq = false; addEventListener('scroll', () => { if (!tq) { tq = true; requestAnimationFrame(() => { marca(); tq = false; }); } }, { passive: true });
 </script>

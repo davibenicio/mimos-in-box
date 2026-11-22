@@ -1,21 +1,23 @@
 ---
-import '@fontsource/oleo-script/latin-700.css';
+import '@fontsource/anton/latin-400.css';
 import '@fontsource-variable/fraunces/wght.css';
-import '@fontsource-variable/nunito/wght.css';
+import '@fontsource-variable/manrope/wght.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import { LOJA } from '../data/loja';
-import Abertura from '../components/Abertura.astro';
+import IntroPresente from '../components/IntroPresente.astro';
 import Barra from '../components/Barra.astro';
+import Abas from '../components/Abas.astro';
 import Rodape from '../components/Rodape.astro';
 import Flutuantes from '../components/Flutuantes.astro';
 
 /** Prévia: sai com noindex. Trocar para false só depois do Checklist de lançamento. */
 const PREVIA = true;
-interface Props { titulo?: string; descricao?: string }
+interface Props { titulo?: string; descricao?: string; home?: boolean }
 const {
   titulo = 'Mimos in Box · Cestas e presentes personalizados em Ilhéus',
   descricao = 'Cestas de café da manhã, kits presente e mimos para bebê em Ilhéus, BA. Escolha no catálogo ou monte a sua cesta e faça o pedido pelo site.',
+  home = false,
 } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const og = new URL('/og.jpg', Astro.site).href;
@@ -26,16 +28,15 @@ const ld = {
 };
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{titulo}</title>
     <meta name="description" content={descricao} />
     {PREVIA && <meta name="robots" content="noindex, nofollow" />}
-    <meta name="theme-color" content="#6a1029" />
-    <meta name="color-scheme" content="only light" />
-    <link rel="preload" as="image" href="/img/c/08-g.webp" imagesrcset="/img/c/08.webp 560w, /img/c/08-g.webp 800w" imagesizes="(max-width: 900px) 70vw, 520px" fetchpriority="high" />
+    <meta name="theme-color" content="#fbf3ea" />
+    {home && <link rel="preload" as="image" href="/img/giro/35-0.webp" imagesrcset="/img/giro/35-0p.webp 420w, /img/giro/35-0.webp 665w" imagesizes="(max-width: 900px) 78vw, 560px" fetchpriority="high" />}
     <link rel="canonical" href={url} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -49,18 +50,28 @@ const ld = {
     <script is:inline>
       (function () {
         var h = document.documentElement; h.classList.add('js');
+        // tema: claro por padrão; o escuro vale quando o visitante escolheu
+        var t = null; try { t = localStorage.getItem('mimos-tema'); } catch (e) {}
+        h.dataset.theme = t === 'dark' ? 'dark' : 'light';
+        if (t === 'dark') { var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = '#1e1114'; }
         var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
         var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}
-        window.__abre = function () { if (h.classList.contains('abriu')) return; h.classList.add('abriu'); window.dispatchEvent(new Event('mimos:abriu')); };
-        if (calmo || volta) { h.classList.add('abriu', 'sem-ab'); } else { h.classList.add('abrindo'); setTimeout(window.__abre, 3800); }
+        window.__abre = function () { if (h.classList.contains('abriu')) return; h.classList.remove('abrindo'); h.classList.add('abriu'); window.dispatchEvent(new Event('mimos:abriu')); };
+        // abertura só com movimento liberado; rede de segurança: o site abre sozinho se algo falhar
+        var viu = false; try { viu = sessionStorage.getItem('mimos-intro') === '1'; } catch (e) {}
+        if (/[?&]captura/.test(location.search)) { h.classList.add('abriu', 'sem-ab', 'intro-viu', 'captura'); }
+        else if (calmo || volta || viu) { h.classList.add('abriu', 'sem-ab'); }
+        else { h.classList.add('abrindo'); setTimeout(window.__abre, 9000); }
       })();
     </script>
   </head>
   <body>
-    <Abertura />
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="fita-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--fita-1)" /><stop offset=".5" style="stop-color:var(--fita-2)" /><stop offset="1" style="stop-color:var(--fita-1)" /></linearGradient></defs></svg>
+    <IntroPresente />
     <Barra />
     <main id="topo"><slot /></main>
     <Rodape />
+    <Abas />
     <Flutuantes />
     <div class="cur" aria-hidden="true"></div>
   </body>

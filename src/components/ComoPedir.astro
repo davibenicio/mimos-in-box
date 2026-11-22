@@ -1,4 +1,5 @@
 ---
+import Fita from './Fita.astro';
 // A fita se desenha com a rolagem e acende cada passo. Termina num laço.
 import { LOJA } from '../data/loja';
 const PASSOS = [
@@ -8,7 +9,10 @@ const PASSOS = [
   ['Retire ou receba', `Retirada no ${LOJA.bairro} ou entrega pela 99, com taxa conforme o endereço.`],
 ];
 ---
-<section class="sec cp pt-bolinhas" id="como-pedir" data-caminho>
+<section class="sec cp" id="como-pedir" data-caminho>
+  <p class="gig cp-gig" aria-hidden="true" data-parx="0.6">Do clique ao laço</p>
+  <Fita v={2} style="right:-60px;top:30%;width:clamp(200px,24vw,380px)" par={0.6} />
+  <span class="brilho" style="--t:30px;left:6%;bottom:12%" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z" /></svg></span>
   <div class="cx">
     <header class="cp-topo">
       <h2 class="tit" data-pal>Do clique ao <em>laço</em></h2>
@@ -34,7 +38,7 @@ const PASSOS = [
 </section>
 
 <style is:global>
-  .cp { background-color: var(--creme); }
+  .cp { background-color: var(--papel); }
   .cp-topo { margin-bottom: clamp(30px, 5vw, 60px); }
   .cp-g { position: relative; }
   .cp-fita { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
@@ -42,19 +46,23 @@ const PASSOS = [
   .cp-tr { stroke: var(--pastel); stroke-width: 12; stroke-dasharray: 2 18; }
   .cp-fr { stroke: var(--rosa); stroke-width: 12; }
   .cp-l { position: relative; display: grid; gap: clamp(30px, 6vw, 70px); margin: 0; padding: 20px 0; list-style: none; }
-  .cp-p { display: flex; align-items: center; gap: 18px; width: min(46%, 470px); padding: 18px 22px; border-radius: var(--raio); background: var(--campo); border: 2px solid var(--pastel); opacity: 0.55; transition: opacity 0.4s, transform 0.6s var(--mola), border-color 0.3s, box-shadow 0.3s; transform: scale(0.96); }
+  .cp-p { display: flex; align-items: center; gap: 18px; width: min(46%, 470px); padding: 18px 22px; border-radius: var(--raio); background: var(--creme); border: 1px solid var(--linha); box-shadow: var(--sombra); opacity: 0.55; transition: opacity 0.4s, transform 0.6s var(--mola), border-color 0.3s, box-shadow 0.3s; transform: scale(0.96); }
   .cp-p:nth-child(even) { margin-left: auto; }
-  .cp-p.on { opacity: 1; transform: none; border-color: var(--cereja); box-shadow: 0 6px 0 var(--cereja); }
-  .cp-n { flex: none; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; background: var(--pastel); color: var(--cereja); transition: background-color 0.3s, color 0.3s, rotate 0.6s var(--mola); }
-  .cp-p.on .cp-n { background: var(--framboesa); color: var(--creme); rotate: -8deg; }
-  .cp-p h3 { font-size: clamp(20px, 2vw, 25px); color: var(--cereja); line-height: 1.15; }
+  .cp-p.on { opacity: 1; transform: none; border-color: var(--rosa-cl); box-shadow: var(--sombra-2); }
+  .cp-n { flex: none; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; font-family: var(--f-serif); background: var(--pastel); color: var(--framboesa); transition: background-color 0.3s, color 0.3s, rotate 0.6s var(--mola); }
+  .cp-p.on .cp-n { background: var(--rosa); color: var(--creme); rotate: -8deg; }
+  .cp-p h3 { font-size: clamp(20px, 2vw, 25px); color: var(--tit); line-height: 1.15; }
   .cp-p p { margin-top: 4px; font-size: 16px; line-height: 1.4; }
   .cp-laco { position: absolute; left: 50%; bottom: -46px; translate: -50% 0; scale: 0; rotate: -40deg; transition: scale 0.7s var(--mola), rotate 0.7s var(--mola); }
   .cp-g.fim .cp-laco { scale: 1; rotate: 0deg; }
   .cp-regras { margin-top: clamp(80px, 9vw, 110px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .cp-tk { position: relative; display: grid; gap: 4px; padding: 20px 24px 20px 34px; background: var(--cereja); color: var(--creme); border-radius: 14px; -webkit-mask: radial-gradient(11px at 0 50%, #0000 98%, #000) , radial-gradient(11px at 100% 50%, #0000 98%, #000); -webkit-mask-composite: source-in; mask: radial-gradient(11px at 0 50%, #0000 98%, #000) intersect, radial-gradient(11px at 100% 50%, #0000 98%, #000); }
-  .cp-tk::before { content: ''; position: absolute; left: 20px; top: 12px; bottom: 12px; border-left: 1px dashed rgba(216, 189, 140, 0.7); }
-  .cp-tk strong { font-size: 20px; color: var(--pastel); }
+  .cp-tk { position: relative; display: grid; gap: 4px; padding: 20px 24px 20px 34px; background: var(--faixa); color: var(--fixo-escuro); border-radius: 18px; -webkit-mask: radial-gradient(11px at 0 50%, #0000 98%, #000) , radial-gradient(11px at 100% 50%, #0000 98%, #000); -webkit-mask-composite: source-in; mask: radial-gradient(11px at 0 50%, #0000 98%, #000) intersect, radial-gradient(11px at 100% 50%, #0000 98%, #000); }
+  .cp-tk::before { content: ''; position: absolute; left: 20px; top: 12px; bottom: 12px; border-left: 1.5px dashed rgba(255, 255, 255, 0.7); }
+  .cp-tk strong { font-size: 21px; color: var(--fixo-escuro); }
+  [data-theme='dark'] .cp-tk, [data-theme='dark'] .cp-tk strong { color: #f8e7dc; }
+  .cp { overflow: clip; }
+  .cp-gig { position: absolute; left: -1vw; top: 0; font-size: clamp(70px, 11vw, 180px); translate: var(--px, 0px) 0; opacity: 0.5; }
+  .cp > .cx { position: relative; }
   .cp-tk span { font-size: 15.5px; line-height: 1.35; }
   @media (max-width: 760px) {
     .cp-p, .cp-p:nth-child(even) { width: auto; margin-left: 44px; }

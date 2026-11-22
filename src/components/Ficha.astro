@@ -9,7 +9,6 @@ const dados = PRODUTOS.map((p) => ({ nn: p.nn, id: p.id, nome: p.nome, cat: NOME
   <div class="pr-cx">
     <button class="dlg-x" type="button" data-fecha aria-label="Fechar"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg></button>
     <div class="pr-gal">
-      <div class="pr-halo aneis" aria-hidden="true"></div>
       <div class="pr-arco" aria-hidden="true"></div>
       <img class="pr-img" alt="" width="800" height="800" />
     </div>
@@ -34,22 +33,20 @@ const dados = PRODUTOS.map((p) => ({ nn: p.nn, id: p.id, nome: p.nome, cat: NOME
 
 <style is:global>
   .pr { width: min(980px, 100% - 24px); max-height: calc(100dvh - 24px); margin: auto; overflow: visible; }
-  .pr-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 28px; border: 2px solid var(--cereja); box-shadow: 0 8px 0 var(--cereja-esc); overflow: hidden; max-height: calc(100dvh - 24px); }
+  .pr-cx { position: relative; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); background: var(--creme); border-radius: 30px; box-shadow: var(--sombra-2); overflow: hidden; max-height: calc(100dvh - 24px); }
   /* a cesta sem fundo, num nicho: luz clara, anéis finos e o arco de veludo do topo */
-  .pr-gal { position: relative; min-height: 460px; overflow: hidden; background: radial-gradient(80% 50% at 50% 42%, var(--campo), transparent 74%), linear-gradient(180deg, var(--clarinho), var(--fundo)); }
-  .pr-halo { left: -20%; top: 46%; width: 140%; translate: 0 -50%; }
-  .pr-arco { position: absolute; left: 14%; right: 14%; bottom: 0; height: 74%; border-radius: 999px 999px 0 0; background: radial-gradient(90% 55% at 32% 4%, rgba(251, 246, 240, 0.2), transparent 62%), var(--escama-clara), linear-gradient(180deg, var(--cereja), var(--cereja-esc)); }
-  .pr-arco::after { content: ''; position: absolute; inset: 10px 10px 0; border-radius: inherit; border: 1px solid rgba(216, 189, 140, 0.55); border-bottom: 0; }
+  .pr-gal { position: relative; min-height: 460px; overflow: hidden; background: radial-gradient(70% 50% at 50% 40%, var(--faixa-2), transparent 74%), var(--faixa); }
+  .pr-arco { position: absolute; left: 12%; right: 12%; bottom: 3%; height: 13%; border-radius: 50% / 46%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 20px 30px -20px rgba(110, 30, 50, 0.5); }
+  .pr-arco::before { content: ''; position: absolute; inset: 0 0 50%; border-radius: 50%; background: radial-gradient(60% 70% at 50% 40%, var(--creme), var(--pedestal-1)); }
   .pr-img { position: absolute; left: 6%; bottom: 5%; width: 88%; height: 84%; object-fit: contain; object-position: 50% 100%; filter: drop-shadow(0 22px 16px rgba(40, 0, 14, 0.42)); }
   dialog[open] .pr-img { animation: pr-sobe 0.7s 0.12s var(--sai) both; }
-  dialog[open] .pr-arco { animation: hr-arco 0.7s var(--sai) both; }
   @keyframes pr-sobe { from { opacity: 0; transform: translateY(34px) scale(0.92); } }
   .pr-inf { padding: clamp(22px, 3.4vw, 40px); display: grid; gap: 12px; align-content: center; overflow-y: auto; }
   .pr-etq { display: flex; gap: 8px; align-items: center; }
   .pr-inf .tit { font-size: clamp(32px, 4vw, 50px); padding-right: 40px; }
   .pr-preco { display: flex; align-items: baseline; gap: 10px; font-size: 34px; }
   .pr-desc { font-size: 16.5px; }
-  .pr-reg { display: grid; gap: 6px; padding: 12px 14px; border-radius: 16px; background: var(--clarinho); border: 2px dashed var(--pastel); font-size: 15px; font-weight: 700; }
+  .pr-reg { display: grid; gap: 6px; padding: 12px 14px; border-radius: 16px; background: var(--clarinho); border: 1.5px dashed var(--rosa-cl); font-size: 15px; font-weight: 700; }
   .pr-reg li { display: flex; gap: 9px; align-items: baseline; }
   .pr-reg li::before { content: ''; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--framboesa); }
   .pr-bts { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }

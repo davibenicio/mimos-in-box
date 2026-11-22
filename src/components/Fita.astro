@@ -1,0 +1,14 @@
+---
+// Fita chapada do mock (faixa rosa larga em laço) para o fundo das seções. Anda com a rolagem (data-par).
+// v: desenho (1 a 4). Posição e tamanho vêm pela classe ou pelo style de quem usa.
+interface Props { v?: 1 | 2 | 3 | 4; class?: string; style?: string; par?: number }
+const { v = 1, class: cls = '', style = '', par = 0.4 } = Astro.props;
+const D = {
+  1: ['0 0 420 620', 'M150 -30C118 60 58 122 70 206c12 92 128 116 146 44 18-72-92-104-152-52C4 250-6 340-70 440'],
+  2: ['0 0 520 640', 'M600 10C480 50 372 130 356 246c-16 120 116 178 160 98 44-80-70-140-140-80C300 330 318 480 600 640'],
+  3: ['0 0 700 300', 'M-40 220C80 120 180 60 280 110c90 46 40 150-30 120-70-30 0-150 120-170 110-18 220 40 380 140'],
+  4: ['0 0 360 520', 'M380 -20C260 40 220 130 250 200c30 70 120 50 104-14-16-60-120-60-170 10-60 84-40 200-60 340'],
+} as const;
+const [vb, d] = D[v];
+---
+<svg class:list={['fx-svg', cls]} viewBox={vb} style={style} aria-hidden="true" data-par={par}><path d={d} /></svg>

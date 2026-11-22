@@ -35,10 +35,12 @@ export const CATEGORIAS = [
 /** Produtos que pedem mais antecedência (em dias). O padrão é 1 dia. */
 export const ANTECEDENCIA: Record<string, number> = { '08-cesta-cafe-da-manha-infantil': 2 };
 
+/** Topo (mock do Davi): "PRESENTES" gigante atrás e uma cesta de cada vez girando no pedestal.
+ *  Os quadros da cesta girando ficam em public/img/giro/<produto>.webp (gerar com tools/giro.py). */
 export const SLIDES = [
-  { produto: '08', titulo: ['Café', 'da', 'manhã', 'que', 'vira', 'festa'], texto: 'Cesta infantil com balão, bolinho com vela e guloseimas. Em promoção.', fundo: 'coracoes' },
-  { produto: '14', titulo: ['Um', 'diário', 'mágico', 'para', 'presentear'], texto: 'Kit Kids com o caderno "Meu Diário Mágico" com cadeado, colônia e sabonete.', fundo: 'bolinhas' },
-  { produto: '10', titulo: ['A', 'caneca', 'com', 'a', 'frase', 'que', 'você', 'escolher'], texto: 'Caneca personalizada recheada de chocolates, pronta para presentear.', fundo: 'listras' },
+  { produto: '35' },
+  { produto: '19' },
+  { produto: '29' },
 ] as const;
 
 // ---- Monte a sua cesta (preços estimados, a loja confirma; edite à vontade) ----
