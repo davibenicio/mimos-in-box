@@ -58,7 +58,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   .hr-b1 { right: 7%; top: 24%; } .hr-b2 { left: 5%; top: 52%; } .hr-b3 { right: 5%; bottom: 20%; } .hr-b4 { left: 40%; bottom: 24%; }
 
   /* "PRESENTES" (Anton esticada, como no mock; o Davi testou uma fina e preferiu esta) com degradê rosa → claro; as letras ondulam sem parar */
-  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 42px); z-index: 1; translate: -50% 0; scale: 1 1.42; transform-origin: 50% 0; font-size: var(--F); }
+  .hr-gig { position: absolute; left: 50%; top: calc(var(--barra) + 74px); z-index: 1; translate: -50% 0; scale: 1 1.42; transform-origin: 50% 0; font-size: var(--F); }
   .hr-gig .lt { display: inline-block; overflow: hidden; padding: 0.16em 0 0.06em; margin: -0.16em 0 -0.06em; }
   .hr-gig b { display: inline-block; padding-top: 0.1em; margin-top: -0.1em; font-weight: 400; background: var(--grad-gig); background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: hr-onda 4.8s calc(var(--i) * -0.42s) ease-in-out infinite alternate, grad-sobe 9s calc(var(--i) * -0.6s) ease-in-out infinite alternate; }
   html.js:not(.intro-viu):not(.abriu) .hr-gig b { transform: translateY(105%); }
@@ -67,7 +67,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   @keyframes hr-onda { from { transform: translateY(-2.5%); } to { transform: translateY(2.5%); } }
 
   /* texto à esquerda, embaixo da palavra (mock) */
-  .hr-txt { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: calc(var(--F) * 1.12 + 24px); padding-bottom: clamp(18px, 3.5vh, 40px); }
+  .hr-txt { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: calc(var(--F) * 1.12 + 56px); padding-bottom: clamp(18px, 3.5vh, 40px); }
   .hr-t { max-width: 10em; font-family: var(--f-serif); font-weight: 600; font-size: clamp(34px, min(4.2vw, 7.4vh), 66px); line-height: 1.04; letter-spacing: -0.02em; color: var(--tit); font-variation-settings: 'opsz' 72; }
   .hr-t span { display: block; }
   .hr-p { margin-top: 18px; max-width: min(40%, 32ch); font-size: clamp(17px, min(1.75vw, 3vh), 27px); line-height: 1.4; color: var(--tinta); }
@@ -77,7 +77,7 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
   @keyframes hr-sobe { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 
   /* palco à direita (mock): luz, pedestal redondo e a cesta saindo de trás da palavra */
-  .hr-palco { position: absolute; z-index: 2; left: max(41%, calc(50% - 40px)); right: 3%; top: calc(var(--barra) + var(--F) * 0.42 + 24px); bottom: calc(clamp(18px, 3vh, 30px) * 2 + 54px + 2px); }
+  .hr-palco { position: absolute; z-index: 2; left: max(41%, calc(50% - 40px)); right: 3%; top: calc(var(--barra) + var(--F) * 0.42 + 56px); bottom: calc(clamp(18px, 3vh, 30px) * 2 + 54px + 2px); }
   .hr-luz { position: absolute; left: 6%; right: 6%; top: 4%; bottom: 10%; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--creme) 80%, transparent), transparent); animation: hr-respira 6s ease-in-out infinite alternate; }
   @keyframes hr-respira { to { scale: 1.08; opacity: 0.7; } }
   .hr-ped { position: absolute; left: 50%; bottom: -1%; width: min(96%, 720px); height: 13%; translate: -50% 0; border-radius: 0 0 50% 50% / 0 0 38% 38%; background: linear-gradient(180deg, var(--pedestal-1), var(--pedestal-2)); box-shadow: 0 26px 34px -26px rgba(120, 50, 60, 0.4); }
@@ -112,8 +112,8 @@ const slides = SLIDES.map((s) => { const p = porNN(s.produto); const g = M['giro
 
   @media (max-width: 900px) {
     .hr { --F: 21.4vw; min-height: auto; padding-bottom: 6px; }
-    .hr-gig { top: calc(var(--barra) + 20px); scale: 1 1.36; }
-    .hr-palco { position: relative; left: auto; right: auto; top: auto; bottom: auto; height: min(82vw, 380px); margin-top: calc(18vw + 12px); order: -1; }
+    .hr-gig { top: calc(var(--barra) + 36px); scale: 1 1.36; }
+    .hr-palco { position: relative; left: auto; right: auto; top: auto; bottom: auto; height: min(82vw, 380px); margin-top: calc(18vw + 28px); order: -1; }
     .hr-txt { order: 0; padding: 30px 0 22px; text-align: center; align-items: center; }
     .hr-t, .hr-p { max-width: 100%; }
     .hr-t { font-size: clamp(30px, 8.6vw, 40px); }
