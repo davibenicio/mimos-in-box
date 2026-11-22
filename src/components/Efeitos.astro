@@ -41,6 +41,12 @@
     if (!calmo) addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });
   });
 
+  // só anima o que está na tela (fitas, palavras gigantes, degradês): o resto fica pausado
+  cada('ve-se', () => {
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('ve-se', e.isIntersecting)), { rootMargin: '120px 0px' });
+    document.querySelectorAll('.grad, .rd').forEach((s) => io.observe(s));
+  });
+
   // rosa da promoção (pedido do Davi, ref. deck rosa): com "Em promoção" no meio da tela, o fundo inteiro vira rosa claro
   cada('rosa', () => {
     const h = document.documentElement, po = document.getElementById('promocoes');
@@ -64,7 +70,7 @@
       const lista = h.dataset.theme === 'dark' ? ss.concat(se) : ss;
       const dentro = lista.some((s) => { const r = s.getBoundingClientRect(); return r.top < m && r.bottom > m; });
       if (dentro === agora) return; agora = dentro;
-      if (!calmo) { h.classList.add('trocando'); clearTimeout((pinta as any).t); (pinta as any).t = setTimeout(() => h.classList.remove('trocando'), 800); }
+      if (!calmo) { h.classList.add('trocando'); clearTimeout((pinta as any).t); (pinta as any).t = setTimeout(() => h.classList.remove('trocando'), 1400); }
       h.classList.toggle('invertido', dentro); (window as any).__ve?.();
     };
     addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(pinta); }, { passive: true });

@@ -6,3 +6,7 @@ dist
 !.env.example
 .vercel
 *.log
+
+# rascunhos de vídeo fora do site
+/*.mp4
+/*.png

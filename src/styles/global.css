@@ -54,7 +54,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 /* ---- nada fica escondido esperando a rolagem (v3.1): o movimento do site é constante ---- */
 
 /* ---- troca de tema: só cor, sem pulo ---- */
-html.trocando *, html.trocando *::before, html.trocando *::after { transition: background-color 0.7s, color 0.7s, border-color 0.7s, box-shadow 0.7s, fill 0.7s, stroke 0.7s, -webkit-text-stroke-color 0.7s !important; }
+html.trocando *, html.trocando *::before, html.trocando *::after { transition: background-color var(--troca), color var(--troca), border-color var(--troca), box-shadow var(--troca), fill var(--troca), stroke var(--troca), -webkit-text-stroke-color var(--troca), --g1 var(--troca), --g2 var(--troca) !important; }
+:root { --troca: 1.3s cubic-bezier(0.45, 0, 0.2, 1); }
 body { transition: background-color 0.7s; }
 
 /* ---- pausa geral e movimento reduzido ---- */

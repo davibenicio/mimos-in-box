@@ -182,7 +182,7 @@ html.ve .pd-res, html.ve .pd-res ul, html.ve .mt-cont, html.ve .mt-cont b { colo
    e o degradê desliza devagar, sem parar. --g1/--g2 registradas para a troca de cor (rosa, invertido) ser suave. ---- */
 @property --g1 { syntax: '<color>'; inherits: true; initial-value: #f8e2c4; }
 @property --g2 { syntax: '<color>'; inherits: true; initial-value: #fef4e4; }
-.grad { background-color: var(--g2); background-image: linear-gradient(180deg, var(--g1) 0%, var(--g2) 50%, var(--g1) 100%); background-size: 100% 200%; animation: grad-desliza 16s ease-in-out infinite alternate; transition: --g1 0.9s, --g2 0.9s; }
+.grad { background-color: var(--g2); background-image: linear-gradient(180deg, var(--g1) 0%, var(--g2) 50%, var(--g1) 100%); background-size: 100% 200%; animation: grad-desliza 16s ease-in-out infinite alternate; transition: --g1 1.3s cubic-bezier(0.45, 0, 0.2, 1), --g2 1.3s cubic-bezier(0.45, 0, 0.2, 1); }
 .grad--inv { animation-direction: alternate-reverse; }
 @keyframes grad-desliza { from { background-position: 50% 0%; } to { background-position: 50% 70%; } }
 @keyframes grad-sobe { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
@@ -191,7 +191,9 @@ html.ve .pd-res, html.ve .pd-res ul, html.ve .mt-cont, html.ve .mt-cont b { colo
 :root.rosa, :root.rosa[data-theme='dark'] { --g1: #f6b0c2; --g2: #fcdce3; }
 /* depois da promoção, no tema claro, a tela vira vinho (pedido do Davi) */
 :root.invertido:not([data-theme='dark']) { --g1: #5e1f36; --g2: #3e1324; --papel: #3e1324; }
-body { background-color: var(--g2); transition: --g1 0.9s, --g2 0.9s, background-color 0.7s; }
+body { background-color: var(--g2); transition: --g1 1.3s cubic-bezier(0.45, 0, 0.2, 1), --g2 1.3s cubic-bezier(0.45, 0, 0.2, 1), background-color 1.3s cubic-bezier(0.45, 0, 0.2, 1); }
+/* otimização: fora da tela, nada dentro da seção anima (o motor 've-se' em Efeitos liga só as visíveis) */
+html.js .grad:not(.ve-se), html.js .grad:not(.ve-se) *, html.js .grad:not(.ve-se) *::before, html.js .grad:not(.ve-se) *::after, html.js .rd:not(.ve-se) * { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) { .grad, .gig.gig-anda:not(.cm-r1) { animation: none; } }
 /* palavras gigantes das seções com o mesmo degradê do "PRESENTES" */
 .gig:not(.cm-r1):not(.hr-gig) { padding-block: 0.12em; margin-block: -0.12em; background: var(--grad-gig); background-size: 100% 220%; -webkit-background-clip: text; background-clip: text; color: transparent; }
