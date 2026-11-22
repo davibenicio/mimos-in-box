@@ -28,14 +28,14 @@ const ld = {
 };
 ---
 <!doctype html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{titulo}</title>
     <meta name="description" content={descricao} />
     {PREVIA && <meta name="robots" content="noindex, nofollow" />}
-    <meta name="theme-color" content="#1e1114" />
+    <meta name="theme-color" content="#fbf3ea" />
     {home && <link rel="preload" as="image" href="/img/giro/35-0.webp" imagesrcset="/img/giro/35-0p.webp 420w, /img/giro/35-0.webp 665w" imagesizes="(max-width: 900px) 78vw, 560px" fetchpriority="high" />}
     <link rel="canonical" href={url} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -60,11 +60,11 @@ const ld = {
         var h = document.documentElement; h.classList.add('js');
         // tema: claro por padrão; o escuro vale quando o visitante escolheu
         var t = null; try { t = localStorage.getItem('mimos-tema'); } catch (e) {}
-        h.dataset.theme = t === 'light' ? 'light' : 'dark';   // escuro é o padrão (pedido do Davi, 22/11); o claro fica salvo se a pessoa escolher
+        h.dataset.theme = t === 'dark' ? 'dark' : 'light';   // claro é o padrão (decisão final do Davi, 22/11); o escuro fica salvo se a pessoa escolher
         // ve = o que se vê está escuro (tema escuro, ou faixa invertida no tema claro)
         window.__ve = function () { h.classList.toggle('ve', (h.dataset.theme === 'dark') !== h.classList.contains('invertido')); };
         window.__ve();
-        if (t === 'light') { var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = '#fbf3ea'; }
+        if (t === 'dark') { var m = document.querySelector('meta[name=theme-color]'); if (m) m.content = '#1e1114'; }
         var calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (calmo) addEventListener('DOMContentLoaded', function () { var a = document.getElementById('fita-anda'); if (a) a.remove(); });
         var volta = false; try { volta = performance.getEntriesByType('navigation')[0].type === 'back_forward'; } catch (e) {}
